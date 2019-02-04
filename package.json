@@ -1,0 +1,36 @@
+{
+    "name": "hollywood",
+    "displayName": "Hollywood",
+    "description": "Coding support for the Hollywood MAL",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.29.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "hollywood",
+            "aliases": ["Hollywood", "hollywood"],
+            "extensions": [".hws"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "hollywood",
+            "scopeName": "source.hollywood",
+            "path": "./syntaxes/hollywood.tmLanguage.json"
+        }],
+        "configuration": {
+            "type": "object",
+            "title": "Hollywood",
+            "properties": {
+                "hollywood.Path": {
+                    "type": ["string", "null"],
+                    "default": null,
+                    "description": "Path and filename of the Hollywood executable, e.g. `C:\\Program Files\\Hollywood\\Hollywood.exe` (Windows)."
+                }
+            }
+        }
+    }
+}

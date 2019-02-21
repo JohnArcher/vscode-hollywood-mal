@@ -55,6 +55,7 @@ Now open a `.hws` file. The extension is activated now.
 
 Overall goal: Provide nearly the same feature subset as the official Hollywood IDE for Windows
 
+* Licence
 * Icon: <https://code.visualstudio.com/api/extension-guides/icon-theme>
 * Syntax Highlighting for Light Theme
 * Code Completion

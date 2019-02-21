@@ -2,14 +2,27 @@
     "name": "hollywood",
     "displayName": "Hollywood",
     "description": "Coding support for the Hollywood MAL",
-    "version": "0.0.1",
+    "version": "0.2.0",
     "engines": {
         "vscode": "^1.29.0"
     },
     "categories": [
-        "Programming Languages"
+        "Programming Languages",
+        "Themes"
     ],
     "contributes": {
+        "themes": [
+            {
+                "label": "Hollywood (Light)",
+                "uiTheme": "vs",
+                "path": "./themes/hollywood-light-color-theme.json"
+            },
+            {
+                "label": "Hollywood (Dark)",
+                "uiTheme": "vs-dark",
+                "path": "./themes/hollywood-dark-color-theme.json"
+            }
+        ],
         "languages": [{
             "id": "hollywood",
             "aliases": ["Hollywood", "hollywood"],

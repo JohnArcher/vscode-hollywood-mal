@@ -41,7 +41,14 @@
                 "hollywood.Path": {
                     "type": ["string", "null"],
                     "default": null,
-                    "description": "Path and filename of the Hollywood executable, e.g. `C:\\Program Files\\Hollywood\\Hollywood.exe` (Windows)."
+                    "markdownDescription": "Path and filename of the Hollywood executable, e.g. `C:\\Program Files\\Hollywood\\Hollywood.exe` (Windows)."
+                },
+                "hollywood.OutputExeTypes": {
+                    "type": ["string", "null"],
+                    "default": "win32",
+                    "markdownDescription": "The output format(s) that the Hollywood compiler should create. It is possible to define multiple targets, e.g. `win64|classic|morphos`",
+                    "enum": ["amigaos4", "android", "aros", "classic", "classic881", "ios", "linux", "linux64", "linuxarm", "linuxppc", "macos", "macos86", "macos64", "morphos", "warpos", "win32", "win64", "win32console", "win64console", "applet"],
+                    "enumDescriptions": ["AmigaOS 4 executable (PowerPC)", "Hollywood applet which has the platform-specific constants for Android set (see Hollywood documentation)", "AROS executable (x86)", "AmigaOS 3.x executable (68020+)", "AmigaOS 3.x executable (68020+) with math co-processor (68881/2 or 68040/68060)", "Hollywood applet which has the platform-specific constants for iOS set (see Hollywood documentation).", "Linux executable (x86)", "Linux executable (x64)", "Linux executable (arm)", "Linux executable (PowerPC)", "Mac OS X application bundle (PowerPC)", "Mac OS X application bundle (x86)", "Mac OS X application bundle (x64)", "MorphOS executable (PowerPC)", "WarpOS mixed-binary executable (68040/PowerPC)", "Windows executable (x86)", "Windows executable (x64)", "Windows executable (x86) that runs in console mode", "Windows executable (x64) that runs in console mode", "Universal Hollywood applet which can be started on any system with a Hollywood Player"]
                 }
             }
         }

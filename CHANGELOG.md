@@ -7,6 +7,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Initial public release
 
+## [0.2.1] - 2019-02-27
+
+### Added
+
+- New setting `hollywood.OutputExeTypes` for defining the output type(s) including easy picking of available types and displaying their descriptions (taken from the official Hollywood documentation)
+
+![Configuration of OutputExeTypes](./media/configuration_outputexetype.png)
+
 ## [0.2.0] - 2019-02-22
 
 ### Added

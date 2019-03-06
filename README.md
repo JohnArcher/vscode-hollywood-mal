@@ -58,10 +58,13 @@ Overall goal: Provide nearly the same feature subset as the official Hollywood I
 * Licence
 * Icon: <https://code.visualstudio.com/api/extension-guides/icon-theme>
 * Syntax Highlighting for Light Theme
-* Code Completion
+* Code Completion, also for # and @
+* Possible? -> "And "#Col" will popup all colors constants or "#EVENTS" will popup all possible event flags." (like in Flow Studio)
 * Snippets
 * Commands (Contribution point)
 * Menus (Contribution point)
-* Help
+* Help (press F1 or similar and help file gets loaded with word under cursor)
+* Quick Help
 * Function detection and listing (Strg + P, AltGr + q)
 * Build task
+* 

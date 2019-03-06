@@ -1,6 +1,6 @@
 # Hollywood MAL for Visual Studio Code
 
-This extension adds support for [Hollywood](https://www.hollywood-mal.com) to Visual Studio Code (Windows, macOS, Linux). Hollywood is a programming language available for AmigaOS, Windows, macOS, and Linux and is capable of compiling to the following target plattforms:
+This extension adds support for [Hollywood](https://www.hollywood-mal.com) 7.1 to Visual Studio Code (Windows, macOS, Linux). Hollywood is a programming language available for AmigaOS, Windows, macOS, and Linux and is capable of compiling to the following target plattforms:
 
 * AmigaOS
 * Android
@@ -51,7 +51,7 @@ Now open a `.hws` file. The extension is activated now.
 
 ### Run task
 
-## TODOs
+## TODOs / Future
 
 Overall goal: Provide nearly the same feature subset as the official Hollywood IDE for Windows
 
@@ -59,9 +59,13 @@ Overall goal: Provide nearly the same feature subset as the official Hollywood I
 * Icon: <https://code.visualstudio.com/api/extension-guides/icon-theme>
 * See "Hollywood IDE" -> Settings -> Hollywood
 * Code Completion
+* Code Completion, also for # and @
+* Possible? -> "And "#Col" will popup all colors constants or "#EVENTS" will popup all possible event flags." (like in Flow Studio)
 * Snippets
 * Commands (Contribution point)
 * Menus (Contribution point)
-* Help
+* Help (press F1 or similar and help file gets loaded with word under cursor)
+* Quick Help
 * Function detection and listing (Strg + P, AltGr + q)
 * Build task
+* Hollywood 8 support

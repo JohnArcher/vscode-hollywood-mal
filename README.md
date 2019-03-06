@@ -55,9 +55,9 @@ Now open a `.hws` file. The extension is activated now.
 
 Overall goal: Provide nearly the same feature subset as the official Hollywood IDE for Windows
 
-* Licence
+* Licence (incl. parts copyright by Airsoft Software )
 * Icon: <https://code.visualstudio.com/api/extension-guides/icon-theme>
-* Syntax Highlighting for Light Theme
+* See "Hollywood IDE" -> Settings -> Hollywood
 * Code Completion
 * Snippets
 * Commands (Contribution point)

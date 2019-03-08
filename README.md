@@ -58,6 +58,7 @@ Overall goal: Provide nearly the same feature subset as the official Hollywood I
 * Licence (incl. parts copyright by Airsoft Software )
 * Icon: <https://code.visualstudio.com/api/extension-guides/icon-theme>
 * See "Hollywood IDE" -> Settings -> Hollywood
+* File similar to https://code.visualstudio.com/docs/nodejs/working-with-javascript#_javascript-projects-jsconfigjson for at least defining the main file of the project (which gets compile by the proper task). And/or just package.json property.
 * Code Completion
 * Code Completion, also for # and @
 * Possible? -> "And "#Col" will popup all colors constants or "#EVENTS" will popup all possible event flags." (like in Flow Studio)

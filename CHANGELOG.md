@@ -1,4 +1,5 @@
 # Change Log
+
 All notable changes to the "hollywood" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
@@ -6,6 +7,16 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [Unreleased]
 
 - Initial public release
+
+## [0.3.0] - 2020-04-25
+
+### Added
+
+- First version of snippets (DebugPrint, Repeat-Forever)
+
+### Changed
+
+- Changed commands, constants, and preprocessors from Hollywood 7.1 to Hollywood 8
 
 ## [0.2.1] - 2019-02-27
 

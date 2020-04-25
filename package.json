@@ -2,13 +2,15 @@
     "name": "hollywood",
     "displayName": "Hollywood",
     "description": "Coding support for the Hollywood MAL",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "engines": {
         "vscode": "^1.29.0"
     },
     "categories": [
         "Programming Languages",
-        "Themes"
+        "Language Packs",
+        "Themes",
+        "Snippets"
     ],
     "contributes": {
         "themes": [
@@ -34,6 +36,12 @@
             "scopeName": "source.hollywood",
             "path": "./syntaxes/hollywood.tmLanguage.json"
         }],
+        "snippets": [
+            {
+              "language": "hollywood",
+              "path": "./snippets/hollywood.json"
+            }
+        ],
         "configuration": {
             "type": "object",
             "title": "Hollywood",

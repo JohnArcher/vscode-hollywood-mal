@@ -1,6 +1,8 @@
 # Hollywood MAL for Visual Studio Code
 
-This extension adds support for [Hollywood](https://www.hollywood-mal.com) 7.1 to Visual Studio Code (Windows, macOS, Linux). Hollywood is a programming language available for AmigaOS, Windows, macOS, and Linux and is capable of compiling to the following target plattforms:
+*DISCLAIMER:* This is no official product by Airsoft Software.
+
+This extension adds support for [Hollywood](https://www.hollywood-mal.com) 8 to Visual Studio Code (Windows, macOS, Linux). Hollywood is a programming language available for AmigaOS, Windows, macOS, and Linux and is capable of compiling to the following target plattforms:
 
 * AmigaOS
 * Android
@@ -17,7 +19,7 @@ More information about Hollywood is available here: <https://www.hollywood-mal.c
 
 ## Features
 
-First of all you can use the great inbuilt editing features of Visual Studio Code like Multi-Cursor, easy code edition (like line cloning, deletion, and swapping), bracket matching and so forth. Please consult the [Visual Studio Code documentation](https://code.visualstudio.com/docs) for more infos.
+First of all you can use the great inbuilt editing features of Visual Studio Code like Multi-Cursor, easy code editing (like line cloning, deletion, and swapping), bracket matching and so forth. Please consult the [Visual Studio Code documentation](https://code.visualstudio.com/docs) for more infos.
 
 Additionally this extension supports:
 
@@ -27,7 +29,7 @@ Additionally this extension supports:
 
 ## Installation
 
-1. Install and open [Visual Studio Code](https://code.visualstudio.com). 
+1. Install and open [Visual Studio Code](https://code.visualstudio.com).
 2. Press `Ctrl+Shift+X` or `Cmd+Shift+X` to open the Extensions pane or click on the corresponding button in the side bar.
 3. Find the Hollywood extension (look for "Hollywood MAL") and click `Install`. You can also install the extension from the [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-vscode.Go) -> TODO!!!
 
@@ -41,7 +43,7 @@ Download/check out the content of this repo and copy it to your extension folder
 
 ## Configuration
 
-Open user or wokspace settings and define the path to the Hollywood executebale. Look for the option `hollywood.Path` or add it in `settings.json`.
+Open user or wokspace settings and define the path to the Hollywood executeable. Look for the option `hollywood.Path` or add it in `settings.json`.
 
 Example (for Windows): `"hollywood.Path": "C:\Program Files\Hollywood\Hollywood.exe"`
 
@@ -69,4 +71,3 @@ Overall goal: Provide nearly the same feature subset as the official Hollywood I
 * Quick Help
 * Function detection and listing (Strg + P, AltGr + q)
 * Build task
-* Hollywood 8 support

@@ -32,7 +32,7 @@
 			"end": "^\\s*;\\s*#?endregion\\b"
 		}
 	},
-    
+    // "wordPattern": "([@|#]+)\\S*",
     "indentationRules": {
         "increaseIndentPattern": "(?!.*(Then))\\b(Function|If|Else|ElseIf|Repeat|While|For|Switch|Case|Default|Block).*$",
         "decreaseIndentPattern": "\\b(EndFunction|Else|ElseIf|EndIf|Until|Forever|Wend|Next|Case|Default|EndSwitch|EndBlock)"

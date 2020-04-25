@@ -1,0 +1,17 @@
+{
+    "debugPrint_string": {
+        "prefix": "dps",
+        "body": "DebugPrint(\"${1:string}\")",
+        "description": "Prints a string to the debug console"
+    },
+    "debugPrint_variable": {
+        "prefix": "dpv",
+        "body": "DebugPrint(\"${1:variable}\", ${1:variable})",
+        "description": "Prints a variable to the debug console"
+    },
+    "repeat": {
+        "prefix": "repfo",
+        "body": "Repeat\n\tWaitEvent\nForever",
+        "description": "Insert the Repeat-WaitEvent-Forever-Loop"
+    }
+}

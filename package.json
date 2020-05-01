@@ -30,7 +30,7 @@
         "url": "https://github.com/JohnArcher/vscode-hollywood-mal/issues"
     },
     "homepage": "https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/README.md",
-    "icon": "./icon.png",
+    "icon": "icon.png",
     "contributes": {
         "themes": [
             {

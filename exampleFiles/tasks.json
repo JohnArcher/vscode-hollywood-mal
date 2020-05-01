@@ -4,22 +4,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Hollywood compile (default)",
-            "type": "shell",
-            "command": "${config:hollywood.exePath} ${file} -compile ${fileBasenameNoExtension} -exetype ${config:hollywood.outputExeTypes}"
-        },
-        {
-            "label": "Hollywood compile (multiple targets)",
-            "type": "shell",
-            "command": "${config:hollywood.exePath} ${file} -compile ${fileBasenameNoExtension} -exetype win32|classic"
-        },
-        {
-            "label": "Start current Hollywood script",
-            "type": "shell",
-            "command": "${config:hollywood.exePath} ${file} "
-        },
-        {
-            "label": "Start Hollywood Main script",
+            "label": "Run Hollywood Main script",
             "type": "shell",
             "command": "${config:hollywood.exePath} ${workspaceFolder}/${config:hollywood.mainFile}",
             "group": {
@@ -28,9 +13,24 @@
             }
         },
         {
-            "label": "Start Hollywood Main script (nodebug)",
+            "label": "Run Hollywood Main script (nodebug)",
             "type": "shell",
             "command": "${config:hollywood.exePath} ${workspaceFolder}/${config:hollywood.mainFile} -nodebug"
+        },
+        {
+            "label": "Compile Hollywood Main script to default target",
+            "type": "shell",
+            "command": "${config:hollywood.exePath} ${workspaceFolder}/${config:hollywood.mainFile} -compile ${fileBasenameNoExtension} -exetype ${config:hollywood.outputExeTypes}"
+        },
+        {
+            "label": "Run the currently opened Hollywood script",
+            "type": "shell",
+            "command": "${config:hollywood.exePath} ${file} "
+        },
+        {
+            "label": "Compile the currently opened Hollywood file to multiple targets ",
+            "type": "shell",
+            "command": "${config:hollywood.exePath} ${file} -compile ${fileBasenameNoExtension} -exetype win64|classic|morphos"
         }
     ]
 }

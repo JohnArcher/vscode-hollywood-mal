@@ -15,10 +15,12 @@ This extension adds support for [Hollywood](https://www.hollywood-mal.com) **ver
 * Windows
 
 In order to make use of the extension you need to buy a copy of Hollywood here: <https://www.hollywood-mal.com/purchase.html>
+
 More information about Hollywood is available here: <https://www.hollywood-mal.com>
+
 You can find the Hollywood documentation here: <https://www.hollywood-mal.com/docs/html/hollywood/>
 
-The version number of this plugin correspondes with the version number of Hollywood. Therefore the first release version of this extension is 8.0.0.
+*NOTICE*: The version number of this plugin correspondes with the version number of Hollywood. Therefore the first release version of this extension is 8.0.0.
 
 ## Features
 
@@ -32,6 +34,8 @@ Additionally this extension supports:
 * Code folding
 
 ## Installation
+
+There are several ways to install this extension:
 
 1. Install and open [Visual Studio Code](https://code.visualstudio.com).
 2. Press `Ctrl+Shift+X` or `Cmd+Shift+X` to open the Extensions pane or click on the corresponding button in the side bar.
@@ -62,7 +66,7 @@ Normally this should be a **User** Setting (and not a Workspace Setting), so the
 
 ![Configuration of hollywood.exePath in Settings](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/configuration_exepath.png)
 
-Example (for Windows) in the .json file (like `settings.json`): `"hollywood.exePath": "C:\Program Files\Hollywood\Hollywood.exe"`
+Example in  *settings.json*: `"hollywood.exePath": "C:\Program Files\Hollywood\Hollywood.exe"`
 
 Now open a `.hws` file. The extension is activated now.
 
@@ -76,7 +80,7 @@ This is a setting that should be defined as a Workspace Setting (so create a Wor
 
 ![Configuration of hollywood.mainFile in Settings](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/configuration_mainfile.png)
 
-Example (for Windows) in `YOUR_PROJECT.code-workspace`: `"hollywood.mainFile": "mainApp.hws"`
+Example in *YOUR_PROJECT.code-workspace*: `"hollywood.mainFile": "mainApp.hws"`
 
 ### Define standard executable output format
 
@@ -88,7 +92,7 @@ The best approach is to define this in the **user** settings (so it is defined g
 
 ![Configuration of hollywood.outputExeType in Settings](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/configuration_outputexetype.png)
 
-Example (for Windows) in `YOUR_PROJECT.code-workspace`: `"hollywood.outputExeType": "classic"`
+Example in *YOUR_PROJECT.code-workspace*: `"hollywood.outputExeType": "classic"`
 
 In order to define multiple targets, e.g. `win64|classic|morphos`, you have to create a separate Task (see description below or have a look for [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/dev/exampleFiles/tasks.json).
 
@@ -96,7 +100,7 @@ For a complete list of all output formats check the `-exetype` console argument 
 
 ## Run and compile
 
-You have to create Tasks in Visual Studio Code in order to run or compile a Hollywood file or project. It is recommended to read the [documentation for Tasks](https://code.visualstudio.com/docs/editor/tasks).
+You have to create Tasks in Visual Studio Code in order to run or compile a Hollywood file or project. It is recommended to read the [official Visual Studio Code documentation for Tasks](https://code.visualstudio.com/docs/editor/tasks).
 
 ### Create Tasks
 

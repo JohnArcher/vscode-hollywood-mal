@@ -1,8 +1,6 @@
 # Change Log
 
-All notable changes to the "hollywood" extension will be documented in this file.
-
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+All notable changes to the "hw4vsc" extension will be documented in this file.
 
 ## [Unreleased]
 
@@ -22,9 +20,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### Added
 
-- New setting `hollywood.OutputExeTypes` for defining the output type(s) including easy picking of available types and displaying their descriptions (taken from the official Hollywood documentation)
+- New setting `hollywood.outputExeType` for defining the output type including easy picking of available types and displaying their descriptions (taken from the official Hollywood documentation)
 
-![Configuration of OutputExeTypes](./media/configuration_outputexetype.png)
+![Configuration of hollywood.outputExeType](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/configuration_outputexetype.png)
 
 ## [0.2.0] - 2019-02-22
 

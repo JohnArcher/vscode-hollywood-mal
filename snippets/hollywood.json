@@ -13,5 +13,20 @@
         "prefix": "repfo",
         "body": "Repeat\n\tWaitEvent\nForever",
         "description": "Insert the Repeat-WaitEvent-Forever-Loop"
+    },
+    "function": {
+        "prefix": "func",
+        "body": "Function ${1:name}(${2:parameters})\n\t${3}\nEndFunction",
+        "description": "Defines a new function"
+    },
+    "functionLocal": {
+        "prefix": "funcLocal",
+        "body": "Local Function ${1:name}(${2:parameters})\n\t${3}\nEndFunction",
+        "description": "Defines a new local function"
+    },
+    "functionSelf": {
+        "prefix": "funcSelf",
+        "body": "Function self.${1:name}(${2:parameters})\n\t${3}\nEndFunction",
+        "description": "Defines a new self function"
     }
 }

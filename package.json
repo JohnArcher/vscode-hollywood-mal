@@ -1,17 +1,36 @@
 {
-    "name": "hollywood",
-    "displayName": "Hollywood",
-    "description": "Coding support for the Hollywood MAL",
-    "version": "0.3.0",
+    "name": "hollywood-mal",
+    "displayName": "Hollywood MAL (hw4vsc)",
+    "description": "Adds coding support for Hollywood MAL (Cross-Platform Multimedia Application Layer)",
+    "version": "8.0.0",
     "engines": {
         "vscode": "^1.29.0"
     },
-    "categories": [
-        "Programming Languages",
-        "Language Packs",
-        "Themes",
-        "Snippets"
+    "publisher": "michaeljurisch",
+    "author": {
+        "name": "Michael Jurisch"
+    },
+    "maintainers": [
+        "Michael Jurisch"
     ],
+    "categories": [
+        "Programming Languages"
+    ],
+    "keywords": [
+        "Hollywood",
+        "Amiga",
+        "Multimedia",
+        "Games"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/JohnArcher/vscode-hollywood-mal"
+    },
+    "bugs": {
+        "url": "https://github.com/JohnArcher/vscode-hollywood-mal/issues"
+    },
+    "homepage": "https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/README.md",
+    "icon": "./icon.png",
     "contributes": {
         "themes": [
             {
@@ -46,17 +65,22 @@
             "type": "object",
             "title": "Hollywood",
             "properties": {
-                "hollywood.Path": {
-                    "type": ["string", "null"],
+                "hollywood.exePath": {
+                    "type": "string",
                     "default": null,
                     "markdownDescription": "Path and filename of the Hollywood executable, e.g. `C:\\Program Files\\Hollywood\\Hollywood.exe` (Windows)."
                 },
-                "hollywood.OutputExeTypes": {
-                    "type": ["string", "null"],
+                "hollywood.outputExeType": {
+                    "type": "string",
                     "default": "win32",
-                    "markdownDescription": "The output format(s) that the Hollywood compiler should create. It is possible to define multiple targets, e.g. `win64|classic|morphos`",
+                    "markdownDescription": "The output format that the Hollywood compiler should create. In order to define multiple targets, e.g. `win64|classic|morphos`, you have to create a separate Task (in tasks.json).",
                     "enum": ["amigaos4", "android", "aros", "classic", "classic881", "ios", "linux", "linux64", "linuxarm", "linuxppc", "macos", "macos86", "macos64", "morphos", "warpos", "win32", "win64", "win32console", "win64console", "applet"],
                     "enumDescriptions": ["AmigaOS 4 executable (PowerPC)", "Hollywood applet which has the platform-specific constants for Android set (see Hollywood documentation)", "AROS executable (x86)", "AmigaOS 3.x executable (68020+)", "AmigaOS 3.x executable (68020+) with math co-processor (68881/2 or 68040/68060)", "Hollywood applet which has the platform-specific constants for iOS set (see Hollywood documentation).", "Linux executable (x86)", "Linux executable (x64)", "Linux executable (arm)", "Linux executable (PowerPC)", "Mac OS X application bundle (PowerPC)", "Mac OS X application bundle (x86)", "Mac OS X application bundle (x64)", "MorphOS executable (PowerPC)", "WarpOS mixed-binary executable (68040/PowerPC)", "Windows executable (x86)", "Windows executable (x64)", "Windows executable (x86) that runs in console mode", "Windows executable (x64) that runs in console mode", "Universal Hollywood applet which can be started on any system with a Hollywood Player"]
+                },
+                "hollywood.mainFile": {
+                    "type": "string",
+                    "default": null,
+                    "markdownDescription": "The project's main Hollywood file that is executed or compiled, e.g. `main.hws`. This has to be a workspace setting!"
                 }
             }
         }

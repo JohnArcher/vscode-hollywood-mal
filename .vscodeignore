@@ -1,4 +1,9 @@
 .vscode/**
 .vscode-test/**
+exampleFiles/**
+media/**
 .gitignore
+.gitattributes
+.markdownlint.json
 vsc-extension-quickstart.md
+todo.todo

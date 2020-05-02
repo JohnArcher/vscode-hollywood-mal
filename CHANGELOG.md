@@ -6,6 +6,26 @@ All notable changes to the "hw4vsc" extension will be documented in this file.
 
 - Initial public release
 
+## [8.0.0] - 2020-05-02
+
+### Added
+
+- Added documentation for code snippets
+- Added links to Ko-fi and PayPal
+
+## [8.0.0] - 2020-05-01
+
+### Added
+
+- New setting `hollywood.mainFile` for defining the project's main file added.
+- New setting `hollywood.exePath` for defining the path to the Hollywood executeable
+- Added new snippets for defining functions
+- Added an example file for tasks.json
+
+### Changed
+
+- Changed setting `hollywood.OutputExeTypes` to `hollywood.outputExeType`
+
 ## [0.3.0] - 2020-04-25
 
 ### Added
@@ -20,9 +40,9 @@ All notable changes to the "hw4vsc" extension will be documented in this file.
 
 ### Added
 
-- New setting `hollywood.outputExeType` for defining the output type including easy picking of available types and displaying their descriptions (taken from the official Hollywood documentation)
+- New setting `hollywood.OutputExeTypes` for defining the output type including easy picking of available types and displaying their descriptions (taken from the official Hollywood documentation)
 
-![Configuration of hollywood.outputExeType](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/configuration_outputexetype.png)
+![Configuration of hollywood.OutputExeTypes](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/configuration_outputexetype.png)
 
 ## [0.2.0] - 2019-02-22
 

@@ -12,7 +12,7 @@
     "repeat": {
         "prefix": "repfo",
         "body": "Repeat\n\tWaitEvent\nForever",
-        "description": "Insert the Repeat-WaitEvent-Forever-Loop"
+        "description": "Inserts the Repeat-WaitEvent-Forever Loop"
     },
     "function": {
         "prefix": "func",

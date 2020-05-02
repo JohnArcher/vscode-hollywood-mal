@@ -1,6 +1,6 @@
 # Hollywood for Visual Studio Code (hw4vsc)
 
-**DISCLAIMER:** This is not an official product by Airsoft Software.
+**DISCLAIMER:** This is not an official product by Airsoft Softwair.
 
 This extension adds support for [Hollywood](https://www.hollywood-mal.com) **version 8** to Visual Studio Code (Windows, macOS, Linux). Hollywood is a multimedia-oriented programming language designed to create applications and games and is available for AmigaOS, Windows, macOS, and Linux. Hollywood (and therefore this extension) is capable of compiling to the following target plattforms:
 
@@ -21,6 +21,22 @@ More information about Hollywood is available here: <https://www.hollywood-mal.c
 You can find the Hollywood documentation here: <https://www.hollywood-mal.com/docs/html/hollywood/>
 
 *NOTICE*: The version number of this plugin correspondes with the version number of Hollywood. Therefore the first release version of this extension is 8.0.0.
+
+## Table of Contents <!-- omit in toc -->
+
+* [Hollywood for Visual Studio Code (hw4vsc)](#hollywood-for-visual-studio-code-hw4vsc)
+  * [Features](#features)
+  * [Installation](#installation)
+  * [Configuration](#configuration)
+    * [Path to Hollywood executeable](#path-to-hollywood-executeable)
+    * [Define main file](#define-main-file)
+    * [Define standard executable output format](#define-standard-executable-output-format)
+  * [Run and compile](#run-and-compile)
+    * [Create Tasks](#create-tasks)
+    * [Run task](#run-task)
+  * [Code Snippets](#code-snippets)
+  * [Support](#support)
+  * [TODOs / Future](#todos--future)
 
 ## Features
 
@@ -110,9 +126,19 @@ TODO
 
 TODO
 
+## Code Snippets
+
+You can use code snippets to quickly generate code patterns you regularly need, like function definitions, loops and so on. Please have a look at the [Snippets section](snippets.md) for a list of all supported snippets.
+
+## Support
+
+If this extension is helpful to you and you want to support me feel to [buy me a coffee](ko-fi.com/johnarcher) or send a tip [via PayPal](paypal.me/cptjohnarcher).
+
+If you find a bug and want to see a feature added, please fill an [Issue on the GitHub page](https://github.com/JohnArcher/vscode-hollywood-mal/issues). I try my best to improve this extension.
+
 ## TODOs / Future
 
-Overall goal: Provide nearly the same feature subset as the official Hollywood IDE for Windows
+This extension is far from complete or bug free. The overall goalis : Provide nearly the same feature subset as the official Hollywood IDE for Windows and hw4cubic for Amiga.
 
 This includes and adds:
 

@@ -4,6 +4,8 @@ All notable changes to the "hw4vsc" extension will be documented in this file.
 
 ## [Unreleased]
 
+## [8.0.1] - 2020-05-03
+
 - Initial public release
 
 ## [8.0.0] - 2020-05-02

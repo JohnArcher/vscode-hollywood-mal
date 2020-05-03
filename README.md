@@ -61,6 +61,8 @@ There are several ways to install this extension:
 2. Press `Ctrl+Shift+X` or `Cmd+Shift+X` to open the Extensions pane or click on the corresponding button in the side bar.
 3. Find the Hollywood extension (look for "Hollywood MAL") and click `Install`.
 
+Alternatively you can use this direct link: <https://marketplace.visualstudio.com/items?itemName=michaeljurisch.hollywood-mal>
+
 or
 
 1. Download the latest release in the form of a `.vsix` file in this extensions [GitHub releases tab](https://github.com/JohnArcher/vscode-hollywood-mal/releases)

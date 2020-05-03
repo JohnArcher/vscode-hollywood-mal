@@ -14,6 +14,8 @@ This extension adds support for [Hollywood](https://www.hollywood-mal.com) **ver
 * WarpOS
 * Windows
 
+![Example of this extension (Dark Theme)](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/dark_theme.png)
+
 In order to make use of the extension you need to buy a copy of Hollywood here: <https://www.hollywood-mal.com/purchase.html>
 
 More information about Hollywood is available here: <https://www.hollywood-mal.com>
@@ -33,8 +35,10 @@ You can find the Hollywood documentation here: <https://www.hollywood-mal.com/do
     * [Define standard executable output format](#define-standard-executable-output-format)
   * [Run and compile](#run-and-compile)
     * [Create Tasks](#create-tasks)
-    * [Run task](#run-task)
+    * [Configure Tasks](#configure-tasks)
+    * [Run a Task](#run-a-task)
   * [Code Snippets](#code-snippets)
+  * [Dark and Light Theme](#dark-and-light-theme)
   * [Support](#support)
   * [TODOs / Future](#todos--future)
 
@@ -44,8 +48,8 @@ First of all you can use the great inbuilt editing features of Visual Studio Cod
 
 Additionally this extension supports:
 
-* Hollywood specific syntax highlighting (Light and Dark theme)
-* Hollywood specific code snippets
+* Hollywood specific syntax highlighting including a [Light and Dark Theme](#dark-and-light-theme)
+* Hollywood specific [Code Snippets](#code-snippets)
 * Code indention
 * Code folding
 
@@ -116,19 +120,70 @@ For a complete list of all output formats check the `-exetype` console argument 
 
 ## Run and compile
 
-You have to create Tasks in Visual Studio Code in order to run or compile a Hollywood file or project. It is recommended to read the [official Visual Studio Code documentation for Tasks](https://code.visualstudio.com/docs/editor/tasks).
+You have to create Tasks in Visual Studio Code in order to run or compile a Hollywood file/project. For a deeper dive into Tasks it is recommended to read the [official Visual Studio Code documentation for Tasks](https://code.visualstudio.com/docs/editor/tasks).
 
 ### Create Tasks
 
-TODO
+For every project you have to create the task definitions. There are two ways to achieve this:
 
-### Run task
+1. **Create** a **new** `tasks.json` file
+   1. Press `Ctrl+Shift+X` or `Cmd+Shift+X` and enter `Configure Task`
+   2. Select `Create tasks.json file from template`
+   3. Select `Others`
+   4. The freshly created `tasks.json` file is opened in Visual Studio Code. For later reference: This file is created in the `.vscode` folder of your project/workspace.
+   5. Add new tasks or copy tasks from [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/dev/exampleFiles/tasks.json).
+2. **Clone** an exisiting `tasks.json` file
+   1. Look for an exisiting `tasks.json` file in `.vscode` folder of another Hollywood project or download [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/dev/exampleFiles/tasks.json) to your `.vscode` folder.
+   2. Open the file and edit those defined tasks or add new ones.
 
-TODO
+### Configure Tasks
+
+Several working tasks are show in [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/dev/exampleFiles/tasks.json), so be sure to consult the file.
+
+A minimal task confguration consists of 3 or 4 properties.
+
+1. `"label"`: This is the label you will see in the task list when you run a task.
+2. `"type"`: Defines whether the task is run as a process or as a command inside a shell. Normally you set it to `"shell"`.
+3. `"group"`: Defines to which execution group this task belongs. This is *optional*, but if you want to define a standard task (like building or running your project) which is easily accessable by pressing `Ctrl+Shift+B` you have to define such a group (see [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/dev/exampleFiles/tasks.json)).
+4. `"command"`: This is the actual command that is executed. Besides inbuilt Visual Studio code variables like `${workspaceFolder}` and `${file}` you can use the following extension specific variables:
+   1. `${config:hollywood.exePath}`: The configured path to [your Hollywood executeable](#path-to-hollywood-executeable)
+   2. `${config:hollywood.mainFile}`: The configured [main project file](#define-main-file)
+   3. `${config:hollywood.outputExeTypes}`: The configured [standard output exe format](#define-standard-executable-output-format)
+
+### Run a Task
+
+If you have set **default task** simple press `Ctrl+Shift+B` to run that specific task.
+
+For all other tasks you have to follow these steps:
+
+1. Press `Ctrl+Shift+P` to show the Command Palette
+2. Enter `Run Task`
+3. Pick the task you want to run
+![Task picker](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/run_task.png)
+4. Select `Continue without scanning the task output` or `Never scan the task output for this task` if you want to ignore this message in the future
 
 ## Code Snippets
 
 You can use code snippets to quickly generate code patterns you regularly need, like function definitions, loops and so on. Please have a look at the [Snippets section](snippets.md) for a list of all supported snippets.
+
+## Dark and Light Theme
+
+![Dark Theme](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/dark_theme.png)
+*Dark Theme*
+
+![Light Theme](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/light_theme.png)
+*Light Theme*
+
+There are two ways to activate or switch the theme:
+
+1. Via Extension Pane
+   1. Go to the Extension pane and look for the Hollywood extension
+   2. Click on the Manage icon and chosse `Set Color Theme`
+   3. Now select `Hollywood (Dark)` or `Hollywood (Light)`
+2. Via Command Palette
+   1. Press `Ctrl+Shift+P` to show the Command Palette
+   2. Enter `Color Theme`
+   3. Pick `Hollywood (Dark)` or `Hollywood (Light)` from the list
 
 ## Support
 

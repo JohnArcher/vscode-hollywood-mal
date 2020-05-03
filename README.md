@@ -138,7 +138,7 @@ For every project you have to create the task definitions. There are two ways to
 
 ### Configure Tasks
 
-Several working tasks are show in [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/dev/exampleFiles/tasks.json), so be sure to consult the file.
+Several working tasks are shown in [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/dev/exampleFiles/tasks.json), so be sure to consult the file.
 
 A minimal task confguration consists of 3 or 4 properties.
 
@@ -150,6 +150,20 @@ A minimal task confguration consists of 3 or 4 properties.
    2. `${config:hollywood.mainFile}`: The configured [main project file](#define-main-file)
    3. `${config:hollywood.outputExeTypes}`: The configured [standard output exe format](#define-standard-executable-output-format)
 
+This is a complete example of a task definition:
+
+```json
+{
+    "label": "Run Hollywood Main script",
+    "type": "shell",
+    "command": "${config:hollywood.exePath} ${workspaceFolder}/${config:hollywood.mainFile}",
+    "group": {
+        "kind": "build",
+        "isDefault": true
+    }
+}
+```
+
 ### Run a Task
 
 If you have set **default task** simple press `Ctrl+Shift+B` to run that specific task.
@@ -159,8 +173,9 @@ For all other tasks you have to follow these steps:
 1. Press `Ctrl+Shift+P` to show the Command Palette
 2. Enter `Run Task`
 3. Pick the task you want to run
-![Task picker](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/run_task.png)
 4. Select `Continue without scanning the task output` or `Never scan the task output for this task` if you want to ignore this message in the future
+
+![Task picker](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/run_task.png)
 
 ## Code Snippets
 
@@ -169,12 +184,14 @@ You can use code snippets to quickly generate code patterns you regularly need, 
 ## Dark and Light Theme
 
 ![Dark Theme](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/dark_theme.png)
+
 *Dark Theme*
 
 ![Light Theme](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/light_theme.png)
+
 *Light Theme*
 
-There are two ways to activate or switch the theme:
+There are two ways to **activate or switch** the theme:
 
 1. Via Extension Pane
    1. Go to the Extension pane and look for the Hollywood extension

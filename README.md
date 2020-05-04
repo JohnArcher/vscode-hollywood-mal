@@ -76,6 +76,8 @@ Download/check out the content of the GitHub repo and copy it to your extension 
 * **macOS:** `~/.vscode/extensions`
 * **Linux:** `~/.vscode/extensions`
 
+Now create or open a `.hws` file. The extension is activated now.
+
 ## Configuration
 
  Open User or Wokspace Settings by pressing `Ctrl+Shift+P` and enter `settings` or open the extension pane, click the *manage* icon on the Hollywood extension and select *Extension Settings*. Please consult the docs for [creating User and Workspace settings](https://code.visualstudio.com/docs/getstarted/settings)
@@ -86,11 +88,12 @@ Setting: `hollywood.exePath`
 
 Normally this should be a **User** Setting (and not a Workspace Setting), so the executeable is defined globally for all your Hollywood projects.
 
+**Attention**: If the path contains spaces you have to enclose it in double quotes!
+
 ![Configuration of hollywood.exePath in Settings](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/configuration_exepath.png)
 
-Example in  *settings.json*: `"hollywood.exePath": "C:\Program Files\Hollywood\Hollywood.exe"`
-
-Now open a `.hws` file. The extension is activated now.
+Example with escaped spaces in *settings.json*: `"hollywood.exePath": "\"C:\\Program Files\\Hollywood\\Hollywood.exe\""`
+Example without spaces in *settings.json*: `"hollywood.exePath": "D:\\apps\\Hollywood\\Hollywood.exe"`
 
 ### Define main file
 

@@ -2,7 +2,7 @@
     "name": "hollywood-mal",
     "displayName": "Hollywood MAL (hw4vsc)",
     "description": "Adds coding support for Hollywood MAL (Cross-Platform Multimedia Application Layer)",
-    "version": "8.0.0",
+    "version": "8.0.1",
     "engines": {
         "vscode": "^1.29.0"
     },
@@ -68,7 +68,7 @@
                 "hollywood.exePath": {
                     "type": "string",
                     "default": null,
-                    "markdownDescription": "Path and filename of the Hollywood executable, e.g. `C:\\Program Files\\Hollywood\\Hollywood.exe` (Windows)."
+                    "markdownDescription": "Path and filename of the Hollywood executable, e.g. `\"C:\\Program Files\\Hollywood\\Hollywood.exe\"` (Windows). **Attention**: If the path contains spaces you have to enclose it in double quotes."
                 },
                 "hollywood.outputExeType": {
                     "type": "string",

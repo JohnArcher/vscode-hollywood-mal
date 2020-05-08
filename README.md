@@ -22,7 +22,7 @@ More information about Hollywood is available here: <https://www.hollywood-mal.c
 
 You can find the Hollywood documentation here: <https://www.hollywood-mal.com/docs/html/hollywood/>
 
-*NOTICE*: The version number of this plugin correspondes with the version number of Hollywood. Therefore the first release version of this extension is 8.0.0.
+*NOTICE*: The version number of this plugin correspondes with the version number of Hollywood. Therefore the first release version of this extension was 8.0.1.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -37,6 +37,7 @@ You can find the Hollywood documentation here: <https://www.hollywood-mal.com/do
     * [Create Tasks](#create-tasks)
     * [Configure Tasks](#configure-tasks)
     * [Run a Task](#run-a-task)
+    * [Run script with F5](#run-script-with-f5)
   * [Code Snippets](#code-snippets)
   * [Dark and Light Theme](#dark-and-light-theme)
   * [Support](#support)
@@ -181,6 +182,29 @@ For all other tasks you have to follow these steps:
 4. Select `Continue without scanning the task output` or `Never scan the task output for this task` if you want to ignore this message in the future
 
 ![Task picker](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/run_task.png)
+
+### Run script with F5
+
+If you have already worked with the official Hollywood IDE you may be used to press F5 to run the current script. You can adopt the same behaviour with this extension through overriding the keybinding. In this example we will run the project's [main script](#define-main-file) by starting the corresponding task [we created above]((#configure-tasks) and you can see in the task.json example.
+
+In order to override the setting you have to follow these steps:
+
+1. Press `Ctrl+Shift+P` to show the Command Palette
+2. Enter `Open Keyboard Shortcuts (JSON)`
+3. The file `keybindings.json` which may be nearly empty is opened. Please copy the following code **between** `[` and `]` and save the file:
+
+```json
+{
+   "key": "f5",
+   "command": "workbench.action.tasks.runTask",
+   "args": "Run Hollywood Main script",
+   "when": "resourceLangId == hollywood"
+}
+```
+
+It is important to set the `"args"` parameter exactely like the corresponding tasks `"label"` you configured in your `tasks.json`. Of course it is possible to start another task and/or use other keys (see the `"key"` parameter).
+
+`"when": "resourceLangId == hollywood"` ensures that `F5` is just overriden for Hollywood files, so if you additionally code in other languages like JavaScript or TypeScript you don't override the default behaviour for those languages.
 
 ## Code Snippets
 

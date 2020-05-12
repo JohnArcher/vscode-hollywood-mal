@@ -6,7 +6,8 @@
         {
             "label": "Run Hollywood Main script",
             "type": "shell",
-            "command": "${config:hollywood.exePath} ${workspaceFolder}/${config:hollywood.mainFile}",
+            "command": "${config:hollywood.exePath}",
+            "args": ["${workspaceFolder}/${config:hollywood.mainFile}"],
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -15,22 +16,35 @@
         {
             "label": "Run Hollywood Main script (nodebug)",
             "type": "shell",
-            "command": "${config:hollywood.exePath} ${workspaceFolder}/${config:hollywood.mainFile} -nodebug"
+            "command": "${config:hollywood.exePath}",
+            "args":["${workspaceFolder}/${config:hollywood.mainFile}",
+                    "-nodebug"]
         },
         {
             "label": "Compile Hollywood Main script to default target",
             "type": "shell",
-            "command": "${config:hollywood.exePath} ${workspaceFolder}/${config:hollywood.mainFile} -compile ${fileBasenameNoExtension} -exetype ${config:hollywood.outputExeTypes}"
+            "command": "${config:hollywood.exePath}",
+            "args": ["${workspaceFolder}/${config:hollywood.mainFile}",
+                "-compile",
+                "${fileBasenameNoExtension}",
+                "-exetype",
+                "${config:hollywood.outputExeTypes}"]
         },
         {
             "label": "Run the currently opened Hollywood script",
             "type": "shell",
-            "command": "${config:hollywood.exePath} ${file} "
+            "command": "${config:hollywood.exePath}",
+            "args": ["${file}"]
         },
         {
             "label": "Compile the currently opened Hollywood file to multiple targets ",
             "type": "shell",
-            "command": "${config:hollywood.exePath} ${file} -compile ${fileBasenameNoExtension} -exetype win64|classic|morphos"
+            "command": "${config:hollywood.exePath}",
+            "args": ["${file}",
+                "-compile",
+                "${fileBasenameNoExtension}",
+                "-exetype",
+                "win64|classic|morphos"]
         }
     ]
 }

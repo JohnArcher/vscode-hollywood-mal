@@ -45,7 +45,7 @@ You can find the Hollywood documentation here: <https://www.hollywood-mal.com/do
 
 ## Features
 
-First of all you can use the great inbuilt editing features of Visual Studio Code like Multi-Cursor, easy code editing (like line cloning, deletion, and swapping), bracket matching and so forth. Please consult the [Visual Studio Code documentation](https://code.visualstudio.com/docs) for more infos.
+First of all you can use the great inbuilt editing features of Visual Studio Code like quick file navigation including fuzzy search (press `Ctrl + P`), Multi-Cursor, easy code editing (like line cloning, deletion, and swapping), project/workspace support, bracket matching and so forth. Please consult the [Visual Studio Code documentation](https://code.visualstudio.com/docs) for more infos.
 
 Additionally this extension supports:
 
@@ -81,7 +81,13 @@ Now create or open a `.hws` file. The extension is activated now.
 
 ## Configuration
 
- Open User or Wokspace Settings by pressing `Ctrl+Shift+P` and enter `settings` or open the extension pane, click the *manage* icon on the Hollywood extension and select *Extension Settings*. Please consult the docs for [creating User and Workspace settings](https://code.visualstudio.com/docs/getstarted/settings)
+Open User or Workspace Settings by pressing `Ctrl+Shift+P` and enter `settings` or open the extension pane, click the *manage* icon on the Hollywood extension and select *Extension Settings*.
+
+There are two types of settings supported by this extensions: *User Settings* and *Workspace Settings*. While the first ones are **globally** set for all Visual Studio Code instances the latter ones are set just **in a workspace** which you can imagine as a project.
+
+In order to create a workspace for your code, create a folder for your project, open it in Visual Studio Code, select `File` -> `Save Workspace As...` in the menu and set a name for your workspace file.
+
+For a detailed description, please consult the docs  [User and Workspace settings](https://code.visualstudio.com/docs/getstarted/settings)
 
 ### Path to Hollywood executeable
 

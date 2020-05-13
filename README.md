@@ -99,8 +99,7 @@ Normally this should be a **User** Setting (and not a Workspace Setting), so the
 
 ![Configuration of hollywood.exePath in Settings](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/configuration_exepath.png)
 
-Example with escaped spaces in *settings.json*: `"hollywood.exePath": "\"C:\\Program Files\\Hollywood\\Hollywood.exe\""`
-Example without spaces in *settings.json*: `"hollywood.exePath": "D:\\apps\\Hollywood\\Hollywood.exe"`
+Example *settings.json*: `"hollywood.exePath": "C:\\Program Files\\Hollywood\\Hollywood.exe"`
 
 ### Define main file
 

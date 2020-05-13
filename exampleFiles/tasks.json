@@ -17,18 +17,22 @@
             "label": "Run Hollywood Main script (nodebug)",
             "type": "shell",
             "command": "${config:hollywood.exePath}",
-            "args":["${config:hollywood.mainFile}",
-                    "-nodebug"]
+            "args":[
+                "${config:hollywood.mainFile}",
+                "-nodebug"
+            ]
         },
         {
             "label": "Compile Hollywood Main script to default target",
             "type": "shell",
             "command": "${config:hollywood.exePath}",
-            "args": ["${config:hollywood.mainFile}",
+            "args": [
+                "${config:hollywood.mainFile}",
                 "-compile",
                 "${fileBasenameNoExtension}",
                 "-exetype",
-                "${config:hollywood.outputExeTypes}"]
+                "${config:hollywood.outputExeTypes}"
+            ]
         },
         {
             "label": "Run the currently opened Hollywood script",
@@ -40,11 +44,13 @@
             "label": "Compile the currently opened Hollywood file to multiple targets ",
             "type": "shell",
             "command": "${config:hollywood.exePath}",
-            "args": ["${file}",
+            "args": [
+                "${file}",
                 "-compile",
                 "${fileBasenameNoExtension}",
                 "-exetype",
-                "win64|classic|morphos"]
+                "win64|classic|morphos"
+            ]
         }
     ]
 }

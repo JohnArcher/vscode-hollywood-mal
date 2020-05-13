@@ -159,7 +159,7 @@ This is a complete example of a task definition:
     "label": "Run Hollywood Main script",
     "type": "shell",
     "command": "${config:hollywood.exePath}",
-    "args":["${workspaceFolder}/${config:hollywood.mainFile}"],
+    "args":["${config:hollywood.mainFile}"],
     "group": {
         "kind": "build",
         "isDefault": true

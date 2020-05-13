@@ -7,7 +7,7 @@
             "label": "Run Hollywood Main script",
             "type": "shell",
             "command": "${config:hollywood.exePath}",
-            "args": ["${workspaceFolder}/${config:hollywood.mainFile}"],
+            "args": ["$${config:hollywood.mainFile}"],
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -17,14 +17,14 @@
             "label": "Run Hollywood Main script (nodebug)",
             "type": "shell",
             "command": "${config:hollywood.exePath}",
-            "args":["${workspaceFolder}/${config:hollywood.mainFile}",
+            "args":["${config:hollywood.mainFile}",
                     "-nodebug"]
         },
         {
             "label": "Compile Hollywood Main script to default target",
             "type": "shell",
             "command": "${config:hollywood.exePath}",
-            "args": ["${workspaceFolder}/${config:hollywood.mainFile}",
+            "args": ["${config:hollywood.mainFile}",
                 "-compile",
                 "${fileBasenameNoExtension}",
                 "-exetype",

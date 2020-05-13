@@ -14,7 +14,7 @@ This extension adds support for [Hollywood](https://www.hollywood-mal.com) **ver
 * WarpOS
 * Windows
 
-![Example of this extension (Dark Theme)](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/dark_theme.png)
+![Example of this extension (Dark Theme)](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/dark_theme.png)
 
 In order to make use of the extension you need to buy a copy of Hollywood here: <https://www.hollywood-mal.com/purchase.html>
 
@@ -95,7 +95,7 @@ Setting: `hollywood.exePath`
 
 Normally this should be a **User** Setting (and not a Workspace Setting), so the executeable is defined globally for all your Hollywood projects.
 
-**Attention**: If the path contains spaces you have to enclose it in double quotes!
+![Configuration of hollywood.exePath in Settings](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/configuration_exepath.png)
 
 ![Configuration of hollywood.exePath in Settings](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/configuration_exepath.png)
 
@@ -110,7 +110,7 @@ Whether your Hollywood project consists of one or more files, you should define 
 
 This is a setting that should be defined as a Workspace Setting (so create a Worspace first if you haven't down it yet (`File` -> `Save Workspace as ...`)).
 
-![Configuration of hollywood.mainFile in Settings](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/configuration_mainfile.png)
+![Configuration of hollywood.mainFile in Settings](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/configuration_mainfile.png)
 
 Example in *YOUR_PROJECT.code-workspace*: `"hollywood.mainFile": "mainApp.hws"`
 
@@ -122,11 +122,11 @@ This setting specifies the output format of the executable that the Hollywood co
 
 The best approach is to define this in the **user** settings (so it is defined globally for all your projects) and override it in **workspace** settings if needed, so you can have different output formats for different workspaces/projects.
 
-![Configuration of hollywood.outputExeType in Settings](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/configuration_outputexetype.png)
+![Configuration of hollywood.outputExeType in Settings](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/configuration_outputexetype.png)
 
 Example in *YOUR_PROJECT.code-workspace*: `"hollywood.outputExeType": "classic"`
 
-In order to define multiple targets, e.g. `win64|classic|morphos`, you have to create a separate Task (see description below or have a look for [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/dev/exampleFiles/tasks.json).
+In order to define multiple targets, e.g. `win64|classic|morphos`, you have to create a separate Task (see description below or have a look for [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/exampleFiles/tasks.json).
 
 For a complete list of all output formats check the `-exetype` console argument under <https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage.html>
 
@@ -143,20 +143,20 @@ For every project you have to create the task definitions. There are two ways to
    2. Select `Create tasks.json file from template`
    3. Select `Others`
    4. The freshly created `tasks.json` file is opened in Visual Studio Code. For later reference: This file is created in the `.vscode` folder of your project/workspace.
-   5. Add new tasks or copy tasks from [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/dev/exampleFiles/tasks.json).
+   5. Add new tasks or copy tasks from [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/exampleFiles/tasks.json).
 2. **Clone** an exisiting `tasks.json` file
-   1. Look for an exisiting `tasks.json` file in `.vscode` folder of another Hollywood project or download [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/dev/exampleFiles/tasks.json) to your `.vscode` folder.
+   1. Look for an exisiting `tasks.json` file in `.vscode` folder of another Hollywood project or download [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/exampleFiles/tasks.json) to your `.vscode` folder.
    2. Open the file and edit those defined tasks or add new ones.
 
 ### Configure Tasks
 
-Several working tasks are shown in [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/dev/exampleFiles/tasks.json), so be sure to consult the file.
+Several working tasks are shown in [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/exampleFiles/tasks.json), so be sure to consult the file.
 
 A minimal task confguration consists of 3 or 4 properties.
 
 1. `"label"`: This is the label you will see in the task list when you run a task.
 2. `"type"`: Defines whether the task is run as a process or as a command inside a shell. Normally you set it to `"shell"`.
-3. `"group"`: Defines to which execution group this task belongs. This is *optional*, but if you want to define a standard task (like building or running your project) which is easily accessable by pressing `Ctrl+Shift+B` you have to define such a group (see [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/dev/exampleFiles/tasks.json)).
+3. `"group"`: Defines to which execution group this task belongs. This is *optional*, but if you want to define a standard task (like building or running your project) which is easily accessable by pressing `Ctrl+Shift+B` you have to define such a group (see [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/exampleFiles/tasks.json)).
 4. `"command"`: This is the actual command that is executed. Besides inbuilt Visual Studio code variables like `${workspaceFolder}` and `${file}` you can use the following extension specific variables:
    1. `${config:hollywood.exePath}`: The configured path to [your Hollywood executeable](#path-to-hollywood-executeable)
    2. `${config:hollywood.mainFile}`: The configured [main project file](#define-main-file)
@@ -168,7 +168,8 @@ This is a complete example of a task definition:
 {
     "label": "Run Hollywood Main script",
     "type": "shell",
-    "command": "${config:hollywood.exePath} ${workspaceFolder}/${config:hollywood.mainFile}",
+    "command": "${config:hollywood.exePath}",
+    "args":["${config:hollywood.mainFile}"],
     "group": {
         "kind": "build",
         "isDefault": true
@@ -187,7 +188,7 @@ For all other tasks you have to follow these steps:
 3. Pick the task you want to run
 4. Select `Continue without scanning the task output` or `Never scan the task output for this task` if you want to ignore this message in the future
 
-![Task picker](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/run_task.png)
+![Task picker](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/run_task.png)
 
 ### Run script with F5
 
@@ -218,11 +219,11 @@ You can use code snippets to quickly generate code patterns you regularly need, 
 
 ## Dark and Light Theme
 
-![Dark Theme](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/dark_theme.png)
+![Dark Theme](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/dark_theme.png)
 
 *Dark Theme*
 
-![Light Theme](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/light_theme.png)
+![Light Theme](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/light_theme.png)
 
 *Light Theme*
 

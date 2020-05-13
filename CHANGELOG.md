@@ -4,6 +4,16 @@ All notable changes to the "hw4vsc" extension will be documented in this file.
 
 ## [Unreleased]
 
+## [8.0.2] - 2020-05-14
+
+### Added
+
+- Added documentation remark about starting a script with F5
+
+### Changed
+
+- Changed README and example task.json as there is a better way to start a task with arguments which also fixes the problem with spaces in the `hollywood.exePath` setting (thanks to @midwan).
+
 ## [8.0.1] - 2020-05-03
 
 - Initial public release

@@ -22,7 +22,7 @@ More information about Hollywood is available here: <https://www.hollywood-mal.c
 
 You can find the Hollywood documentation here: <https://www.hollywood-mal.com/docs/html/hollywood/>
 
-*NOTICE*: The version number of this plugin correspondes with the version number of Hollywood. Therefore the first release version of this extension is 8.0.0.
+*NOTICE*: The version number of this plugin correspondes with the version number of Hollywood. Therefore the first release version of this extension was 8.0.1.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -37,6 +37,7 @@ You can find the Hollywood documentation here: <https://www.hollywood-mal.com/do
     * [Create Tasks](#create-tasks)
     * [Configure Tasks](#configure-tasks)
     * [Run a Task](#run-a-task)
+    * [Run script with F5](#run-script-with-f5)
   * [Code Snippets](#code-snippets)
   * [Dark and Light Theme](#dark-and-light-theme)
   * [Support](#support)
@@ -44,7 +45,7 @@ You can find the Hollywood documentation here: <https://www.hollywood-mal.com/do
 
 ## Features
 
-First of all you can use the great inbuilt editing features of Visual Studio Code like Multi-Cursor, easy code editing (like line cloning, deletion, and swapping), bracket matching and so forth. Please consult the [Visual Studio Code documentation](https://code.visualstudio.com/docs) for more infos.
+First of all you can use the great inbuilt editing features of Visual Studio Code like quick file navigation including fuzzy search (press `Ctrl + P`), Multi-Cursor, easy code editing (like line cloning, deletion, and swapping), project/workspace support, bracket matching and so forth. Please consult the [Visual Studio Code documentation](https://code.visualstudio.com/docs) for more infos.
 
 Additionally this extension supports:
 
@@ -76,9 +77,17 @@ Download/check out the content of the GitHub repo and copy it to your extension 
 * **macOS:** `~/.vscode/extensions`
 * **Linux:** `~/.vscode/extensions`
 
+Now create or open a `.hws` file. The extension is activated now.
+
 ## Configuration
 
- Open User or Wokspace Settings by pressing `Ctrl+Shift+P` and enter `settings` or open the extension pane, click the *manage* icon on the Hollywood extension and select *Extension Settings*. Please consult the docs for [creating User and Workspace settings](https://code.visualstudio.com/docs/getstarted/settings)
+Open User or Workspace Settings by pressing `Ctrl+Shift+P` and enter `settings` or open the extension pane, click the *manage* icon on the Hollywood extension and select *Extension Settings*.
+
+There are two types of settings supported by this extensions: *User Settings* and *Workspace Settings*. While the first ones are **globally** set for all Visual Studio Code instances the latter ones are set just **in a workspace** which you can imagine as a project.
+
+In order to create a workspace for your code, create a folder for your project, open it in Visual Studio Code, select `File` -> `Save Workspace As...` in the menu and set a name for your workspace file.
+
+For a detailed description, please consult the docs  [User and Workspace settings](https://code.visualstudio.com/docs/getstarted/settings)
 
 ### Path to Hollywood executeable
 
@@ -88,9 +97,9 @@ Normally this should be a **User** Setting (and not a Workspace Setting), so the
 
 ![Configuration of hollywood.exePath in Settings](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/configuration_exepath.png)
 
-Example in  *settings.json*: `"hollywood.exePath": "C:\Program Files\Hollywood\Hollywood.exe"`
+![Configuration of hollywood.exePath in Settings](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/configuration_exepath.png)
 
-Now open a `.hws` file. The extension is activated now.
+Example *settings.json*: `"hollywood.exePath": "C:\\Program Files\\Hollywood\\Hollywood.exe"`
 
 ### Define main file
 
@@ -179,6 +188,29 @@ For all other tasks you have to follow these steps:
 4. Select `Continue without scanning the task output` or `Never scan the task output for this task` if you want to ignore this message in the future
 
 ![Task picker](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/run_task.png)
+
+### Run script with F5
+
+If you have already worked with the official Hollywood IDE you may be used to press F5 to run the current script. You can adopt the same behaviour with this extension through overriding the keybinding. In this example we will run the project's [main script](#define-main-file) by starting the corresponding task [we created above]((#configure-tasks) and you can see in the task.json example.
+
+In order to override the setting you have to follow these steps:
+
+1. Press `Ctrl+Shift+P` to show the Command Palette
+2. Enter `Open Keyboard Shortcuts (JSON)`
+3. The file `keybindings.json` which may be nearly empty is opened. Please copy the following code **between** `[` and `]` and save the file:
+
+```json
+{
+   "key": "f5",
+   "command": "workbench.action.tasks.runTask",
+   "args": "Run Hollywood Main script",
+   "when": "resourceLangId == hollywood"
+}
+```
+
+It is important to set the `"args"` parameter exactely like the corresponding tasks `"label"` you configured in your `tasks.json`. Of course it is possible to start another task and/or use other keys (see the `"key"` parameter).
+
+`"when": "resourceLangId == hollywood"` ensures that `F5` is just overriden for Hollywood files, so if you additionally code in other languages like JavaScript or TypeScript you don't override the default behaviour for those languages.
 
 ## Code Snippets
 

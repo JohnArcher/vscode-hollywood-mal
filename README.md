@@ -37,7 +37,7 @@ You can find the Hollywood documentation here: <https://www.hollywood-mal.com/do
     * [Create Tasks](#create-tasks)
     * [Configure Tasks](#configure-tasks)
     * [Run a Task](#run-a-task)
-    * [Run script with F5](#run-script-with-f5)
+    * [Run a script with F5](#run-a-script-with-f5)
   * [Code Snippets](#code-snippets)
   * [Dark and Light Theme](#dark-and-light-theme)
   * [Support](#support)
@@ -149,24 +149,32 @@ For every project you have to create the task definitions. There are two ways to
 
 Several working tasks are shown in [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/exampleFiles/tasks.json), so be sure to consult the file.
 
-A minimal task confguration consists of 3 or 4 properties.
+A minimal task confguration consists of 4 or 5 properties.
 
 1. `"label"`: This is the label you will see in the task list when you run a task.
 2. `"type"`: Defines whether the task is run as a process or as a command inside a shell. Normally you set it to `"shell"`.
 3. `"group"`: Defines to which execution group this task belongs. This is *optional*, but if you want to define a standard task (like building or running your project) which is easily accessable by pressing `Ctrl+Shift+B` you have to define such a group (see [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/exampleFiles/tasks.json)).
-4. `"command"`: This is the actual command that is executed. Besides inbuilt Visual Studio code variables like `${workspaceFolder}` and `${file}` you can use the following extension specific variables:
-   1. `${config:hollywood.exePath}`: The configured path to [your Hollywood executeable](#path-to-hollywood-executeable)
-   2. `${config:hollywood.mainFile}`: The configured [main project file](#define-main-file)
-   3. `${config:hollywood.outputExeTypes}`: The configured [standard output exe format](#define-standard-executable-output-format)
+4. `"command"`: This is the actual command that is executed. Normally you will only use the configured path to the Hollywood executeable here, which is `${config:hollywood.exePath}` ([see here](#path-to-hollywood-executeable)).
+5. `"args"`: This is an array which contains arguments passed to the command when the task is invoked. Besides several **inbuilt Visual Studio Code variables** like `${workspaceFolder}`, `${file}` and `${fileBasenameNoExtension}` and [Hollywood's command line arguments](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage.html) you can use the following **extension specific variables**:
+   1. `${config:hollywood.mainFile}`: The configured [main project file](#define-main-file)
+   2. `${config:hollywood.outputExeTypes}`: The configured [standard output exe format](#define-standard-executable-output-format)
+
+*NOTICE*: By default the current working directory is the current workspace root. If you ever need to change this for your task because your source code that has to be compiled is in a different folder you can change the current working directoy through using the `"cwd"` option (see [this link for details](https://code.visualstudio.com/docs/editor/tasks)).
 
 This is a complete example of a task definition:
 
 ```json
 {
-    "label": "Run Hollywood Main script",
+    "label": "Compile Hollywood Main script to default target",
     "type": "shell",
     "command": "${config:hollywood.exePath}",
-    "args":["${config:hollywood.mainFile}"],
+    "args": [
+         "${config:hollywood.mainFile}",
+         "-compile",
+         "${fileBasenameNoExtension}",
+         "-exetype",
+         "${config:hollywood.outputExeTypes}"
+   ],
     "group": {
         "kind": "build",
         "isDefault": true
@@ -187,7 +195,7 @@ For all other tasks you have to follow these steps:
 
 ![Task picker](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/run_task.png)
 
-### Run script with F5
+### Run a script with F5
 
 If you have already worked with the official Hollywood IDE you may be used to press F5 to run the current script. You can adopt the same behaviour with this extension through overriding the keybinding. In this example we will run the project's [main script](#define-main-file) by starting the corresponding task [we created above]((#configure-tasks) and you can see in the task.json example.
 

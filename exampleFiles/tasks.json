@@ -7,11 +7,7 @@
             "label": "Run Hollywood Main script",
             "type": "shell",
             "command": "${config:hollywood.exePath}",
-            "args": ["${config:hollywood.mainFile}"],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "args": ["${config:hollywood.mainFile}"]
         },
         {
             "label": "Run Hollywood Main script (nodebug)",
@@ -32,7 +28,11 @@
                 "${fileBasenameNoExtension}",
                 "-exetype",
                 "${config:hollywood.outputExeTypes}"
-            ]
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         },
         {
             "label": "Run the currently opened Hollywood script",

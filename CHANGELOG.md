@@ -9,6 +9,7 @@ All notable changes to the "hw4vsc" extension will be documented in this file.
 ### Added
 
 - Added documentation remark about starting a script with F5
+- Added 3 snippets for declaring an app icon (`@APPICON`)
 
 ### Changed
 

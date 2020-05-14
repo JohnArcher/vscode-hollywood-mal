@@ -28,5 +28,20 @@
         "prefix": "funcSelf",
         "body": "Function self.${1:name}(${2:parameters})\n\t${3}\nEndFunction",
         "description": "Defines a new self function"
+    },
+    "appIconPath": {
+        "prefix": "app-icon-path",
+        "body": "@APPICON \"${1:pathToIcon}\"",
+        "description": "Declare an application icon by path which has to be created with SaveIcon() before."
+    },
+    "appIconTable": {
+        "prefix": "app-icon-table",
+        "body": "@APPICON {\n\tIc16x16 = \"${1:pathToIcon}16x16.${3:png}\",\n\tIc24x24 = \"${1:pathToIcon}24x24.${3:png}\",\n\tIc32x32 = \"${1:pathToIcon}32x32.${3:png}\",\n\tIc48x48 = \"${1:pathToIcon}48x48.${3:png}\",\n\tIc64x64 = \"${1:pathToIcon}64x64.${3:png}\",\n\tIc96x96 = \"${1:pathToIcon}96x96.${3:png}\",\n\tIc128x128 = \"${1:pathToIcon}128x128.${3:png}\",\n\tIc256x256 = \"${1:pathToIcon}256x256.${3:png}\",\n\tIc512x512 = \"${1:pathToIcon}512x512.${3:png}\",\n\tIc1024x1024 = \"${1:pathToIcon}1024x1024.${3:png}\",\n\tDefaultIcon = \"${2|16x16,24x24,32x32,48x48,64x64,96x96,128x128,256x256,512x512,1024x1024|}\"\n}",
+        "description": "Declare an application icon by a table."
+    },
+    "appIconTableSelected": {
+        "prefix": "app-icon-table-selected",
+        "body": "@APPICON {\n\tIc16x16 = \"${1:pathToIcon}16x16.${3:png}\",\n\tIc16x16s = \"${1:pathToIcon}16x16s.${3:png}\",\n\tIc24x24 = \"${1:pathToIcon}24x24.${3:png}\",\n\tIc24x24s = \"${1:pathToIcon}24x24s.${3:png}\",\n\tIc32x32 = \"${1:pathToIcon}32x32.${3:png}\",\n\tIc32x32s = \"${1:pathToIcon}32x32s.${3:png}\",\n\tIc48x48 = \"${1:pathToIcon}48x48.${3:png}\",\n\tIc48x48s = \"${1:pathToIcon}48x48s.${3:png}\",\n\tIc64x64 = \"${1:pathToIcon}64x64.${3:png}\",\n\tIc64x64s = \"${1:pathToIcon}64x64s.${3:png}\",\n\tIc96x96 = \"${1:pathToIcon}96x96.${3:png}\",\n\tIc96x96s = \"${1:pathToIcon}96x96s.${3:png}\",\n\tIc128x128 = \"${1:pathToIcon}128x128.${3:png}\",\n\tIc128x128s = \"${1:pathToIcon}128x128s.${3:png}\",\n\tIc256x256 = \"${1:pathToIcon}256x256.${3:png}\",\n\tIc256x256s = \"${1:pathToIcon}256x256s.${3:png}\",\n\tIc512x512 = \"${1:pathToIcon}512x512.${3:png}\",\n\tIc512x512s = \"${1:pathToIcon}512x512s.${3:png}\",\n\tIc1024x1024 = \"${1:pathToIcon}1024x1024.${3:png}\",\n\tIc1024x1024s = \"${1:pathToIcon}1024x1024s.${3:png}\",\n\tDefaultIcon = \"${2|16x16,24x24,32x32,48x48,64x64,96x96,128x128,256x256,512x512,1024x1024|}\"\n}",
+        "description": "Declare an application icon by a table which also contains icons for the selected state (Amiga-only)."
     }
 }

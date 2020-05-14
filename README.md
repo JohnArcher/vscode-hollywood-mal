@@ -197,7 +197,7 @@ For all other tasks you have to follow these steps:
 
 ### Run a script with F5
 
-If you have already worked with the official Hollywood IDE you may be used to press F5 to run the current script. You can adopt the same behaviour with this extension through overriding the keybinding. In this example we will run the project's [main script](#define-main-file) by starting the corresponding task [we created above]((#configure-tasks) and you can see in the task.json example.
+If you have already worked with the official Hollywood IDE you may be used to press F5 to run the current script. You can adopt the same behaviour with this extension through overriding the keybinding. In this example we will run the project's [main script](#define-main-file) by starting the corresponding task [we created above](#configure-tasks) and you can see in the task.json example.
 
 In order to override the setting you have to follow these steps:
 

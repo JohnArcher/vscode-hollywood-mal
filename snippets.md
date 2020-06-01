@@ -1,6 +1,6 @@
 # Snippets
 
-This is a list of all Hollywood specific code snippets you can use while developing. Snippets are templates that make it easier to enter repeating code patterns. You can finde more information and on how to use [Snippets in Visual Studio Code here](https://code.visualstudio.com/docs/editor/userdefinedsnippets).
+This is a list of all Hollywood specific code snippets you can use while developing. Snippets are templates that make it easier to enter repeating code patterns. You can find more information and on how to use [Snippets in Visual Studio Code here](https://code.visualstudio.com/docs/editor/userdefinedsnippets).
 
 When you enter the snippet prefix listed below a popup window is triggered so you can easily add the template text into the current position in you code by pressing Enter or TAB:
 
@@ -12,12 +12,17 @@ When you enter the snippet prefix listed below a popup window is triggered so yo
   * [`app-icon-path`](#app-icon-path)
   * [`app-icon-table`](#app-icon-table)
   * [`app-icon-table-selected`](#app-icon-table-selected)
-  * [`repfo`](#repfo)
+  * [`switch`](#switch)
+  * [`switch-default`](#switch-default)
+  * [`switch-fallthrough`](#switch-fallthrough)
+  * [`repeat-forever` / `repfo`](#repeat-forever--repfo)
   * [`func`](#func)
-  * [`funcLocal`](#funclocal)
-  * [`funcSelf`](#funcself)
-  * [`dps`](#dps)
-  * [`dpv`](#dpv)
+  * [`func-p`](#func-p)
+  * [`func-local` / `funcLocal`](#func-local--funclocal)
+  * [`func-local-p` / `funcLocal-p`](#func-local-p--funclocal-p)
+  * [`func-self` / `funcSelf`](#func-self--funcself)
+  * [`debug-string` / `dps`](#debug-string--dps)
+  * [`debug-var` / `dpv`](#debug-var--dpv)
 
 ## `app-icon-path`
 
@@ -79,7 +84,54 @@ Declare an application icon by a table which also contains icons for the selecte
 }
 ```
 
-## `repfo`
+## `switch`
+
+Create a Switch-Case-Statement.
+
+![Snippet switch](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/snippet-switch.gif)
+
+```
+Switch expression
+    Case value:
+
+EndSwitch
+```
+
+## `switch-default`
+
+Create a Switch-Case-Statement with a Default block.
+
+![Snippet switch-default](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/snippet-switch-default.gif)
+
+
+```
+Switch expression
+    Case value:
+
+    Default:
+
+EndSwitch
+```
+
+## `switch-fallthrough`
+
+Create a Switch-Case-Statement with a Default block and FallThrough statement.
+
+![Snippet switch-default](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/snippet-switch-fallthrough.gif)
+
+
+```
+Switch expression FallThrough
+    Case value:
+
+        Break
+
+    Default:
+
+EndSwitch
+```
+
+## `repeat-forever` / `repfo`
 
 Inserts the Repeat-WaitEvent-Forever Loop:
 
@@ -91,7 +143,10 @@ Forever
 
 ## `func`
 
-Defines a new function:
+Defines a new function.
+
+![Snippet switch-default](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/snippet-switch-func.gif)
+
 
 ```
 Function name(parameters)
@@ -99,7 +154,17 @@ Function name(parameters)
 EndFunction
 ```
 
-## `funcLocal`
+## `func-p`
+
+Defines a new function with the prefix `p_`:
+
+```
+Function p_name(parameters)
+
+EndFunction
+```
+
+## `func-local` / `funcLocal`
 
 Defines a new local function:
 
@@ -109,7 +174,17 @@ Local Function name(parameters)
 EndFunction
 ```
 
-## `funcSelf`
+## `func-local-p` / `funcLocal-p`
+
+Defines a new local function with the prefix `p_`:
+
+```
+Local Function p_name(parameters)
+
+EndFunction
+```
+
+## `func-self` / `funcSelf`
 
 Defines a new self function:
 
@@ -119,7 +194,7 @@ Function self.name(parameters)
 EndFunction
 ```
 
-## `dps`
+## `debug-string` / `dps`
 
 Prints a string to the debug console:
 
@@ -127,7 +202,7 @@ Prints a string to the debug console:
 DebugPrint("string")
 ```
 
-## `dpv`
+## `debug-var` / `dpv`
 
 Prints a variable to the debug console:
 

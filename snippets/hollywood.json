@@ -1,33 +1,43 @@
 {
     "debugPrint_string": {
-        "prefix": "dps",
+        "prefix": ["debug-string", "dps"],
         "body": "DebugPrint(\"${1:string}\")",
-        "description": "Prints a string to the debug console"
+        "description": "Prints a string to the debug console."
     },
     "debugPrint_variable": {
-        "prefix": "dpv",
+        "prefix": ["debug-var", "dpv"],
         "body": "DebugPrint(\"${1:variable}\", ${1:variable})",
-        "description": "Prints a variable to the debug console"
+        "description": "Prints a variable to the debug console."
     },
     "repeat": {
-        "prefix": "repfo",
+        "prefix": ["repeat-forever", "repfo"],
         "body": "Repeat\n\tWaitEvent\nForever",
-        "description": "Inserts the Repeat-WaitEvent-Forever Loop"
+        "description": "Inserts the Repeat-WaitEvent-Forever Loop."
     },
     "function": {
         "prefix": "func",
-        "body": "Function ${1:name}(${2:parameters})\n\t${3}\nEndFunction",
-        "description": "Defines a new function"
+        "body": "Function ${1:name}(${2:parameters})\n\t${0}\nEndFunction",
+        "description": "Defines a new function."
+    },
+    "functionP": {
+        "prefix": "func-p",
+        "body": "Function p_${1:name}(${2:parameters})\n\t${0}\nEndFunction",
+        "description": "Defines a new function with a prefix."
     },
     "functionLocal": {
-        "prefix": "funcLocal",
-        "body": "Local Function ${1:name}(${2:parameters})\n\t${3}\nEndFunction",
-        "description": "Defines a new local function"
+        "prefix": ["func-local", "funcLocal"],
+        "body": "Local Function ${1:name}(${2:parameters})\n\t${0}\nEndFunction",
+        "description": "Defines a new local function."
+    },
+    "functionLocalP": {
+        "prefix": ["func-local-p", "funcLocal-p"],
+        "body": "Local Function p_${1:name}(${2:parameters})\n\t${0}\nEndFunction",
+        "description": "Defines a new local function with a prefix."
     },
     "functionSelf": {
-        "prefix": "funcSelf",
-        "body": "Function self.${1:name}(${2:parameters})\n\t${3}\nEndFunction",
-        "description": "Defines a new self function"
+        "prefix": ["func-self", "funcSelf"],
+        "body": "Function self.${1:name}(${2:parameters})\n\t${0}\nEndFunction",
+        "description": "Defines a new self function."
     },
     "appIconPath": {
         "prefix": "app-icon-path",
@@ -43,5 +53,40 @@
         "prefix": "app-icon-table-selected",
         "body": "@APPICON {\n\tIc16x16 = \"${1:pathToIcon}16x16.${3:png}\",\n\tIc16x16s = \"${1:pathToIcon}16x16s.${3:png}\",\n\tIc24x24 = \"${1:pathToIcon}24x24.${3:png}\",\n\tIc24x24s = \"${1:pathToIcon}24x24s.${3:png}\",\n\tIc32x32 = \"${1:pathToIcon}32x32.${3:png}\",\n\tIc32x32s = \"${1:pathToIcon}32x32s.${3:png}\",\n\tIc48x48 = \"${1:pathToIcon}48x48.${3:png}\",\n\tIc48x48s = \"${1:pathToIcon}48x48s.${3:png}\",\n\tIc64x64 = \"${1:pathToIcon}64x64.${3:png}\",\n\tIc64x64s = \"${1:pathToIcon}64x64s.${3:png}\",\n\tIc96x96 = \"${1:pathToIcon}96x96.${3:png}\",\n\tIc96x96s = \"${1:pathToIcon}96x96s.${3:png}\",\n\tIc128x128 = \"${1:pathToIcon}128x128.${3:png}\",\n\tIc128x128s = \"${1:pathToIcon}128x128s.${3:png}\",\n\tIc256x256 = \"${1:pathToIcon}256x256.${3:png}\",\n\tIc256x256s = \"${1:pathToIcon}256x256s.${3:png}\",\n\tIc512x512 = \"${1:pathToIcon}512x512.${3:png}\",\n\tIc512x512s = \"${1:pathToIcon}512x512s.${3:png}\",\n\tIc1024x1024 = \"${1:pathToIcon}1024x1024.${3:png}\",\n\tIc1024x1024s = \"${1:pathToIcon}1024x1024s.${3:png}\",\n\tDefaultIcon = \"${2|16x16,24x24,32x32,48x48,64x64,96x96,128x128,256x256,512x512,1024x1024|}\"\n}",
         "description": "Declare an application icon by a table which also contains icons for the selected state (Amiga-only)."
+    },
+    "switch": {
+        "prefix": "switch",
+        "body": [
+            "Switch ${1:expression}",
+            "\tCase ${2:value}:",
+            "\t\t${0}",
+            "EndSwitch"
+        ],
+        "description": "Create a Switch-Case-Statement."
+    },
+    "switch-default": {
+        "prefix": "switch-default",
+        "body": [
+            "Switch ${1:expression}",
+            "\tCase ${2:value}:",
+            "\t\t${3}",
+            "\tDefault:",
+            "\t\t${0}",
+            "EndSwitch"
+        ],
+        "description": "Create a Switch-Case-Statement with a Default block."
+    },
+    "switch-fallthrough": {
+        "prefix": "switch-fallthrough",
+        "body": [
+            "Switch ${1:expression} FallThrough",
+            "\tCase ${2:value}:",
+            "\t\t${3}",
+            "\t\tBreak",
+            "\tDefault:",
+            "\t\t${0}",
+            "EndSwitch"
+        ],
+        "description": "Create a Switch-Case-Statement with a Default block and FallThrough statement."
     }
 }

@@ -4,6 +4,19 @@ All notable changes to the "hw4vsc" extension will be documented in this file.
 
 ## [Unreleased]
 
+## [8.0.3] - 2020-06-01
+
+### Added
+
+- Added 3 snippets for creating Switch-Case-statements (`switch`, `switch-default`, `switch-fallthrough`)
+- Added 2 snippet for defining a function with a prefix (`func-p`, `func-local-p`)
+- Added additional snippet prefixes / trigger words for the following snippets (the previous prefixes are still valid):
+  - `debug-string` for debug printing a string
+  - `debug-var` for debug printing a variable
+  - `repeat-forever` for a Repeat-Forever-loop
+  - `func-local` for defining a local function
+  - `func-self` for defining a self function
+
 ## [8.0.2] - 2020-05-14
 
 ### Added

@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 
 export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 
+    private singeLineComment = /^((?:\s*)(;)(?:\s*))/;
     private functionsArray;
 
     public provideDocumentSymbols(
@@ -17,42 +18,41 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
             // scan the document for functions
             this.getFunctions(0, document);
 
-            this.functionsArray.forEach((functionDef) => {
+            this.functionsArray.forEach((functionDefinition) => {
                 symbols.push({
                     containerName: '',
                     kind: vscode.SymbolKind.Function,
-                    name: functionDef.name,
+                    name: functionDefinition.name,
                     location: new vscode.Location(
                         document.uri,
                         new vscode.Range(
-                            new vscode.Position(functionDef.startLine, 0), // TODO: character position!?
-                            new vscode.Position(functionDef.endLine, 0) // TODO: character position!?
+                            new vscode.Position(functionDefinition.startLine, functionDefinition.startLinePosition),
+                            new vscode.Position(functionDefinition.endLine, functionDefinition.endLinePosition)
                         )
                     )
                 });
             });
 
-            const singeLineComment = /^((?:\s*)(;)(?:\s*))/;
-            // const variableRE = /\b(_|[a-zA-Z])(\w|!|\$)*(?=[ \t]*\=)/g; // Test (?<=(Local|Global)[ \t]*)\b(_|[a-zA-Z])(\w|!|\$)*(?=[ \t]*\=)  --> finds all Global ttt = 3 and Local ttt = 3
-            const variableRE = /(?<=(Local|Global)[ \t]*)(?!(Function))\b(_|[a-zA-Z])(\w|!|\$)*((?=[ \t]*\=))*/gi; // finds all Global ttt, Global ttt = 3, Local ttt and Local ttt = 3
+            const variableRE = /(?<=(Local|Global)[ \t]*)(?!(Function))\b(_|[a-zA-Z])(\w|!|\$)*((?=[ \t]*\=))*/i; // finds all Global ttt, Global ttt = 3, Local ttt and Local ttt = 3
 
-            for (var i = 0; i < document.lineCount; i++) {
-                var line = document.lineAt(i);
+            for (var lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
+                var line = document.lineAt(lineNumber);
 
                 console.log("line for VarDetect", line);
-                const commented = singeLineComment.test(line.text);
+                const commented = this.singeLineComment.test(line.text);
                 if (commented) {
                     continue;
                 }
+
                 // FIXME: find simple variable decl without Local and Global (those are automatically Global) -> just remember the declaration, not all usages, so work with an array and check wether we already got it!?
 
-                // let variableName = line.text.match(variableRE); // finds exactely the match, in this case the variable name
                 let variableLinePos = line.text.search(variableRE); // finds the position of the first character math of the regex
                 // if (variableName) {
                 if (variableLinePos >= 0) {
 
-                    let variableNames = [];
+                    let variableNames: string[] = [];
 
+                    // Try to find comma separated var definitions
                     let lineText = line.text.slice(variableLinePos); // cut the beginning like Local or Global
                     const tempSplit = lineText.split('='); // try to split at '=' if this is variable initialisation
                     if (tempSplit.length) {
@@ -60,16 +60,20 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
                         variableNames = tempSplit[0].trim().split(/\s*(?:,|$)\s*/); // all variables are at first array index; trim value to get rid of false empty values after the last split which splits at comma and ignores all whitespaces around the commas
                     }
 
-                    console.log("line.range.start", line.range.start)
-                    console.log("line.range.end", line.range.end)
-                    console.log("line.range.isSingleLine", line.range.isSingleLine)
+                    for (let name of variableNames) {
+                        const startLinePosition = line.text.indexOf(name);
 
-                    for (let i = 0; i < variableNames.length; i++) {
                         symbols.push({
-                            name: variableNames[i],
+                            containerName: '',
+                            name: name,
                             kind: vscode.SymbolKind.Variable,
-                            location: new vscode.Location(document.uri, line.range),
-                            containerName: ''
+                            location: new vscode.Location(
+                                document.uri,
+                                new vscode.Range(
+                                    new vscode.Position(lineNumber, startLinePosition),
+                                    new vscode.Position(lineNumber, startLinePosition + name.length)
+                                )
+                            )
                         })
                     }
                 }
@@ -80,8 +84,7 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
     }
 
     private getFunctions(startLineNumnber: number, document: vscode.TextDocument) {
-        const singeLineComment = /^((?:\s*)(;)(?:\s*))/;
-        // const functionRE = /(?<=(\bFunction)[ \t]+)(_|[a-zA-Z\d.])*/i;
+
         const functionRE = /\b((Local|Global)(?:\s+))?(Function)(?:\s+([a-zA-Z_.:]+[.:])?([a-zA-Z_]\w*)\s*)?(\()([^)]*)(\))/i;
         const inlineFunctonRE = /\b((Local|Global)(\s+))?(?:([a-zA-Z_.:]+[.:])?([a-zA-Z_]\w*)\s*)?(?:\s*=\s*)(Function)(?:\s*)(\()([^)]*)(\))/i;
         const endFunctionRE = /\bEndFunction\b/i;
@@ -90,7 +93,7 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
             let line = document.lineAt(lineNumber);
 
             console.log("line", line);
-            const commented = singeLineComment.test(line.text);
+            const commented = this.singeLineComment.test(line.text);
             if (commented) {
                 continue;
             }
@@ -106,6 +109,14 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
                 const startLineNumber = lineNumber;
                 let endLineNumber = lineNumber;
 
+                // Get the position of the function name to create the proper Range object later for the function definition.
+                // FIXME: This only works correctly für "Function as Variable", but the position should also include
+                // "Local Function " and not just the following function name
+                const startLinePosition = line.text.indexOf(functionName);
+
+                // If the function is defined on one line the end position is the end of the line
+                let endLinePosition = line.text.length;
+
                 // Try to find out whether the whole function is defined on one line
                 // example: Local Function test() Local t = 1 DebugPrint(t) EndFunction
                 if (new RegExp(endFunctionRE).test(line.text) === false) { // the function end is NOT on the same line, ...
@@ -117,13 +128,18 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
                     // functions between the original lineNumber and endLineNumber, so we skip those lines for
                     // the further scanning process
                     lineNumber = endLineNumber;
+
+                    // The end position on the line for proper Range creation is the the of the line of the last line of the function (FunctionEnd)
+                    endLinePosition = document.lineAt(endLineNumber).text.length;
                 }
 
                 this.functionsArray.push(
                     {
                         name: functionName,
                         startLine: startLineNumber,
-                        endLine: endLineNumber
+                        startLinePosition: startLinePosition,
+                        endLine: endLineNumber,
+                        endLinePosition: endLinePosition
                     }
                 );
 

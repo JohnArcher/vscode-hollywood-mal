@@ -4,6 +4,33 @@
     "fileTypes": [".hws"],
     "patterns": [
         {
+            "captures": {
+                "2": {
+                    "name": "keyword.control.hollywood"
+                },
+                "3": {
+                    "name": "storage.type.function.hollywood"
+                },
+                "4": {
+                    "name": "entity.name.function.scope.hollywood"
+                },
+                "5": {
+                    "name": "entity.name.function.hollywood"
+                },
+                "6": {
+                    "name": "punctuation.definition.parameters.begin.hollywood"
+                },
+                "7": {
+                    "name": "variable.parameter.function.hollywood"
+                },
+                "8": {
+                    "name": "punctuation.definition.parameters.end.hollywood"
+                }
+            },
+            "match": "\\b((Local|Global)(?:\\s+))?(Function)(?:\\s+([a-zA-Z_.:]+[.:])?([a-zA-Z_]\\w*)\\s*)?(\\()([^)]*)(\\))",
+            "name": "meta.function.hollywood"
+        },
+        {
             "include": "#keywords"
         },
         {
@@ -36,6 +63,7 @@
         {
             "include": "#variable"
         },
+
         {
             "match": "(?<![^.]\\.|:)\\b(self)\\b",
             "name": "variable.language.self.hollwood"
@@ -86,7 +114,7 @@
             "patterns": [
                 {
                     "name": "keyword.control.hollywood",
-                    "match": "\\b(If|While|For|Forever|Return|Break|Case|Continue|Default|Do|Else|ElseIf|EndIf|EndSwitch|FallThrough|Next|Repeat|Step|Switch|Then|To|Until|Wend|Block|EndBlock)\\b"
+                    "match": "\\b(If|While|For|Forever|Return|Break|Case|Continue|Default|Do|Else|ElseIf|EndIf|EndSwitch|FallThrough|Next|Repeat|Step|Switch|Then|To|Until|Wend|Block|EndBlock|Dim|DimStr|Global|Local|Const)\\b"
                 },
                 {
                     "name": "keyword.operator.hollywood",
@@ -96,15 +124,11 @@
         },
         "types": {
             "patterns": [
-            {
-                "name": "entity.name.function.hollywood",
-                "match": "\\b(Function|EndFunction)\\b"
-            },
-            {
-                "name": "storage.modifier.hollywood",
-                "match": "\\b(Global|Local|Const|Dim|DimStr)\\b"
-            }
-        ]
+                {
+                    "name": "storage.type.function.hollywood",
+                    "match": "\\b(Function|EndFunction)\\b"
+                }
+            ]
         },
         "preproc": {
             "patterns": [

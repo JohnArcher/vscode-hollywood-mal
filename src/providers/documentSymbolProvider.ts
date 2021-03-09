@@ -22,7 +22,6 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
                 symbols.push(
                     this.createSymbolInformation(vscode.SymbolKind.Function, functionDefinition.name, document.uri, functionDefinition.startLine, functionDefinition.startLinePosition, functionDefinition.endLine, functionDefinition.endLinePosition)
                 );
-                });
             });
 
             const variableRE = /(?<=(Local|Global)[ \t]*)(?!(Function))\b(_|[a-zA-Z])(\w|!|\$)*((?=[ \t]*\=))*/i; // finds all Global ttt, Global ttt = 3, Local ttt and Local ttt = 3
@@ -71,8 +70,8 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
                         symbols.push(
                             this.createSymbolInformation(vscode.SymbolKind.Constant, constantName, document.uri, lineNumber, startLinePosition, lineNumber, endLinePosition)
                         );
+                    }
                 }
-            }
             }
 
             resolve(symbols);
@@ -98,7 +97,6 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
             // If the first regex is undefined at index 5 look if the second is defined there.
             const functionName = functionRE.exec(line.text)?.[5] || inlineFunctonRE.exec(line.text)?.[5];
 
-            // if (posFunc >= 0) {
             // found the regex which means the beginning of the function
             if (functionName) {
 
@@ -115,7 +113,7 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
 
                 // Try to find out whether the whole function is defined on one line
                 // example: Local Function test() Local t = 1 DebugPrint(t) EndFunction
-                if (new RegExp(endFunctionRE).test(line.text) === false) { // the function end is NOT on the same line, ...
+                if (endFunctionRE.test(line.text) === false) { // the function end is NOT on the same line, ...
 
                     // ... so do the recursive call to try to get the next function definition
                     endLineNumber = this.getFunctions(lineNumber + 1, document);
@@ -139,12 +137,8 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
                     }
                 );
 
-            } else {
-
-                // TODO: umstellen auf .test() wie oben!? Ist vermutlich schneller und performanter
-                let endFunctionBlock = line.text.match(endFunctionRE);
-
-                if (endFunctionBlock) {
+            } else { // if it is not the beginning of a function, test whether it is the end of the function definition
+                if (endFunctionRE.test(line.text)) {
 
                     return lineNumber;
                 }

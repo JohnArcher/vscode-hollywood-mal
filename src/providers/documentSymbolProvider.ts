@@ -3,7 +3,7 @@ import * as vscode from 'vscode';
 export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 
     private singeLineComment = /^((?:\s*)(;)(?:\s*))/;
-    private functionsArray;
+    private functionsArray; // TODO: try to make it a local array
 
     public provideDocumentSymbols(
         document: vscode.TextDocument,
@@ -19,21 +19,14 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
             this.getFunctions(0, document);
 
             this.functionsArray.forEach((functionDefinition) => {
-                symbols.push({
-                    containerName: '',
-                    kind: vscode.SymbolKind.Function,
-                    name: functionDefinition.name,
-                    location: new vscode.Location(
-                        document.uri,
-                        new vscode.Range(
-                            new vscode.Position(functionDefinition.startLine, functionDefinition.startLinePosition),
-                            new vscode.Position(functionDefinition.endLine, functionDefinition.endLinePosition)
-                        )
-                    )
+                symbols.push(
+                    this.createSymbolInformation(vscode.SymbolKind.Function, functionDefinition.name, document.uri, functionDefinition.startLine, functionDefinition.startLinePosition, functionDefinition.endLine, functionDefinition.endLinePosition)
+                );
                 });
             });
 
             const variableRE = /(?<=(Local|Global)[ \t]*)(?!(Function))\b(_|[a-zA-Z])(\w|!|\$)*((?=[ \t]*\=))*/i; // finds all Global ttt, Global ttt = 3, Local ttt and Local ttt = 3
+            const constantsRE = /\b((Const)(?:\s+))(#\S*)/i;
 
             for (var lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
                 var line = document.lineAt(lineNumber);
@@ -46,7 +39,7 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
 
                 // FIXME: find simple variable decl without Local and Global (those are automatically Global) -> just remember the declaration, not all usages, so work with an array and check wether we already got it!?
 
-                let variableLinePos = line.text.search(variableRE); // finds the position of the first character math of the regex
+                let variableLinePos = line.text.search(variableRE); // finds the position of the first character match of the regex
                 // if (variableName) {
                 if (variableLinePos >= 0) {
 
@@ -62,21 +55,24 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
 
                     for (let name of variableNames) {
                         const startLinePosition = line.text.indexOf(name);
+                        const endLinePosition = startLinePosition + name.length;
 
-                        symbols.push({
-                            containerName: '',
-                            name: name,
-                            kind: vscode.SymbolKind.Variable,
-                            location: new vscode.Location(
-                                document.uri,
-                                new vscode.Range(
-                                    new vscode.Position(lineNumber, startLinePosition),
-                                    new vscode.Position(lineNumber, startLinePosition + name.length)
-                                )
-                            )
-                        })
+                        symbols.push(
+                            this.createSymbolInformation(vscode.SymbolKind.Variable, name, document.uri, lineNumber, startLinePosition, lineNumber, endLinePosition)
+                        );
                     }
+                } else {
+                    const constantName = constantsRE.exec(line.text)?.[3];
+
+                    if (constantName) {
+                        const startLinePosition = line.text.indexOf(constantName);
+                        const endLinePosition = startLinePosition + constantName.length;
+
+                        symbols.push(
+                            this.createSymbolInformation(vscode.SymbolKind.Constant, constantName, document.uri, lineNumber, startLinePosition, lineNumber, endLinePosition)
+                        );
                 }
+            }
             }
 
             resolve(symbols);
@@ -154,5 +150,32 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
                 }
             }
         }
+    }
+
+    /**
+     * Creates the structure for the SymbolInformation.
+     *
+     * @param kind
+     * @param name
+     * @param documentUri
+     * @param startLine
+     * @param startLinePosition
+     * @param endLine
+     * @param endLinePosition
+     * @returns
+     */
+    private createSymbolInformation(kind: vscode.SymbolKind, name: string, documentUri: vscode.Uri, startLine: number, startLinePosition: number, endLine: number, endLinePosition: number): vscode.SymbolInformation {
+        return {
+            containerName: '',
+            kind: kind,
+            name: name,
+            location: new vscode.Location(
+                documentUri,
+                new vscode.Range(
+                    new vscode.Position(startLine, startLinePosition),
+                    new vscode.Position(endLine, endLinePosition)
+                )
+            )
+        };
     }
 }

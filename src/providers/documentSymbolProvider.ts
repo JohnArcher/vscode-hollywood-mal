@@ -2,8 +2,8 @@ import * as vscode from 'vscode';
 
 export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 
-    private singeLineComment = /^((?:\s*)(;)(?:\s*))/;
     private functionsArray; // TODO: try to make it a local array
+    private commentedLines: Array<boolean>;
 
     public provideDocumentSymbols(
         document: vscode.TextDocument,
@@ -12,10 +12,14 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
         return new Promise((resolve, reject) => {
 
             const symbols: vscode.SymbolInformation[] = [];
-
             this.functionsArray = []; // muss immer zurückgesetzt werden, da man hier reinkommt, wenn man Dokument wechselt und man sonst die alten Funktionen mit drin hat
 
-            // scan the document for functions
+            this.commentedLines = []; // resest this array for next processing
+
+            // First pass: Find all commented lines
+            this.getCommentedLines(document);
+
+            // Second pass: scan the document for function definitions
             this.getFunctions(0, document);
 
             this.functionsArray.forEach((functionDefinition) => {
@@ -24,15 +28,15 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
                 );
             });
 
+            // Third pass: scan the document for variable and constant definitions
+            // REFACTOR: extract method
             const variableRE = /(?<=(Local|Global)[ \t]*)(?!(Function))\b(_|[a-zA-Z])(\w|!|\$)*((?=[ \t]*\=))*/i; // finds all Global ttt, Global ttt = 3, Local ttt and Local ttt = 3
             const constantsRE = /\b((Const)(?:\s+))(#\S*)/i;
 
             for (var lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
                 var line = document.lineAt(lineNumber);
 
-                console.log("line for VarDetect", line);
-                const commented = this.singeLineComment.test(line.text);
-                if (commented) {
+                if (this.commentedLines[lineNumber]) {
                     continue;
                 }
 
@@ -78,6 +82,51 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
         });
     }
 
+    /**
+     * Finds all lines that are commented by single or multiline comments,
+     * so no symbols will be collected for those commented lines.
+     *
+     * @param document the whole document
+     */
+    private getCommentedLines(document: vscode.TextDocument) {
+
+        const singeLineCommentRE = /^((?:\s*)(;)(?:\s*))/;
+        const mulitLineCommentBeginRE = /^(?:\s*)(\/\*)/; // finds at line beginning: "    /*"
+        const mulitLineCommentEndRE = /\*\//; // finds the first occurence of: "*/"
+        let isInsideMultiLineComment = false; // switch for if we are inside a multiline comment or nor
+
+        for (let lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
+            let line = document.lineAt(lineNumber);
+            let commented = false;
+
+            // if we are inside a multiline comment ...
+            if (isInsideMultiLineComment) {
+                commented = true; // ... the whole line is always commented
+
+                // test, if we hit the end of the multiline comment
+                if (mulitLineCommentEndRE.test(line.text)) {
+                    isInsideMultiLineComment = false; // leave "multiline mode" for the next line
+                }
+            } else {
+
+                // A multiline comment starts on the current line
+                if (mulitLineCommentBeginRE.test(line.text)) {
+                    commented = true;
+
+                    // just if the comment is NOT closed on the same line, we are truely multilined
+                    if (!mulitLineCommentEndRE.test(line.text)) {
+                        isInsideMultiLineComment = true;
+                    }
+                } else {
+                    // if it is not a multiline comment test if we have a single line comment
+                    commented = singeLineCommentRE.test(line.text);
+                }
+            }
+
+            this.commentedLines.push(commented);
+        }
+    }
+
     private getFunctions(startLineNumnber: number, document: vscode.TextDocument) {
 
         const functionRE = /\b((Local|Global)(?:\s+))?(Function)(?:\s+([a-zA-Z_.:]+[.:])?([a-zA-Z_]\w*)\s*)?(\()([^)]*)(\))/i;
@@ -87,9 +136,7 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
         for (let lineNumber = startLineNumnber; lineNumber < document.lineCount; lineNumber++) {
             let line = document.lineAt(lineNumber);
 
-            console.log("line", line);
-            const commented = this.singeLineComment.test(line.text);
-            if (commented) {
+            if (this.commentedLines[lineNumber]) {
                 continue;
             }
 

@@ -13,5 +13,6 @@ export function activate(context: vscode.ExtensionContext) {
     ));
 
     context.subscriptions.push(vscode.languages.registerDefinitionProvider(
-        {language: "hollywood"}, new HollywoodDefinitionProvider() ));
+        {language: "hollywood"}, new HollywoodDefinitionProvider()
+    ));
 }

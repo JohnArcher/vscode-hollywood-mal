@@ -10,7 +10,8 @@ export class HollywoodDefinitionProvider implements vscode.DefinitionProvider {
         Thenable<vscode.Definition>{
             return new Promise((resolve, reject) => {
 
-                const functionRE = /\b((Local|Global)(?:\s+))?(Function)/i;
+                // RegEx for finding normal function (first part) and variable (second part) definitions
+                const functionAndVariablesRE = /\b\b((Local|Global)(?:\s+))?(Function)|\b((Local|Global)(?:\s+))/i;
 
                 const range = document.getWordRangeAtPosition(position);
                 const selectedWord = document.getText(range);
@@ -20,7 +21,7 @@ export class HollywoodDefinitionProvider implements vscode.DefinitionProvider {
                 for (let lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
                     let line = document.lineAt(lineNumber).text;
 
-                    if (line.search(functionRE) > -1) { // test if it is a normal function
+                    if (line.search(functionAndVariablesRE) > -1) { // test if it is a normal function
 
                         /** Create a dynamic regex to find the selected word and its position on the line.
                           * It has to be a regex to find the _exact_ match, otherwise if selectedWord is "myFunc"
@@ -33,7 +34,7 @@ export class HollywoodDefinitionProvider implements vscode.DefinitionProvider {
                                 uri: document.uri,
                                 range: new vscode.Range(
                                     new vscode.Position(lineNumber, functionResult.index), // index is the position of the first character of the matching string (= selectedWord)
-                                    new vscode.Position(lineNumber, document.lineAt(lineNumber).range.end.character)
+                                    new vscode.Position(lineNumber, functionResult.index + selectedWord.length) // document.lineAt(lineNumber).range.end.character
                                 )
                             });
                         }

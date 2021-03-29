@@ -52,8 +52,18 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
                     let lineText = line.text.slice(variableLinePos); // cut the beginning like Local or Global
                     const tempSplit = lineText.split('='); // try to split at '=' if this is variable initialisation
                     if (tempSplit.length) {
+                        let name = tempSplit[0];  // all variables are at first array index
+
+                        // Delete everything that is commented out at the end of the line (either using ; or /*),
+                        // otherwise the structure gets broken.
+                        // Example: Local t9 ;, t10
+                        const pos = name.search(/;|\//);
+                        if (pos >= 0) {
+                            name = name.substring(0, name.indexOf(';'));
+                        }
+
                         // this step makes sure that comma separated variable declarations are found, too.
-                        variableNames = tempSplit[0].trim().split(/\s*(?:,|$)\s*/); // all variables are at first array index; trim value to get rid of false empty values after the last split which splits at comma and ignores all whitespaces around the commas
+                        variableNames = name.trim().split(/\s*(?:,|$)\s*/); // trim value to get rid of false empty values after the last split which splits at comma and ignores all whitespaces around the commas
                     }
 
                     for (let name of variableNames) {

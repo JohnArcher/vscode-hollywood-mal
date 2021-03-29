@@ -131,6 +131,12 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
 
         const functionRE = /\b((Local|Global)(?:\s+))?(Function)(?:\s+([a-zA-Z_.:]+[.:])?([a-zA-Z_]\w*)\s*)?(\()([^)]*)(\))/i;
         const inlineFunctonRE = /\b((Local|Global)(\s+))?(?:([a-zA-Z_.:]+[.:])?([a-zA-Z_]\w*)\s*)?(?:\s*=\s*)(Function)(?:\s*)(\()([^)]*)(\))/i;
+        /**
+         * Anonymous functions have to be ignored here, otherwise they break the structure!
+         * These are functions that are passed to another function as a anonymous parameter
+         * Example: Sort(array, Function(a, b) Return(a < b) EndFunction)
+         */
+        const anonymousFunction = /(?:.*\(.*)Function(?:\s*)(\()([^)]*)(\))(?:.*)EndFunction(?:.*\).*)/i;
         const endFunctionRE = /\bEndFunction\b/i;
 
         for (let lineNumber = startLineNumnber; lineNumber < document.lineCount; lineNumber++) {
@@ -184,9 +190,8 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
                     }
                 );
 
-            } else { // if it is not the beginning of a function, test whether it is the end of the function definition
-                if (endFunctionRE.test(line.text)) {
-
+            } else { // if it is not the beginning of a function, test whether it is the end of the function definition or if it is an anonymous function
+                if (!anonymousFunction.exec(line.text) && endFunctionRE.test(line.text)) {
                     return lineNumber;
                 }
             }

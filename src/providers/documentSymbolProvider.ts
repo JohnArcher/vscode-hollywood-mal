@@ -59,7 +59,7 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
                         // Example: Local t9 ;, t10
                         const pos = name.search(/;|\//);
                         if (pos >= 0) {
-                            name = name.substring(0, name.indexOf(';'));
+                            name = name.substring(0, pos);
                         }
 
                         // this step makes sure that comma separated variable declarations are found, too.

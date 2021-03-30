@@ -52,8 +52,18 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
                     let lineText = line.text.slice(variableLinePos); // cut the beginning like Local or Global
                     const tempSplit = lineText.split('='); // try to split at '=' if this is variable initialisation
                     if (tempSplit.length) {
+                        let name = tempSplit[0];  // all variables are at first array index
+
+                        // Delete everything that is commented out at the end of the line (either using ; or /*),
+                        // otherwise the structure gets broken.
+                        // Example: Local t9 ;, t10
+                        const pos = name.search(/;|\//);
+                        if (pos >= 0) {
+                            name = name.substring(0, pos);
+                        }
+
                         // this step makes sure that comma separated variable declarations are found, too.
-                        variableNames = tempSplit[0].trim().split(/\s*(?:,|$)\s*/); // all variables are at first array index; trim value to get rid of false empty values after the last split which splits at comma and ignores all whitespaces around the commas
+                        variableNames = name.trim().split(/\s*(?:,|$)\s*/); // trim value to get rid of false empty values after the last split which splits at comma and ignores all whitespaces around the commas
                     }
 
                     for (let name of variableNames) {
@@ -129,8 +139,14 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
 
     private getFunctions(startLineNumnber: number, document: vscode.TextDocument) {
 
-        const functionRE = /\b((Local|Global)(?:\s+))?(Function)(?:\s+([a-zA-Z_.:]+[.:])?([a-zA-Z_]\w*)\s*)?(\()([^)]*)(\))/i;
-        const inlineFunctonRE = /\b((Local|Global)(\s+))?(?:([a-zA-Z_.:]+[.:])?([a-zA-Z_]\w*)\s*)?(?:\s*=\s*)(Function)(?:\s*)(\()([^)]*)(\))/i;
+        const functionRE = /\b(?:(Local|Global)(?:\s+))?(?:Function)(?:\s+([a-zA-Z_.:]+[.:])?([a-zA-Z_]\w*)\s*)?(\()([^)]*)(\))/i;
+        const inlineFunctionRE = /\b(?:(Local|Global)(?:\s+))?(?:([a-zA-Z_.:]+[.:])?([a-zA-Z_]\w*)\s*)?(?:\s*=\s*)(?:Function)(?:\s*)(\()([^)]*)(\))/i;
+        /**
+         * Anonymous functions have to be ignored here, otherwise they break the structure!
+         * These are functions that are passed to another function as a anonymous parameter
+         * Example: Sort(array, Function(a, b) Return(a < b) EndFunction)
+         */
+        const anonymousFunction = /(?:.*\(.*)Function(?:\s*)(\()([^)]*)(\))(?:.*)EndFunction(?:.*\).*)/i;
         const endFunctionRE = /\bEndFunction\b/i;
 
         for (let lineNumber = startLineNumnber; lineNumber < document.lineCount; lineNumber++) {
@@ -141,8 +157,8 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
             }
 
             // Try to get the function name in one of the two function regexes.
-            // If the first regex is undefined at index 5 look if the second is defined there.
-            const functionName = functionRE.exec(line.text)?.[5] || inlineFunctonRE.exec(line.text)?.[5];
+            // If the first regex is undefined at index 3 look if the second is defined there.
+            const functionName = functionRE.exec(line.text)?.[3] || inlineFunctionRE.exec(line.text)?.[3];
 
             // found the regex which means the beginning of the function
             if (functionName) {
@@ -184,9 +200,8 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
                     }
                 );
 
-            } else { // if it is not the beginning of a function, test whether it is the end of the function definition
-                if (endFunctionRE.test(line.text)) {
-
+            } else { // if it is not the beginning of a function, test whether it is the end of the function definition or if it is an anonymous function
+                if (!anonymousFunction.exec(line.text) && endFunctionRE.test(line.text)) {
                     return lineNumber;
                 }
             }

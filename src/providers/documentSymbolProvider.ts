@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
 
+import { getCommentedLines } from "../utils";
+
 export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 
     private functionsArray; // TODO: try to make it a local array
@@ -17,7 +19,7 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
             this.commentedLines = []; // resest this array for next processing
 
             // First pass: Find all commented lines
-            this.getCommentedLines(document);
+            this.commentedLines = getCommentedLines(document);
 
             // Second pass: scan the document for function definitions
             this.getFunctions(0, document);
@@ -34,22 +36,23 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
             const constantsRE = /\b(?:Const(?:\s+))(#\S*)/i;
 
             for (var lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
-                var line = document.lineAt(lineNumber);
+                var line = document.lineAt(lineNumber).text;
 
+                // ignore commented lines
                 if (this.commentedLines[lineNumber]) {
                     continue;
                 }
 
                 // FIXME: find simple variable decl without Local and Global (those are automatically Global) -> just remember the declaration, not all usages, so work with an array and check wether we already got it!?
 
-                let variableLinePos = line.text.search(variableRE); // finds the position of the first character match of the regex
+                let variableLinePos = line.search(variableRE); // finds the position of the first character match of the regex
                 // if (variableName) {
                 if (variableLinePos >= 0) {
 
                     let variableNames: string[] = [];
 
                     // Try to find comma separated var definitions
-                    let lineText = line.text.slice(variableLinePos); // cut the beginning like Local or Global
+                    let lineText = line.slice(variableLinePos); // cut the beginning like Local or Global
                     const tempSplit = lineText.split('='); // try to split at '=' if this is variable initialisation
                     if (tempSplit.length) {
                         let name = tempSplit[0];  // all variables are at first array index
@@ -67,7 +70,7 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
                     }
 
                     for (let name of variableNames) {
-                        const startLinePosition = line.text.indexOf(name);
+                        const startLinePosition = line.indexOf(name);
                         const endLinePosition = startLinePosition + name.length;
 
                         symbols.push(
@@ -75,10 +78,10 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
                         );
                     }
                 } else {
-                    const constantName = constantsRE.exec(line.text)?.[1];
+                    const constantName = constantsRE.exec(line)?.[1];
 
                     if (constantName) {
-                        const startLinePosition = line.text.indexOf(constantName);
+                        const startLinePosition = line.indexOf(constantName);
                         const endLinePosition = startLinePosition + constantName.length;
 
                         symbols.push(
@@ -90,51 +93,6 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
 
             resolve(symbols);
         });
-    }
-
-    /**
-     * Finds all lines that are commented by single or multiline comments,
-     * so no symbols will be collected for those commented lines.
-     *
-     * @param document the whole document
-     */
-    private getCommentedLines(document: vscode.TextDocument) {
-
-        const singeLineCommentRE = /^((?:\s*)(;)(?:\s*))/;
-        const mulitLineCommentBeginRE = /^(?:\s*)(\/\*)/; // finds at line beginning: "    /*"
-        const mulitLineCommentEndRE = /\*\//; // finds the first occurence of: "*/"
-        let isInsideMultiLineComment = false; // switch for if we are inside a multiline comment or nor
-
-        for (let lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
-            let line = document.lineAt(lineNumber);
-            let commented = false;
-
-            // if we are inside a multiline comment ...
-            if (isInsideMultiLineComment) {
-                commented = true; // ... the whole line is always commented
-
-                // test, if we hit the end of the multiline comment
-                if (mulitLineCommentEndRE.test(line.text)) {
-                    isInsideMultiLineComment = false; // leave "multiline mode" for the next line
-                }
-            } else {
-
-                // A multiline comment starts on the current line
-                if (mulitLineCommentBeginRE.test(line.text)) {
-                    commented = true;
-
-                    // just if the comment is NOT closed on the same line, we are truely multilined
-                    if (!mulitLineCommentEndRE.test(line.text)) {
-                        isInsideMultiLineComment = true;
-                    }
-                } else {
-                    // if it is not a multiline comment test if we have a single line comment
-                    commented = singeLineCommentRE.test(line.text);
-                }
-            }
-
-            this.commentedLines.push(commented);
-        }
     }
 
     private getFunctions(startLineNumnber: number, document: vscode.TextDocument) {

@@ -30,8 +30,8 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
 
             // Third pass: scan the document for variable and constant definitions
             // REFACTOR: extract method
-            const variableRE = /(?<=(Local|Global)[ \t]*)(?!(Function))\b(_|[a-zA-Z])(\w|!|\$)*((?=[ \t]*\=))*/i; // finds all Global ttt, Global ttt = 3, Local ttt and Local ttt = 3
-            const constantsRE = /\b((Const)(?:\s+))(#\S*)/i;
+            const variableRE = /(?!.*Function)(?<=(Local|Global)[ \t]*)\b(_|[a-zA-Z])(\w|!|\$)*((?=[ \t]*\=))*/i; // finds all Global ttt, Global ttt = 3, Local ttt and Local ttt = 3 but does not match, if the line contains the word Function -> "(?!.*Function)"
+            const constantsRE = /\b(?:Const(?:\s+))(#\S*)/i;
 
             for (var lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
                 var line = document.lineAt(lineNumber);
@@ -65,7 +65,7 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
                         );
                     }
                 } else {
-                    const constantName = constantsRE.exec(line.text)?.[3];
+                    const constantName = constantsRE.exec(line.text)?.[1];
 
                     if (constantName) {
                         const startLinePosition = line.text.indexOf(constantName);

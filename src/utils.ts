@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
 
+import * as RE from './regexConstants';
+
 /**
  * Finds all lines that are commented by single or multiline comments,
  * so no symbols, definitions etc. will be collected for those commented lines.
@@ -47,4 +49,15 @@ export function getCommentedLines(document: vscode.TextDocument): Array<boolean>
     }
 
     return commentedLines;
+}
+
+/**
+ * Cleans lines from multiline comments that are written on one line, so additional variable defintion after the comment can be found
+ *
+ * @example: Local t9 /* t10 *\/, t15
+ * @param line The line to clean.
+ * @returns
+ */
+export function cleanMultiLineComment(line: string): string {
+    return line.replace(RE.multiLineAsOneLineCommentRE, '');
 }

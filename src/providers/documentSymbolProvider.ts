@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-import { getCommentedLines } from "../utils";
+import { getCommentedLines, cleanMultiLineComment } from "../utils";
 
 export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
 
@@ -32,7 +32,7 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
 
             // Third pass: scan the document for variable and constant definitions
             // REFACTOR: extract method
-            const variableRE = /(?!.*Function)(?<=(Local|Global)[ \t]*)\b(_|[a-zA-Z])(\w|!|\$)*((?=[ \t]*\=))*/i; // finds all Global ttt, Global ttt = 3, Local ttt and Local ttt = 3 but does not match, if the line contains the word Function -> "(?!.*Function)"
+            const variableRE = /(?!.*Function)(?<=(Local|Global)[ \t]*)\b(_|[a-zA-Z])(\w|!|\$)*([ \t]*,[ \t]*((_|[a-zA-Z])(\w|!|\$)*)?)*((?=[ \t]*\=))*/i; // don't match, if the line contains the word "Function" anywhere; find "Local t1 = 1" as well as "Local t1, t2 = 1, 2"
             const constantsRE = /\b(?:Const(?:\s+))(#\S*)/i;
 
             for (var lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
@@ -43,39 +43,38 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
                     continue;
                 }
 
+                // Delete multiline comments that are written on one line, so additional variable defintion after the comment are found, too
+                // Example: Local t9 /* t10 */, t15
+                let lineText = cleanMultiLineComment(line);
+
                 // FIXME: find simple variable decl without Local and Global (those are automatically Global) -> just remember the declaration, not all usages, so work with an array and check wether we already got it!?
 
-                let variableLinePos = line.search(variableRE); // finds the position of the first character match of the regex
-                // if (variableName) {
-                if (variableLinePos >= 0) {
+                let tempVariableNames = variableRE.exec(lineText)?.[0];
+
+                if (tempVariableNames) {
 
                     let variableNames: string[] = [];
 
-                    // Try to find comma separated var definitions
-                    let lineText = line.slice(variableLinePos); // cut the beginning like Local or Global
-                    const tempSplit = lineText.split('='); // try to split at '=' if this is variable initialisation
-                    if (tempSplit.length) {
-                        let name = tempSplit[0];  // all variables are at first array index
-
-                        // Delete everything that is commented out at the end of the line (either using ; or /*),
-                        // otherwise the structure gets broken.
-                        // Example: Local t9 ;, t10
-                        const pos = name.search(/;|\//);
-                        if (pos >= 0) {
-                            name = name.substring(0, pos);
-                        }
-
-                        // this step makes sure that comma separated variable declarations are found, too.
-                        variableNames = name.trim().split(/\s*(?:,|$)\s*/); // trim value to get rid of false empty values after the last split which splits at comma and ignores all whitespaces around the commas
+                    // Delete everything that is commented out at the end of the line
+                    // otherwise the structure gets broken.
+                    // Example: Local t9 ;, t10
+                    const pos = tempVariableNames.search(/;/);
+                    if (pos > -1) {
+                        tempVariableNames = tempVariableNames.substring(0, pos);
                     }
 
-                    for (let name of variableNames) {
-                        const startLinePosition = line.indexOf(name);
-                        const endLinePosition = startLinePosition + name.length;
+                    // this step makes sure that comma separated variable declarations are found, too.
+                    variableNames = tempVariableNames.trim().split(/\s*(?:,|$)\s*/); // trim value to get rid of false empty values after the last split which splits at comma and ignores all whitespaces around the commas
 
-                        symbols.push(
-                            this.createSymbolInformation(vscode.SymbolKind.Variable, name, document.uri, lineNumber, startLinePosition, lineNumber, endLinePosition)
-                        );
+                    for (let name of variableNames) {
+                        if (name) {
+                            const startLinePosition = line.indexOf(name);
+                            const endLinePosition = startLinePosition + name.length;
+
+                            symbols.push(
+                                this.createSymbolInformation(vscode.SymbolKind.Variable, name, document.uri, lineNumber, startLinePosition, lineNumber, endLinePosition)
+                            );
+                        }
                     }
                 } else {
                     const constantName = constantsRE.exec(line)?.[1];

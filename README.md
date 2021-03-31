@@ -38,8 +38,11 @@ You can find the Hollywood documentation here: <https://www.hollywood-mal.com/do
     * [Configure Tasks](#configure-tasks)
     * [Run a Task](#run-a-task)
     * [Run a script with F5](#run-a-script-with-f5)
-  * [Code Snippets](#code-snippets)
   * [Dark and Light Theme](#dark-and-light-theme)
+  * [Go to definition](#go-to-definition)
+  * [Document Symbols/Go to Symbol](#document-symbolsgo-to-symbol)
+  * [Code Snippets](#code-snippets)
+  * [Thank you](#thank-you)
   * [Support](#support)
   * [TODOs / Future](#todos--future)
 
@@ -51,6 +54,8 @@ Additionally this extension supports:
 
 * Hollywood specific syntax highlighting including a [Light and Dark Theme](#dark-and-light-theme)
 * Hollywood specific [Code Snippets](#code-snippets)
+* [Go to definition](#go-to-definition) functionallity for variables, constants, and functions
+* [Document Symbols](#document-symbols) for showing your variables, constants, and functions in the Outline and Breadcrump view and for easy code navigation
 * Code indention
 * Code folding
 
@@ -218,10 +223,6 @@ It is important to set the `"args"` parameter exactely like the corresponding ta
 
 `"when": "resourceLangId == hollywood"` ensures that `F5` is just overriden for Hollywood files, so if you additionally code in other languages like JavaScript or TypeScript you don't override the default behaviour for those languages.
 
-## Code Snippets
-
-You can use code snippets to quickly generate code patterns you regularly need, like function definitions, loops and so on. Please have a look at the [Snippets section](snippets.md) for a list of all supported snippets.
-
 ## Dark and Light Theme
 
 ![Dark Theme](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/dark_theme.png)
@@ -243,6 +244,41 @@ There are two ways to **activate or switch** the theme:
    2. Enter `Color Theme`
    3. Pick `Hollywood (Dark)` or `Hollywood (Light)` from the list
 
+## Go to definition
+
+This feature lets you jump to variable, constant, or function definitions/declarations by pressing `F12` when on a proper symbol. This is also possible with `Ctrl+Click` on a symbol.
+
+If you hover over a symbol and press `Ctrl` you see a preview of the declaration.
+
+![Go to definition](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/go_to_definition.gif)
+
+For additonal information see [the official Visual Studio Code documentation](https://code.visualstudio.com/Docs/editor/editingevolved#_go-to-definition)
+
+## Document Symbols/Go to Symbol
+
+All defined/declared document symbols (variables, constants, functions) are shown in the [Outline view](https://code.visualstudio.com/docs/getstarted/userinterface#_outline-view) and [Breadcrump view](https://code.visualstudio.com/Docs/editor/editingevolved#_breadcrumbs) which can also be used for code navigation.
+
+![Outline view](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/outline_view.png)
+
+You can also show a list of all symbols (also for navigating) by `Ctrl+Shift+O` (alternatively: `Ctrl+P` followed by the `@` sign). Then, if you type `:`, the symbols will be grouped.
+
+![Go to symbol](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/go_to_symbol.gif)
+
+For additonal information see [the official Visual Studio Code documentation](https://code.visualstudio.com/Docs/editor/editingevolved#_go-to-symbol)
+
+## Code Snippets
+
+You can use code snippets to quickly generate code patterns you regularly need, like function definitions, loops and so on. Please have a look at the [Snippets section](snippets.md) for a list of all supported snippets.
+
+## Thank you
+
+I would like to thank the following people for their help and support:
+
+* Michael Rupp ([mrupp12bit](https://github.com/mrupp12bit)), creator of the [TAWS - The Amiga Workbench Simulation](https://www.taws.ch/)
+* [midwan](https://github.com/midwan), *root* from a1k.org
+* Andreas Falkenhahn for his support and creating [Hollywood](https://www.hollywood-mal.com)
+* Both of my two AmigaSons for interest and motivation and my wife for understanding and providing free time for my hobby
+
 ## Support
 
 If this extension is helpful to you and you want to support me feel to [buy me a coffee](ko-fi.com/johnarcher) or send a tip [via PayPal](paypal.me/cptjohnarcher).
@@ -251,15 +287,15 @@ If you find a bug and want to see a feature added, please fill an [Issue on the 
 
 ## TODOs / Future
 
-This extension is far from complete or bug free. The overall goalis : Provide nearly the same feature subset as the official Hollywood IDE for Windows and hw4cubic for Amiga.
+This extension is far from complete or bug free. The overall goal is: Provide nearly or the same feature subset as the official Hollywood IDE for Windows and hw4cubic for Amiga.
 
 This includes and adds:
 
-* Code Completion, also for # and @
+* Proper code Completion, also for # and @
+* Find definitions in all opened files/workspace, not just current file
 * more snippets
 * Commands (Contribution point)
 * Menus (Contribution point)
 * Help (press F1 or similar and help file gets loaded with word under cursor)
 * Quick Help
-* Function detection and listing (Strg + P, AltGr + q)
 * ...

@@ -303,7 +303,7 @@
         "valuevariable": {
             "patterns": [
                 {
-                    "name": "variable.other.tablevalue.hollywood",
+                    "name": "variable.other.readwrite.hollywood",
                     "match": "\\b(_|[a-zA-Z])(\\w|!|\\$)*"
                 }
             ]

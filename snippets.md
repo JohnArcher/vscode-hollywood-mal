@@ -145,9 +145,6 @@ Forever
 
 Defines a new function.
 
-![Snippet switch-default](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/snippet-switch-func.gif)
-
-
 ```
 Function name(parameters)
 

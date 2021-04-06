@@ -48,10 +48,10 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
                 let lineText = cleanMultiLineComment(line);
 
                 // FIXME: find simple variable decl without Local and Global (those are automatically Global) -> just remember the declaration, not all usages, so work with an array and check wether we already got it!?
+                const variableREResult = variableRE.exec(lineText);
 
-                let tempVariableNames = variableRE.exec(lineText)?.[0];
-
-                if (tempVariableNames) {
+                if (variableREResult) {
+                    let tempVariableNames = variableREResult[0];
 
                     let variableNames: string[] = [];
 
@@ -71,8 +71,10 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
                             const startLinePosition = line.indexOf(name);
                             const endLinePosition = startLinePosition + name.length;
 
+                            const symbolKind = (variableREResult[1].toLocaleLowerCase() === 'global') ? vscode.SymbolKind.Field : vscode.SymbolKind.Variable;
+
                             symbols.push(
-                                this.createSymbolInformation(vscode.SymbolKind.Variable, name, document.uri, lineNumber, startLinePosition, lineNumber, endLinePosition)
+                                this.createSymbolInformation(symbolKind, name, document.uri, lineNumber, startLinePosition, lineNumber, endLinePosition)
                             );
                         }
                     }

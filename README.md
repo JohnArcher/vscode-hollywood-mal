@@ -258,7 +258,17 @@ For additonal information see [the official Visual Studio Code documentation](ht
 
 All defined/declared document symbols (variables, constants, functions) are shown in the [Outline view](https://code.visualstudio.com/docs/getstarted/userinterface#_outline-view) and [Breadcrump view](https://code.visualstudio.com/Docs/editor/editingevolved#_breadcrumbs) which can also be used for code navigation.
 
+Keep in mind that only variables introduced by `Local` or `Global` are taken into account.
+
 ![Outline view](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/outline_view.png)
+
+Each symbol is represented by its own icon:
+
+![Global variable](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/global_symbol.png)
+
+![Local variable](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/local_symbol.png)
+
+![Function](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/function_symbol.png)
 
 You can also show a list of all symbols (also for navigating) by `Ctrl+Shift+O` (alternatively: `Ctrl+P` followed by the `@` sign). Then, if you type `:`, the symbols will be grouped.
 
@@ -281,9 +291,9 @@ I would like to thank the following people for their help and support:
 
 ## Support
 
-If this extension is helpful to you and you want to support me feel to [buy me a coffee](ko-fi.com/johnarcher) or send a tip [via PayPal](paypal.me/cptjohnarcher).
+If this extension is helpful to you and you want to support me feel free to [buy me a coffee](ko-fi.com/johnarcher) or send a tip [via PayPal](paypal.me/cptjohnarcher).
 
-If you find a bug and want to see a feature added, please fill an [Issue on the GitHub page](https://github.com/JohnArcher/vscode-hollywood-mal/issues). I try my best to improve this extension.
+If you find a bug or want to see a feature added, please fill an [Issue on the GitHub page](https://github.com/JohnArcher/vscode-hollywood-mal/issues). I try my best to improve this extension.
 
 ## TODOs / Future
 

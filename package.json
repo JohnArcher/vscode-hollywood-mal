@@ -2,9 +2,9 @@
     "name": "hollywood-mal",
     "displayName": "Hollywood MAL (hw4vsc)",
     "description": "Adds coding support for Hollywood MAL (Cross-Platform Multimedia Application Layer)",
-    "version": "8.0.3",
+    "version": "8.0.4",
     "engines": {
-        "vscode": "^1.29.0"
+        "vscode": "^1.52.0"
     },
     "publisher": "michaeljurisch",
     "author": {
@@ -23,6 +23,10 @@
         "Multimedia",
         "Games"
     ],
+    "activationEvents": [
+        "onLanguage:hollywood"
+    ],
+    "main": "./out/extension",
     "repository": {
         "type": "git",
         "url": "https://github.com/JohnArcher/vscode-hollywood-mal"
@@ -136,5 +140,18 @@
                 }
             }
         }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -b",
+        "watch": "tsc -b -w"
+    },
+    "devDependencies": {
+        "@types/node": "^12.12.0",
+        "@types/vscode": "^1.52.0",
+        "@typescript-eslint/eslint-plugin": "^3.0.2",
+        "@typescript-eslint/parser": "^3.0.2",
+        "eslint": "^7.1.0",
+        "typescript": "^4.0.2"
     }
 }

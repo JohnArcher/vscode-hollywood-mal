@@ -4,6 +4,8 @@ All notable changes to the "hw4vsc" extension will be documented in this file.
 
 ## [Unreleased]
 
+## [8.0.4] - 2021-04-07
+
 ### Added
 
 - Added Symbol support for displaying variables, constants, and functions in the [Outline view](https://code.visualstudio.com/docs/getstarted/userinterface#_outline-view), [Breadcrumps](https://code.visualstudio.com/Docs/editor/editingevolved#_breadcrumbs), and [Got to Symbol](https://code.visualstudio.com/Docs/editor/editingevolved#_go-to-symbol) (thanks to [mrupp12bit](https://github.com/mrupp12bit))

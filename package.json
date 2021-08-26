@@ -82,7 +82,7 @@
                 "hollywood.exePath": {
                     "type": "string",
                     "default": null,
-                    "markdownDescription": "Path and filename of the Hollywood executable, e.g. `\"C:\\Program Files\\Hollywood\\Hollywood.exe\"` (Windows). **Attention**: If the path contains spaces you have to enclose it in double quotes."
+                    "markdownDescription": "Path and filename of the Hollywood executable, e.g. `\"C:\\Program Files\\Hollywood\\Hollywood_Console.exe\"` (Windows). **Attention**: If the path contains spaces you have to enclose it in double quotes."
                 },
                 "hollywood.outputExeType": {
                     "type": "string",

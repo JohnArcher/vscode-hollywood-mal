@@ -7,7 +7,10 @@
             "label": "Run Hollywood Main script",
             "type": "shell",
             "command": "${config:hollywood.exePath}",
-            "args": ["${config:hollywood.mainFile}"]
+            "args": [
+                "${config:hollywood.mainFile}",
+                "-printerror"
+            ]
         },
         {
             "label": "Run Hollywood Main script (nodebug)",
@@ -38,7 +41,10 @@
             "label": "Run the currently opened Hollywood script",
             "type": "shell",
             "command": "${config:hollywood.exePath}",
-            "args": ["${file}"]
+            "args": [
+                "${file}",
+                "-printerror"
+            ]
         },
         {
             "label": "Compile the currently opened Hollywood file to multiple targets ",

@@ -2,7 +2,11 @@
 
 All notable changes to the "hw4vsc" extension will be documented in this file.
 
-## [Unreleased]
+## [9.0.0 - Unreleased]
+
+### Added
+
+- Added new Hollywood keywords (commands, constants, preprocessors)
 
 ## [8.0.4] - 2021-04-07
 

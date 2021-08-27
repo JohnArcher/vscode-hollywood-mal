@@ -2,7 +2,7 @@
 
 **DISCLAIMER:** This is not an official product by Airsoft Softwair.
 
-This extension adds support for [Hollywood](https://www.hollywood-mal.com) **version 8** to Visual Studio Code (Windows, macOS, Linux). Hollywood is a multimedia-oriented programming language designed to create applications and games and is available for AmigaOS, Windows, macOS, and Linux. Hollywood (and therefore this extension) is capable of compiling to the following target plattforms:
+This extension adds support for [Hollywood](https://www.hollywood-mal.com) **version 9** to Visual Studio Code (Windows, macOS, Linux). Hollywood is a multimedia-oriented programming language designed to create applications and games and is available for AmigaOS, Windows, macOS, and Linux. Hollywood (and therefore this extension) is capable of compiling to the following target plattforms:
 
 * AmigaOS
 * Android
@@ -72,7 +72,7 @@ Alternatively you can use this direct link: <https://marketplace.visualstudio.co
 or
 
 1. Download the latest release in the form of a `.vsix` file in this extensions [GitHub releases tab](https://github.com/JohnArcher/vscode-hollywood-mal/releases)
-2. Open a command prompt (like cmd or PowerShell on Windows), navigate to the downloaded extension and enter `code --install-extension hollywood-mal-8.0.0.vsix`, where `hollywood-mal-8.0.0.vsix` has to be the name of the downloaded file.
+2. Open a command prompt (like cmd or PowerShell on Windows), navigate to the downloaded extension and enter `code --install-extension hollywood-mal-9.0.0.vsix`, where `hollywood-mal-9.0.0.vsix` has to be the name of the downloaded file.
 
 or
 
@@ -98,17 +98,19 @@ For a detailed description, please consult the docs  [User and Workspace setting
 
 Setting: `hollywood.exePath`
 
+In order to run and compile your Hollywood scripts you have to define the location of the Hollywood main program  on your computer. Although you could use the standard `Hollywood.exe` it makes more sense to use `Hollywood_Console.exe` which resists in the same folder. In the context of this extension the advantage of the Console version is that output like debug statements (`DebugPrint()`) or error messages (with console argument `-printerror`, see [the tasks.json example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/exampleFiles/tasks.json)) are send to the **Terminal panel** of Visual Studio Code - which increases the integrated experience - and not opened in a separate window or modal dialog.
+
 Normally this should be a **User** Setting (and not a Workspace Setting), so the executeable is defined globally for all your Hollywood projects.
 
 ![Configuration of hollywood.exePath in Settings](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/configuration_exepath.png)
 
-Example *settings.json*: `"hollywood.exePath": "C:\\Program Files\\Hollywood\\Hollywood.exe"`
+Example *settings.json*: `"hollywood.exePath": "C:\\Program Files\\Hollywood\\Hollywood_Console.exe"`
 
 ### Define main file
 
 Setting: `hollywood.mainFile`
 
-Whether your Hollywood project consists of one or more files, you should define the main Hollwood file of your project. This will help you compiling and running your project via Tasks (see below).
+Whether your Hollywood project consists of one or more files, you should define the main Hollywood file of your project. This will help you compiling and running your project via Tasks (see below).
 
 This is a setting that should be defined as a Workspace Setting (so create a Worspace first if you haven't down it yet (`File` -> `Save Workspace as ...`)).
 
@@ -160,11 +162,11 @@ A minimal task confguration consists of 4 or 5 properties.
 2. `"type"`: Defines whether the task is run as a process or as a command inside a shell. Normally you set it to `"shell"`.
 3. `"group"`: Defines to which execution group this task belongs. This is *optional*, but if you want to define a standard task (like building or running your project) which is easily accessable by pressing `Ctrl+Shift+B` you have to define such a group (see [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/exampleFiles/tasks.json)).
 4. `"command"`: This is the actual command that is executed. Normally you will only use the configured path to the Hollywood executeable here, which is `${config:hollywood.exePath}` ([see here](#path-to-hollywood-executeable)).
-5. `"args"`: This is an array which contains arguments passed to the command when the task is invoked. Besides several **inbuilt Visual Studio Code variables** like `${workspaceFolder}`, `${file}` and `${fileBasenameNoExtension}` and [Hollywood's command line arguments](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage.html) you can use the following **extension specific variables**:
+5. `"args"`: This is an array which contains arguments passed to the command when the task is invoked. Besides several **inbuilt Visual Studio Code variables** like `${workspaceFolder}`, `${file}` and `${fileBasenameNoExtension}` and [Hollywood's command line arguments](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage.html) (like `-printerror` to print syntax errors into the **Terminal panel**) you can use the following **extension specific variables**:
    1. `${config:hollywood.mainFile}`: The configured [main project file](#define-main-file)
    2. `${config:hollywood.outputExeTypes}`: The configured [standard output exe format](#define-standard-executable-output-format)
 
-*NOTICE*: By default the current working directory is the current workspace root. If you ever need to change this for your task because your source code that has to be compiled is in a different folder you can change the current working directoy through using the `"cwd"` option (see [this link for details](https://code.visualstudio.com/docs/editor/tasks)).
+*NOTICE*: By default the current working directory is the current workspace root. If you ever need to change this for your task because your source code that has to be compiled is in a different folder you can change the current working directoy by using the `"cwd"` option (see [this link for details](https://code.visualstudio.com/docs/editor/tasks)).
 
 This is a complete example of a task definition:
 
@@ -285,13 +287,14 @@ You can use code snippets to quickly generate code patterns you regularly need, 
 I would like to thank the following people for their help and support:
 
 * Michael Rupp ([mrupp12bit](https://github.com/mrupp12bit)), creator of the [TAWS - The Amiga Workbench Simulation](https://www.taws.ch/)
-* [midwan](https://github.com/midwan), *root* from a1k.org
+* [midwan](https://github.com/midwan)
+* *root* from a1k.org
 * Andreas Falkenhahn for his support and creating [Hollywood](https://www.hollywood-mal.com)
 * Both of my two AmigaSons for interest and motivation and my wife for understanding and providing free time for my hobby
 
 ## Support
 
-If this extension is helpful to you and you want to support me feel free to [buy me a coffee](ko-fi.com/johnarcher) or send a tip [via PayPal](paypal.me/cptjohnarcher).
+If this extension is helpful to you and you want to support me feel free to [buy me a coffee](https://ko-fi.com/johnarcher) or send a tip [via PayPal](https://paypal.me/cptjohnarcher).
 
 If you find a bug or want to see a feature added, please fill an [Issue on the GitHub page](https://github.com/JohnArcher/vscode-hollywood-mal/issues). I try my best to improve this extension.
 

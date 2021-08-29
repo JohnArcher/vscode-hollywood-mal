@@ -25,17 +25,17 @@
         "description": "Defines a new function with a prefix."
     },
     "functionLocal": {
-        "prefix": ["func-local", "funcLocal"],
+        "prefix": "func-local",
         "body": "Local Function ${1:name}(${2:parameters})\n\t${0}\nEndFunction",
         "description": "Defines a new local function."
     },
     "functionLocalP": {
-        "prefix": ["func-local-p", "funcLocal-p"],
+        "prefix": "func-local-p",
         "body": "Local Function p_${1:name}(${2:parameters})\n\t${0}\nEndFunction",
         "description": "Defines a new local function with a prefix."
     },
     "functionSelf": {
-        "prefix": ["func-self", "funcSelf"],
+        "prefix": "func-self",
         "body": "Function self.${1:name}(${2:parameters})\n\t${0}\nEndFunction",
         "description": "Defines a new self function."
     },

@@ -2,7 +2,13 @@
 
 All notable changes to the "hw4vsc" extension will be documented in this file.
 
-## [9.0.0 - Unreleased]
+## [9.0.1 - Unreleased]
+
+### Changed
+
+- CamelCase [snippets](snippets.md) prefixes / trigger (like `funcLocal`) words have been droped in favor of only kabab-case style (#15)
+
+## [9.0.0]
 
 ### Added
 

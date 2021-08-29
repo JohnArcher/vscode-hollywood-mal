@@ -2,7 +2,7 @@
 
 This is a list of all Hollywood specific code snippets you can use while developing. Snippets are templates that make it easier to enter repeating code patterns. You can find more information and on how to use [Snippets in Visual Studio Code here](https://code.visualstudio.com/docs/editor/userdefinedsnippets).
 
-When you enter the snippet prefix listed below a popup window is triggered so you can easily add the template text into the current position in you code by pressing Enter or TAB:
+When you enter the snippet prefix listed below a popup window is triggered so you can easily add the template text into the current position in your code by pressing `Enter` or `TAB`:
 
 ![Example of a Hollywood specific snippet](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/dev/media/snippet_example.png)
 
@@ -18,9 +18,9 @@ When you enter the snippet prefix listed below a popup window is triggered so yo
   * [`repeat-forever` / `repfo`](#repeat-forever--repfo)
   * [`func`](#func)
   * [`func-p`](#func-p)
-  * [`func-local` / `funcLocal`](#func-local--funclocal)
-  * [`func-local-p` / `funcLocal-p`](#func-local-p--funclocal-p)
-  * [`func-self` / `funcSelf`](#func-self--funcself)
+  * [`func-local`](#func-local)
+  * [`func-local-p`](#func-local-p)
+  * [`func-self`](#func-self)
   * [`debug-string` / `dps`](#debug-string--dps)
   * [`debug-var` / `dpv`](#debug-var--dpv)
 
@@ -161,7 +161,7 @@ Function p_name(parameters)
 EndFunction
 ```
 
-## `func-local` / `funcLocal`
+## `func-local`
 
 Defines a new local function:
 
@@ -171,7 +171,7 @@ Local Function name(parameters)
 EndFunction
 ```
 
-## `func-local-p` / `funcLocal-p`
+## `func-local-p`
 
 Defines a new local function with the prefix `p_`:
 
@@ -181,7 +181,7 @@ Local Function p_name(parameters)
 EndFunction
 ```
 
-## `func-self` / `funcSelf`
+## `func-self`
 
 Defines a new self function:
 

@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
 
+import * as RE from '../regexConstants';
+
 import { getCommentedLines, cleanMultiLineComment } from "../utils";
 
 export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolProvider {
@@ -13,7 +15,6 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
     ): Thenable<vscode.SymbolInformation[]> {
         return new Promise((resolve, reject) => {
 
-            const symbols: vscode.SymbolInformation[] = [];
             this.functionsArray = []; // muss immer zurückgesetzt werden, da man hier reinkommt, wenn man Dokument wechselt und man sonst die alten Funktionen mit drin hat
 
             this.commentedLines = []; // resest this array for next processing
@@ -21,79 +22,86 @@ export class HollywoodDocumentSymbolProvider implements vscode.DocumentSymbolPro
             // First pass: Find all commented lines
             this.commentedLines = getCommentedLines(document);
 
-            // Second pass: scan the document for function definitions
+             // Second pass: scan the document for function definitions
             this.getFunctions(0, document);
 
-            this.functionsArray.forEach((functionDefinition) => {
-                symbols.push(
-                    this.createSymbolInformation(vscode.SymbolKind.Function, functionDefinition.name, document.uri, functionDefinition.startLine, functionDefinition.startLinePosition, functionDefinition.endLine, functionDefinition.endLinePosition)
-                );
-            });
-
-            // Third pass: scan the document for variable and constant definitions
-            // REFACTOR: extract method
-            const variableRE = /(?!.*Function)(?<=(Local|Global)[ \t]*)\b(_|[a-zA-Z])(\w|!|\$)*([ \t]*,[ \t]*((_|[a-zA-Z])(\w|!|\$)*)?)*((?=[ \t]*\=))*/i; // don't match, if the line contains the word "Function" anywhere; find "Local t1 = 1" as well as "Local t1, t2 = 1, 2"
-            const constantsRE = /\b(?:Const(?:\s+))(#\S*)/i;
-
-            for (var lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
-                var line = document.lineAt(lineNumber).text;
-
-                // ignore commented lines
-                if (this.commentedLines[lineNumber]) {
-                    continue;
-                }
-
-                // Delete multiline comments that are written on one line, so additional variable defintion after the comment are found, too
-                // Example: Local t9 /* t10 */, t15
-                let lineText = cleanMultiLineComment(line);
-
-                // FIXME: find simple variable decl without Local and Global (those are automatically Global) -> just remember the declaration, not all usages, so work with an array and check wether we already got it!?
-                const variableREResult = variableRE.exec(lineText);
-
-                if (variableREResult) {
-                    let tempVariableNames = variableREResult[0];
-
-                    let variableNames: string[] = [];
-
-                    // Delete everything that is commented out at the end of the line
-                    // otherwise the structure gets broken.
-                    // Example: Local t9 ;, t10
-                    const pos = tempVariableNames.search(/;/);
-                    if (pos > -1) {
-                        tempVariableNames = tempVariableNames.substring(0, pos);
-                    }
-
-                    // this step makes sure that comma separated variable declarations are found, too.
-                    variableNames = tempVariableNames.trim().split(/\s*(?:,|$)\s*/); // trim value to get rid of false empty values after the last split which splits at comma and ignores all whitespaces around the commas
-
-                    for (let name of variableNames) {
-                        if (name) {
-                            const startLinePosition = line.indexOf(name);
-                            const endLinePosition = startLinePosition + name.length;
-
-                            const symbolKind = (variableREResult[1].toLocaleLowerCase() === 'global') ? vscode.SymbolKind.Field : vscode.SymbolKind.Variable;
-
-                            symbols.push(
-                                this.createSymbolInformation(symbolKind, name, document.uri, lineNumber, startLinePosition, lineNumber, endLinePosition)
-                            );
-                        }
-                    }
-                } else {
-                    const constantName = constantsRE.exec(line)?.[1];
-
-                    if (constantName) {
-                        const startLinePosition = line.indexOf(constantName);
-                        const endLinePosition = startLinePosition + constantName.length;
-
-                        symbols.push(
-                            this.createSymbolInformation(vscode.SymbolKind.Constant, constantName, document.uri, lineNumber, startLinePosition, lineNumber, endLinePosition)
-                        );
-                    }
-                }
-            }
+            const symbols = this.getSymbols(document);
 
             resolve(symbols);
         });
+    }
+
+    private getSymbols(document: vscode.TextDocument): vscode.SymbolInformation[] {
+        const symbols: vscode.SymbolInformation[] = [];
+
+        this.functionsArray.forEach((functionDefinition) => {
+            symbols.push(
+                this.createSymbolInformation(vscode.SymbolKind.Function, functionDefinition.name, document.uri, functionDefinition.startLine, functionDefinition.startLinePosition, functionDefinition.endLine, functionDefinition.endLinePosition)
+            );
+        });
+
+        // Third pass: scan the document for variable and constant definitions
+        // REFACTOR: extract method
+        const constantsRE = /\b(?:Const(?:\s+))(#\S*)/i;
+
+        for (var lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
+            var line = document.lineAt(lineNumber).text;
+
+            // ignore commented lines
+            if (this.commentedLines[lineNumber]) {
+                continue;
+            }
+
+            // Delete multiline comments that are written on one line, so additional variable defintion after the comment are found, too
+            // Example: Local t9 /* t10 */, t15
+            let lineText = cleanMultiLineComment(line);
+
+            // FIXME: find simple variable decl without Local and Global (those are automatically Global) -> just remember the declaration, not all usages, so work with an array and check wether we already got it!?
+            const variableREResult = RE.variableRE.exec(lineText);
+
+            if (variableREResult) {
+                let tempVariableNames = variableREResult[0];
+
+                let variableNames: string[] = [];
+
+                // Delete everything that is commented out at the end of the line
+                // otherwise the structure gets broken.
+                // Example: Local t9 ;, t10
+                const pos = tempVariableNames.search(/;/);
+                if (pos > -1) {
+                    tempVariableNames = tempVariableNames.substring(0, pos);
+                }
+
+                // this step makes sure that comma separated variable declarations are found, too.
+                variableNames = tempVariableNames.trim().split(/\s*(?:,|$)\s*/); // trim value to get rid of false empty values after the last split which splits at comma and ignores all whitespaces around the commas
+
+                for (let name of variableNames) {
+                    if (name) {
+                        const startLinePosition = line.indexOf(name);
+                        const endLinePosition = startLinePosition + name.length;
+
+                        const symbolKind = (variableREResult[1].toLocaleLowerCase() === 'global') ? vscode.SymbolKind.Field : vscode.SymbolKind.Variable;
+
+                        symbols.push(
+                            this.createSymbolInformation(symbolKind, name, document.uri, lineNumber, startLinePosition, lineNumber, endLinePosition)
+                        );
+                    }
+                }
+            } else {
+                const constantName = constantsRE.exec(line)?.[1];
+
+                if (constantName) {
+                    const startLinePosition = line.indexOf(constantName);
+                    const endLinePosition = startLinePosition + constantName.length;
+
+                    symbols.push(
+                        this.createSymbolInformation(vscode.SymbolKind.Constant, constantName, document.uri, lineNumber, startLinePosition, lineNumber, endLinePosition)
+                    );
+                }
+            }
+        }
+
+        return symbols;
     }
 
     private getFunctions(startLineNumnber: number, document: vscode.TextDocument) {

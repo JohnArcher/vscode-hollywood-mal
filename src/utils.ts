@@ -9,7 +9,6 @@ import * as RE from './regexConstants';
  * @param document the whole document
  */
 export function getCommentedLines(document: vscode.TextDocument): Array<boolean> {
-    console.log('getCommentedLines')
     const commentedLines: Array<boolean> = [];
 
     const singeLineCommentRE = /^((?:\s*)(;)(?:\s*))/;
@@ -52,7 +51,7 @@ export function getCommentedLines(document: vscode.TextDocument): Array<boolean>
 }
 
 /**
- * Cleans lines from multiline comments that are written on one line, so additional variable defintion after the comment can be found
+ * Cleans lines from multiline comments that are written on one line, so additional variable defintions after the comment can be found
  *
  * @example: Local t9 /* t10 *\/, t15
  * @param line The line to clean.
@@ -60,4 +59,15 @@ export function getCommentedLines(document: vscode.TextDocument): Array<boolean>
  */
 export function cleanMultiLineComment(line: string): string {
     return line.replace(RE.multiLineAsOneLineCommentRE, '');
+}
+
+/**
+ * Escapes special regex characters in a string, so that this string can be used in a regex.
+ * @see https://stackoverflow.com/a/6969486/887930
+ *
+ * @param theString String which may contain characters to be escaped
+ * @returns the escaped string
+ */
+ export function escapeRegExp(theString: string): string {
+    return theString.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }

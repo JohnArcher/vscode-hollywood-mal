@@ -2,7 +2,11 @@
 
 All notable changes to the "hw4vsc" extension will be documented in this file.
 
-## [9.1.0]
+## [9.1.0] - *unreleased*
+
+### Added
+
+- [Got to Definition](https://code.visualstudio.com/Docs/editor/editingevolved#_go-to-definition) works with all workspace files now
 
 ### Fixed
 

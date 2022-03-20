@@ -249,6 +249,7 @@ There are two ways to **activate or switch** the theme:
 ## Go to definition
 
 This feature lets you jump to variable, constant, or function definitions/declarations by pressing `F12` when on a proper symbol. This is also possible with `Ctrl+Click` on a symbol.
+If your files are organized in a workspace, all workspace files are used.
 
 If you hover over a symbol and press `Ctrl` you see a preview of the declaration.
 

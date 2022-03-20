@@ -27,19 +27,6 @@ All notable changes to the "hw4vsc" extension will be documented in this file.
 
 - Intellisense does recognize variable names with $ and ! now (#6)
 
-## [8.0.4] - 2021-04-07
-
-### Added
-
-- Added Symbol support for displaying variables, constants, and functions in the [Outline view](https://code.visualstudio.com/docs/getstarted/userinterface#_outline-view), [Breadcrumps](https://code.visualstudio.com/Docs/editor/editingevolved#_breadcrumbs), and [Got to Symbol](https://code.visualstudio.com/Docs/editor/editingevolved#_go-to-symbol) (thanks to [mrupp12bit](https://github.com/mrupp12bit))
-- Added support for [Got to Definition](https://code.visualstudio.com/Docs/editor/editingevolved#_go-to-definition) (thanks to [mrupp12bit](https://github.com/mrupp12bit))
-- Added Syntax Highlighting for MulitLine strings
-- Overall improved Syntax Highlighting
-
-### Changed
-
-- Intellisense does recognize variable names with $ and ! now (#6)
-
 ## [8.0.3] - 2020-06-01
 
 ### Added

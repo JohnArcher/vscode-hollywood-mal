@@ -2,6 +2,12 @@
 
 All notable changes to the "hw4vsc" extension will be documented in this file.
 
+## [9.1.0]
+
+### Fixed
+
+- Fixed wrong coloring of `@ELSEIF` ([#22](https://github.com/JohnArcher/vscode-hollywood-mal/issues/22))
+
 ## [9.0.1]
 
 ### Changed

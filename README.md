@@ -287,7 +287,7 @@ You can use code snippets to quickly generate code patterns you regularly need, 
 
 I would like to thank the following people for their help and support:
 
-* Michael Rupp ([mrupp12bit](https://github.com/mrupp12bit)), creator of the [TAWS - The Amiga Workbench Simulation](https://www.taws.ch/)
+* Michael Rupp ([mrupp12bit](https://github.com/mrupp12bit)), creator of [TAWS - The Amiga Workbench Simulation](https://www.taws.ch/) and [SonosController](http://aminet.net/search?query=SonosController)
 * [midwan](https://github.com/midwan)
 * *root* from a1k.org
 * Andreas Falkenhahn for his support and creating [Hollywood](https://www.hollywood-mal.com)
@@ -305,8 +305,8 @@ This extension is far from complete or bug free. The overall goal is: Provide ne
 
 This includes and adds:
 
-* Proper code Completion, also for # and @
-* Find definitions in all opened files/workspace, not just current file
+* Proper code completion, also for # and @
+* inline help [here](https://code.visualstudio.com/api/language-extensions/programmatic-language-features#help-with-function-and-method-signatures) and [here](https://code.visualstudio.com/api/language-extensions/programmatic-language-features#help-with-function-and-method-signatures)
 * more snippets
 * Commands (Contribution point)
 * Menus (Contribution point)

@@ -2,7 +2,7 @@
 
 **DISCLAIMER:** This is not an official product by Airsoft Softwair.
 
-This extension adds support for [Hollywood](https://www.hollywood-mal.com) **version 9** to Visual Studio Code (Windows, macOS, Linux). Hollywood is a multimedia-oriented programming language designed to create applications and games and is available for AmigaOS, Windows, macOS, and Linux. Hollywood (and therefore this extension) is capable of compiling to the following target plattforms:
+This extension adds support for [Hollywood](https://www.hollywood-mal.com) **version 9.1** to Visual Studio Code (Windows, macOS, Linux). Hollywood is a multimedia-oriented programming language designed to create applications and games and is available for AmigaOS, Windows, macOS, and Linux. Hollywood (and therefore this extension) is capable of compiling to the following target plattforms:
 
 * AmigaOS
 * Android
@@ -22,7 +22,7 @@ More information about Hollywood is available here: <https://www.hollywood-mal.c
 
 You can find the Hollywood documentation here: <https://www.hollywood-mal.com/docs/html/hollywood/>
 
-*NOTICE*: The version number of this plugin correspondes with the version number of Hollywood. Therefore the first release version of this extension was 8.0.1.
+*NOTICE*: The major version number of this plugin correspondes with the major version number of Hollywood. Therefore the first release version of this extension was 8.0.1.
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -72,7 +72,7 @@ Alternatively you can use this direct link: <https://marketplace.visualstudio.co
 or
 
 1. Download the latest release in the form of a `.vsix` file in this extensions [GitHub releases tab](https://github.com/JohnArcher/vscode-hollywood-mal/releases)
-2. Open a command prompt (like cmd or PowerShell on Windows), navigate to the downloaded extension and enter `code --install-extension hollywood-mal-9.0.0.vsix`, where `hollywood-mal-9.0.0.vsix` has to be the name of the downloaded file.
+2. Open a command prompt (like cmd or PowerShell on Windows), navigate to the downloaded extension and enter `code --install-extension hollywood-mal-9.1.1.vsix`, where `hollywood-mal-9.1.1.vsix` has to be the name of the downloaded file.
 
 or
 

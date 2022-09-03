@@ -2,11 +2,11 @@
 
 All notable changes to the "hw4vsc" extension will be documented in this file.
 
-## [9.2.0] - *unreleased*
+## [9.1.1] - *unreleased*
 
-### Changed
+### Added
 
--
+- Added new keywords (commands, constants) for Hollywood 9.1
 
 ## [9.1.0] - 2022-03-20
 

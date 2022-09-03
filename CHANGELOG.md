@@ -2,6 +2,10 @@
 
 All notable changes to the "hw4vsc" extension will be documented in this file.
 
+## [9.2.0] - *unreleased*
+
+### Changed
+
 ## [9.1.1] - 2022-03-09
 
 ### Added

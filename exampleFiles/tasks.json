@@ -30,7 +30,7 @@
                 "-compile",
                 "${fileBasenameNoExtension}",
                 "-exetype",
-                "${config:hollywood.outputExeTypes}"
+                "${config:hollywood.outputExeType}"
             ],
             "group": {
                 "kind": "build",

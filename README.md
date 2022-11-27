@@ -164,7 +164,7 @@ A minimal task confguration consists of 4 or 5 properties.
 4. `"command"`: This is the actual command that is executed. Normally you will only use the configured path to the Hollywood executeable here, which is `${config:hollywood.exePath}` ([see here](#path-to-hollywood-executeable)).
 5. `"args"`: This is an array which contains arguments passed to the command when the task is invoked. Besides several **inbuilt Visual Studio Code variables** like `${workspaceFolder}`, `${file}` and `${fileBasenameNoExtension}` and [Hollywood's command line arguments](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage.html) (like `-printerror` to print syntax errors into the **Terminal panel**) you can use the following **extension specific variables**:
    1. `${config:hollywood.mainFile}`: The configured [main project file](#define-main-file)
-   2. `${config:hollywood.outputExeTypes}`: The configured [standard output exe format](#define-standard-executable-output-format)
+   2. `${config:hollywood.outputExeType}`: The configured [standard output exe format](#define-standard-executable-output-format)
 
 *NOTICE*: By default the current working directory is the current workspace root. If you ever need to change this for your task because your source code that has to be compiled is in a different folder you can change the current working directoy by using the `"cwd"` option (see [this link for details](https://code.visualstudio.com/docs/editor/tasks)).
 
@@ -180,7 +180,7 @@ This is a complete example of a task definition:
          "-compile",
          "${fileBasenameNoExtension}",
          "-exetype",
-         "${config:hollywood.outputExeTypes}"
+         "${config:hollywood.outputExeType}"
    ],
     "group": {
         "kind": "build",

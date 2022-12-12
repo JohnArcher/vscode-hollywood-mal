@@ -55,7 +55,7 @@
                 "-compile",
                 "${fileBasenameNoExtension}",
                 "-exetype",
-                "win64|classic|morphos"
+                "'win64|classic|morphos'"
             ]
         }
     ]

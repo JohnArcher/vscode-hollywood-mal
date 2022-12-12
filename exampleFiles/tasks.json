@@ -30,7 +30,7 @@
                 "-compile",
                 "${fileBasenameNoExtension}",
                 "-exetype",
-                "${config:hollywood.outputExeTypes}"
+                "${config:hollywood.outputExeType}"
             ],
             "group": {
                 "kind": "build",
@@ -55,7 +55,7 @@
                 "-compile",
                 "${fileBasenameNoExtension}",
                 "-exetype",
-                "win64|classic|morphos"
+                "'win64|classic|morphos'"
             ]
         }
     ]

@@ -28,7 +28,7 @@
             "args": [
                 "${config:hollywood.mainFile}",
                 "-compile",
-                "${fileBasenameNoExtension}",
+                "${config:hollywood.mainOutputFile}",
                 "-exetype",
                 "${config:hollywood.outputExeType}"
             ],
@@ -53,7 +53,7 @@
             "args": [
                 "${file}",
                 "-compile",
-                "${fileBasenameNoExtension}",
+                "${config:hollywood.mainOutputFile}",
                 "-exetype",
                 "'win64|classic|morphos'"
             ]

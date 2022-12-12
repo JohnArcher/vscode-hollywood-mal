@@ -4,14 +4,17 @@ All notable changes to the "hw4vsc" extension will be documented in this file.
 
 ## [9.2.0] - *unreleased*
 
-### Changed
+### Added
+
+- New setting `hollywood.mainOutputFile` for defining the the name of the compiled program added. Reason for this is, that the former setting `$fileBasenameNoExtension}` didn't work as idented when a different file than the actual main file was focused/active in Visual Studio Code.
+- Added or updated the corresponding documentation and [tasks.json](https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/exampleFiles/tasks.json)
 
 ## [9.1.2] - 2022-12-12
 
 ### Fixed
 
-- Fixed change to `hollywood.outputExeType` from version 8.0.0 in example file for tasks.json and README.md
-- Fixed multiple extetypes options in example file for tasks.json
+- Fixed change to `hollywood.outputExeType` from version 8.0.0 in example file for [tasks.json](https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/exampleFiles/tasks.json) and README.md
+- Fixed multiple extetypes options in example file for [tasks.json](https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/exampleFiles/tasks.json)
 
 ## [9.1.1] - 2022-09-03
 

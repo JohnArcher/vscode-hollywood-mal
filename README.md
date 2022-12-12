@@ -32,6 +32,7 @@ You can find the Hollywood documentation here: <https://www.hollywood-mal.com/do
   * [Configuration](#configuration)
     * [Path to Hollywood executeable](#path-to-hollywood-executeable)
     * [Define main file](#define-main-file)
+    * [Define main output file](#define-main-output-file)
     * [Define standard executable output format](#define-standard-executable-output-format)
   * [Run and compile](#run-and-compile)
     * [Create Tasks](#create-tasks)
@@ -110,13 +111,25 @@ Example *settings.json*: `"hollywood.exePath": "C:\\Program Files\\Hollywood\\Ho
 
 Setting: `hollywood.mainFile`
 
-Whether your Hollywood project consists of one or more files, you should define the main Hollywood file of your project. This will help you compiling and running your project via Tasks (see below).
+Whether your Hollywood project consists of one or more files, you should define the main Hollywood file of your project. This will help you compiling and running your project via [Tasks](#configure-tasks).
 
-This is a setting that should be defined as a Workspace Setting (so create a Worspace first if you haven't down it yet (`File` -> `Save Workspace as ...`)).
+This is a setting that should be defined as a Workspace Setting (so create a Workspace first if you haven't done yet (`File` -> `Save Workspace as ...`)).
 
 ![Configuration of hollywood.mainFile in Settings](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/configuration_mainfile.png)
 
 Example in *YOUR_PROJECT.code-workspace*: `"hollywood.mainFile": "mainApp.hws"`
+
+### Define main output file
+
+Setting: `hollywood.mainOutputFile`
+
+This settings lets you define the name of the compiled program which is the output of the compiling process. It comes in handy when using [Tasks](#configure-tasks). The setting should not contain a file extension like `.exe` as this is added by the [executable output format](#define-standard-executable-output-format).
+
+This is a setting that should be defined as a Workspace Setting (so create a Workspace first if you haven't done yet (`File` -> `Save Workspace as ...`)).
+
+![Configuration of hollywood.mainOutputFile in Settings](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/configuration_main-output-file.png)
+
+Example in *YOUR_PROJECT.code-workspace*: `"hollywood.mainOutputFile": "mainApp"`
 
 ### Define standard executable output format
 
@@ -162,9 +175,10 @@ A minimal task confguration consists of 4 or 5 properties.
 2. `"type"`: Defines whether the task is run as a process or as a command inside a shell. Normally you set it to `"shell"`.
 3. `"group"`: Defines to which execution group this task belongs. This is *optional*, but if you want to define a standard task (like building or running your project) which is easily accessable by pressing `Ctrl+Shift+B` you have to define such a group (see [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/exampleFiles/tasks.json)).
 4. `"command"`: This is the actual command that is executed. Normally you will only use the configured path to the Hollywood executeable here, which is `${config:hollywood.exePath}` ([see here](#path-to-hollywood-executeable)).
-5. `"args"`: This is an array which contains arguments passed to the command when the task is invoked. Besides several **inbuilt Visual Studio Code variables** like `${workspaceFolder}`, `${file}` and `${fileBasenameNoExtension}` and [Hollywood's command line arguments](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage.html) (like `-printerror` to print syntax errors into the **Terminal panel**) you can use the following **extension specific variables**:
+5. `"args"`: This is an array which contains arguments passed to the command when the task is invoked. Besides several **inbuilt Visual Studio Code variables** like `${workspaceFolder}`, `${file}` and `${fileBasenameNoExtension}` and [Hollywood's command line arguments](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage.html) (like `-printerror` to print syntax errors into the **Terminal panel**) you can use the following **extension specific variables** (see the provided settings under [Configuration](#configuration)):
    1. `${config:hollywood.mainFile}`: The configured [main project file](#define-main-file)
-   2. `${config:hollywood.outputExeType}`: The configured [standard output exe format](#define-standard-executable-output-format)
+   2. `${config:hollywood.mainOutputFile}`: The name of the [compiled program](#define-main-output-file)
+   3. `${config:hollywood.outputExeType}`: The configured [standard output exe format](#define-standard-executable-output-format)
 
 *NOTICE*: By default the current working directory is the current workspace root. If you ever need to change this for your task because your source code that has to be compiled is in a different folder you can change the current working directoy by using the `"cwd"` option (see [this link for details](https://code.visualstudio.com/docs/editor/tasks)).
 
@@ -178,7 +192,7 @@ This is a complete example of a task definition:
     "args": [
          "${config:hollywood.mainFile}",
          "-compile",
-         "${fileBasenameNoExtension}",
+         "${config:hollywood.mainOutputFile}",
          "-exetype",
          "${config:hollywood.outputExeType}"
    ],

@@ -1,157 +1,168 @@
 {
-    "name": "hollywood-mal",
-    "displayName": "Hollywood MAL (hw4vsc)",
-    "description": "Adds coding support for Hollywood MAL (Cross-Platform Multimedia Application Layer)",
-    "version": "9.2.0-SNAPSHOT",
-    "engines": {
-        "vscode": "^1.52.0"
-    },
-    "publisher": "michaeljurisch",
-    "author": {
-        "name": "Michael Jurisch"
-    },
-    "maintainers": [
-        "Michael Jurisch"
-    ],
-    "license": "SEE LICENSE IN LICENSE",
-    "categories": [
-        "Programming Languages"
-    ],
-    "keywords": [
-        "Hollywood",
-        "Amiga",
-        "Multimedia",
-        "Games"
-    ],
-    "activationEvents": [
-        "onLanguage:hollywood"
-    ],
-    "main": "./out/extension",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/JohnArcher/vscode-hollywood-mal"
-    },
-    "bugs": {
-        "url": "https://github.com/JohnArcher/vscode-hollywood-mal/issues"
-    },
-    "homepage": "https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/README.md",
-    "icon": "icon.png",
-    "contributes": {
-        "themes": [
-            {
-                "label": "Hollywood (Light)",
-                "uiTheme": "vs",
-                "path": "./themes/hollywood-light-color-theme.json"
-            },
-            {
-                "label": "Hollywood (Dark)",
-                "uiTheme": "vs-dark",
-                "path": "./themes/hollywood-dark-color-theme.json"
-            }
-        ],
-        "languages": [
-            {
-                "id": "hollywood",
-                "aliases": [
-                    "Hollywood",
-                    "hollywood"
-                ],
-                "extensions": [
-                    ".hws"
-                ],
-                "configuration": "./language-configuration.json"
-            }
-        ],
-        "grammars": [
-            {
-                "language": "hollywood",
-                "scopeName": "source.hollywood",
-                "path": "./syntaxes/hollywood.tmLanguage.json"
-            }
-        ],
-        "snippets": [
-            {
-                "language": "hollywood",
-                "path": "./snippets/hollywood.json"
-            }
-        ],
-        "configuration": {
-            "type": "object",
-            "title": "Hollywood",
-            "properties": {
-                "hollywood.exePath": {
-                    "type": "string",
-                    "default": null,
-                    "markdownDescription": "Path and filename of the Hollywood executable, e.g. `\"C:\\Program Files\\Hollywood\\Hollywood_Console.exe\"` (Windows). **Attention**: If the path contains spaces you have to enclose it in double quotes."
-                },
-                "hollywood.outputExeType": {
-                    "type": "string",
-                    "default": "win32",
-                    "markdownDescription": "The output format that the Hollywood compiler should create. In order to define multiple targets, e.g. `win64|classic|morphos`, you have to create a separate Task in tasks.json (see provided example file).",
-                    "enum": [
-                        "amigaos4",
-                        "android",
-                        "aros",
-                        "classic",
-                        "classic881",
-                        "ios",
-                        "linux",
-                        "linux64",
-                        "linuxarm",
-                        "linuxppc",
-                        "macos",
-                        "macos86",
-                        "macos64",
-                        "morphos",
-                        "warpos",
-                        "win32",
-                        "win64",
-                        "win32console",
-                        "win64console",
-                        "applet"
-                    ],
-                    "enumDescriptions": [
-                        "AmigaOS 4 executable (PowerPC)",
-                        "Hollywood applet which has the platform-specific constants for Android set (see Hollywood documentation)",
-                        "AROS executable (x86)",
-                        "AmigaOS 3.x executable (68020+)",
-                        "AmigaOS 3.x executable (68020+) with math co-processor (68881/2 or 68040/68060)",
-                        "Hollywood applet which has the platform-specific constants for iOS set (see Hollywood documentation).",
-                        "Linux executable (x86)",
-                        "Linux executable (x64)",
-                        "Linux executable (arm)",
-                        "Linux executable (PowerPC)",
-                        "Mac OS X application bundle (PowerPC)",
-                        "Mac OS X application bundle (x86)",
-                        "Mac OS X application bundle (x64)",
-                        "MorphOS executable (PowerPC)",
-                        "WarpOS mixed-binary executable (68040/PowerPC)",
-                        "Windows executable (x86)",
-                        "Windows executable (x64)",
-                        "Windows executable (x86) that runs in console mode",
-                        "Windows executable (x64) that runs in console mode",
-                        "Universal Hollywood applet which can be started on any system with a Hollywood Player"
-                    ]
-                },
-                "hollywood.mainFile": {
-                    "type": "string",
-                    "default": null,
-                    "markdownDescription": "The project's main Hollywood file that is executed or compiled, e.g. `main.hws`. This has to be a workspace setting!"
-                }
-            }
-        }
-    },
-    "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -b",
-        "watch": "tsc -b -w"
-    },
-    "devDependencies": {
-        "@types/node": "^14.17.0",
-        "@types/vscode": "^1.52.0",
-        "@typescript-eslint/eslint-plugin": "^4.28.5",
-        "@typescript-eslint/parser": "^4.28.5",
-        "eslint": "^7.31.0",
-        "typescript": "^4.3.5"
-    }
+	"name": "hollywood-mal",
+	"displayName": "Hollywood MAL (hw4vsc)",
+	"description": "Adds coding support for Hollywood MAL (Cross-Platform Multimedia Application Layer)",
+	"version": "9.2.0-SNAPSHOT",
+	"engines": {
+		"vscode": "^1.52.0"
+	},
+	"publisher": "michaeljurisch",
+	"author": {
+		"name": "Michael Jurisch"
+	},
+	"maintainers": [
+		"Michael Jurisch"
+	],
+	"license": "SEE LICENSE IN LICENSE",
+	"categories": [
+		"Programming Languages"
+	],
+	"keywords": [
+		"Hollywood",
+		"Amiga",
+		"Multimedia",
+		"Games"
+	],
+	"activationEvents": [
+		"onLanguage:hollywood"
+	],
+	"main": "./out/extension",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JohnArcher/vscode-hollywood-mal"
+	},
+	"bugs": {
+		"url": "https://github.com/JohnArcher/vscode-hollywood-mal/issues"
+	},
+	"homepage": "https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/README.md",
+	"icon": "icon.png",
+	"contributes": {
+		"themes": [
+			{
+				"label": "Hollywood (Light)",
+				"uiTheme": "vs",
+				"path": "./themes/hollywood-light-color-theme.json"
+			},
+			{
+				"label": "Hollywood (Dark)",
+				"uiTheme": "vs-dark",
+				"path": "./themes/hollywood-dark-color-theme.json"
+			}
+		],
+		"languages": [
+			{
+				"id": "hollywood",
+				"aliases": [
+					"Hollywood",
+					"hollywood"
+				],
+				"extensions": [
+					".hws"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "hollywood",
+				"scopeName": "source.hollywood",
+				"path": "./syntaxes/hollywood.tmLanguage.json"
+			}
+		],
+		"snippets": [
+			{
+				"language": "hollywood",
+				"path": "./snippets/hollywood.json"
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "Hollywood",
+			"properties": {
+				"hollywood.exePath": {
+					"type": "string",
+					"default": null,
+					"markdownDescription": "Path and filename of the Hollywood executable, e.g. `\"C:\\Program Files\\Hollywood\\Hollywood_Console.exe\"` (Windows). **Attention**: If the path contains spaces you have to enclose it in double quotes."
+				},
+				"hollywood.outputExeType": {
+					"type": "string",
+					"default": "win32",
+					"markdownDescription": "The output format that the Hollywood compiler should create. In order to define multiple targets, e.g. `win64|classic|morphos`, you have to create a separate Task in tasks.json (see provided example file).",
+					"enum": [
+						"amigaos4",
+						"android",
+						"aros",
+						"classic",
+						"classic881",
+						"ios",
+						"linux",
+						"linux64",
+						"linuxarm",
+						"linuxppc",
+						"macos",
+						"macos86",
+						"macos64",
+						"morphos",
+						"warpos",
+						"win32",
+						"win64",
+						"win32console",
+						"win64console",
+						"applet"
+					],
+					"enumDescriptions": [
+						"AmigaOS 4 executable (PowerPC)",
+						"Hollywood applet which has the platform-specific constants for Android set (see Hollywood documentation)",
+						"AROS executable (x86)",
+						"AmigaOS 3.x executable (68020+)",
+						"AmigaOS 3.x executable (68020+) with math co-processor (68881/2 or 68040/68060)",
+						"Hollywood applet which has the platform-specific constants for iOS set (see Hollywood documentation).",
+						"Linux executable (x86)",
+						"Linux executable (x64)",
+						"Linux executable (arm)",
+						"Linux executable (PowerPC)",
+						"Mac OS X application bundle (PowerPC)",
+						"Mac OS X application bundle (x86)",
+						"Mac OS X application bundle (x64)",
+						"MorphOS executable (PowerPC)",
+						"WarpOS mixed-binary executable (68040/PowerPC)",
+						"Windows executable (x86)",
+						"Windows executable (x64)",
+						"Windows executable (x86) that runs in console mode",
+						"Windows executable (x64) that runs in console mode",
+						"Universal Hollywood applet which can be started on any system with a Hollywood Player"
+					]
+				},
+				"hollywood.mainFile": {
+					"type": "string",
+					"default": null,
+					"markdownDescription": "The project's main Hollywood file that is executed or compiled, e.g. `main.hws`. This has to be a workspace setting!"
+				},
+				"hollywood.mainOutputFile": {
+					"type": "string",
+					"default": null,
+					"markdownDescription": "The name of the to be compiled program, e.g. `main` or `MyGame`. This has to be a workspace setting!"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -b",
+		"watch": "tsc -b -w"
+	},
+	"devDependencies": {
+		"@types/node": "^14.17.0",
+		"@types/vscode": "^1.52.0",
+		"@typescript-eslint/eslint-plugin": "^4.28.5",
+		"@typescript-eslint/parser": "^4.28.5",
+		"eslint": "^7.31.0",
+		"typescript": "^4.3.5"
+	},
+	"__metadata": {
+		"id": "100d38a2-22d4-4e27-9704-978ccb6e2968",
+		"publisherDisplayName": "Michael Jurisch",
+		"publisherId": "957943a2-e91f-4833-b90c-1aab77dd5185",
+		"isPreReleaseVersion": false
+	}
 }

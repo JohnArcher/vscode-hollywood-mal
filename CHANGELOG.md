@@ -6,7 +6,8 @@ All notable changes to the "hw4vsc" extension will be documented in this file.
 
 ### Fixed
 
-- Fixed change to `hollywood.outputExeType` from version 8.0.0 in example file for task.json and README.md
+- Fixed change to `hollywood.outputExeType` from version 8.0.0 in example file for tasks.json and README.md
+- Fixed multiple extetypes options in example file for tasks.json
 
 ## [9.1.1] - 2022-03-09
 

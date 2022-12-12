@@ -87,7 +87,7 @@
                 "hollywood.outputExeType": {
                     "type": "string",
                     "default": "win32",
-                    "markdownDescription": "The output format that the Hollywood compiler should create. In order to define multiple targets, e.g. `win64|classic|morphos`, you have to create a separate Task (in tasks.json).",
+                    "markdownDescription": "The output format that the Hollywood compiler should create. In order to define multiple targets, e.g. `win64|classic|morphos`, you have to create a separate Task in tasks.json (see provided example file).",
                     "enum": [
                         "amigaos4",
                         "android",

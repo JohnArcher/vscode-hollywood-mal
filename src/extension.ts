@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 import { HollywoodDocumentSymbolProvider } from './providers/documentSymbolProvider';
 import { HollywoodDefinitionProvider } from './providers/definitionProvider';
+import { HollywoodCompletionItemProvider } from './providers/completionItemProvider';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -14,5 +15,10 @@ export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(vscode.languages.registerDefinitionProvider(
         {language: "hollywood"}, new HollywoodDefinitionProvider()
+    ));
+
+    // Intellisense
+    context.subscriptions.push(vscode.languages.registerCompletionItemProvider(
+        {language: "hollywood"}, new HollywoodCompletionItemProvider()
     ));
 }

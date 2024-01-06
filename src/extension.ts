@@ -8,11 +8,11 @@ import { HollywoodDefinitionProvider } from './providers/definitionProvider';
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-    context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(
-        {language: "hollywood"}, new HollywoodDocumentSymbolProvider()
-    ));
+  context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider(
+    {language: "hollywood"}, new HollywoodDocumentSymbolProvider()
+  ));
 
-    context.subscriptions.push(vscode.languages.registerDefinitionProvider(
-        {language: "hollywood"}, new HollywoodDefinitionProvider()
-    ));
+  context.subscriptions.push(vscode.languages.registerDefinitionProvider(
+    {language: "hollywood"}, new HollywoodDefinitionProvider()
+  ));
 }

@@ -73,7 +73,7 @@ Alternatively you can use this direct link: <https://marketplace.visualstudio.co
 or
 
 1. Download the latest release in the form of a `.vsix` file in this extensions [GitHub releases tab](https://github.com/JohnArcher/vscode-hollywood-mal/releases)
-2. Open a command prompt (like cmd or PowerShell on Windows), navigate to the downloaded extension and enter `code --install-extension hollywood-mal-9.1.1.vsix`, where `hollywood-mal-9.1.1.vsix` has to be the name of the downloaded file.
+2. Open a command prompt (like cmd or PowerShell on Windows), navigate to the downloaded extension and enter `code --install-extension hollywood-mal-10.0.0.vsix`, where `hollywood-mal-10.0.0.vsix` has to be the name of the downloaded file.
 
 or
 

@@ -2,11 +2,15 @@
 
 All notable changes to the "hw4vsc" extension will be documented in this file.
 
-## [9.3.0] - *unreleased*
+## [10.0.0] - 2024-01-06
+
+### Added
+
+- Added new Hollywood 10 keywords (commands, constants, preprocessors)
 
 ### Changed
 
--
+- Updated internal extension dependencies/packages
 
 ## [9.2.0] - 2022-12-12
 

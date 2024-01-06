@@ -2,7 +2,7 @@
 	"name": "hollywood-mal",
 	"displayName": "Hollywood MAL (hw4vsc)",
 	"description": "Adds coding support for Hollywood MAL (Cross-Platform Multimedia Application Layer)",
-	"version": "10.0.0",
+	"version": "10.0.1",
 	"engines": {
 		"vscode": "^1.75.0"
 	},
@@ -147,9 +147,12 @@
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -b",
-		"watch": "tsc -b -w"
+		"watch": "tsc -b -w",
+		"lint": "eslint . --ext .ts"
 	},
 	"devDependencies": {
+		"@stylistic/eslint-plugin-plus": "^1.5.3",
+		"@stylistic/eslint-plugin-ts": "^1.5.3",
 		"@types/node": "^20.10.0",
 		"@types/vscode": "^1.75.0",
 		"@typescript-eslint/eslint-plugin": "^6.17.0",

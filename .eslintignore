@@ -1,0 +1,10 @@
+.vscode/**
+.github/**
+.gitignore
+.gitattributes
+.markdownlint.json
+exampleFiles/**
+media/**
+hw4vsc.todo
+node_modules/
+out/

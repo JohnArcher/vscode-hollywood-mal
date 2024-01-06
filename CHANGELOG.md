@@ -2,6 +2,12 @@
 
 All notable changes to the "hw4vsc" extension will be documented in this file.
 
+## [10.0.1] - _unreleased_
+
+### Changed
+
+- internal: Uses eslint
+
 ## [10.0.0] - 2024-01-06
 
 ### Added

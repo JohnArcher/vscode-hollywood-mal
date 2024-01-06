@@ -95,7 +95,7 @@ All notable changes to the "hw4vsc" extension will be documented in this file.
 
 ### Changed
 
-- Changed README.md and example task.json as there is a better way to start a task with arguments which also fixes the problem with spaces in the `hollywood.exePath` setting (thanks to [midwan](https://github.com/midwan) and *root* from a1k.org).
+- Changed README.md and example task.json as there is a better way to start a task with arguments which also fixes the problem with spaces in the `hollywood.exePath` setting (thanks to [midwan](https://github.com/midwan) and _root_ from a1k.org).
 - Changed default built task in README.md and the example task.json to the `"Compile Hollywood Main script to default target"` task, as this is more natural. Starting a task can be triggered with F5 now.
 
 ## [8.0.1] - 2020-05-03

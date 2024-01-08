@@ -1,4 +1,4 @@
-import * as vscode from 'vscode';
+import { TextDocument } from 'vscode';
 
 import * as RE from './regexConstants';
 
@@ -8,7 +8,7 @@ import * as RE from './regexConstants';
  *
  * @param document the whole document
  */
-export function getCommentedLines(document: vscode.TextDocument): Array<boolean> {
+export function getCommentedLines(document: TextDocument): Array<boolean> {
   const commentedLines: Array<boolean> = [];
 
   const singeLineCommentRE = /^((?:\s*)(;)(?:\s*))/;

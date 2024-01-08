@@ -2,7 +2,7 @@
 
 **DISCLAIMER:** This is not an official product by Airsoft Softwair.
 
-This extension adds support for [Hollywood](https://www.hollywood-mal.com) **version 9.1** to Visual Studio Code (Windows, macOS, Linux). Hollywood is a multimedia-oriented programming language designed to create applications and games and is available for AmigaOS, Windows, macOS, and Linux. Hollywood (and therefore this extension) is capable of compiling to the following target plattforms:
+This extension adds support for [Hollywood](https://www.hollywood-mal.com) **version 10: Xcelicious** to Visual Studio Code (Windows, macOS, Linux). Hollywood is a multimedia-oriented programming language designed to create applications and games and is available for AmigaOS, Windows, macOS, and Linux. Hollywood (and therefore this extension) is capable of compiling to the following target plattforms:
 
 * AmigaOS
 * Android

@@ -2,11 +2,17 @@
 
 All notable changes to the "hw4vsc" extension will be documented in this file.
 
-## [10.0.1] - _unreleased_
+## [10.0.2] - _unreleased_
 
 ### Changed
 
 - internal: Uses eslint
+
+## [10.0.1] - 2024-01-08
+
+### Fixed
+
+- Fixed wrong version number in README.md (thanks to Stefan and [Primax](https://www.amiga-news.de))
 
 ## [10.0.0] - 2024-01-06
 

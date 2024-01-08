@@ -2,7 +2,7 @@
 	"name": "hollywood-mal",
 	"displayName": "Hollywood MAL (hw4vsc)",
 	"description": "Adds coding support for Hollywood MAL (Cross-Platform Multimedia Application Layer)",
-	"version": "10.0.0",
+	"version": "10.0.1",
 	"engines": {
 		"vscode": "^1.75.0"
 	},

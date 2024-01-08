@@ -2,6 +2,12 @@
 
 All notable changes to the "hw4vsc" extension will be documented in this file.
 
+## [10.0.1] - 2024-01-08
+
+### Fixed
+
+- Fixed wrong version number in README.md (thanks to Stefan and [Primax](https://www.amiga-news.de))
+
 ## [10.0.0] - 2024-01-06
 
 ### Added

@@ -2,11 +2,27 @@
 
 All notable changes to the "hw4vsc" extension will be documented in this file.
 
-## [9.3.0] - *unreleased*
+## [10.0.2] - _unreleased_
 
 ### Changed
 
--
+- internal: Uses eslint
+
+## [10.0.1] - 2024-01-08
+
+### Fixed
+
+- Fixed wrong version number in README.md (thanks to Stefan and [Primax](https://www.amiga-news.de))
+
+## [10.0.0] - 2024-01-06
+
+### Added
+
+- Added new Hollywood 10 keywords (commands, constants, preprocessors)
+
+### Changed
+
+- Updated internal extension dependencies/packages
 
 ## [9.2.0] - 2022-12-12
 
@@ -85,7 +101,7 @@ All notable changes to the "hw4vsc" extension will be documented in this file.
 
 ### Changed
 
-- Changed README.md and example task.json as there is a better way to start a task with arguments which also fixes the problem with spaces in the `hollywood.exePath` setting (thanks to [midwan](https://github.com/midwan) and *root* from a1k.org).
+- Changed README.md and example task.json as there is a better way to start a task with arguments which also fixes the problem with spaces in the `hollywood.exePath` setting (thanks to [midwan](https://github.com/midwan) and _root_ from a1k.org).
 - Changed default built task in README.md and the example task.json to the `"Compile Hollywood Main script to default target"` task, as this is more natural. Starting a task can be triggered with F5 now.
 
 ## [8.0.1] - 2020-05-03

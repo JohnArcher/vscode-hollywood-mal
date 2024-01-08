@@ -2,9 +2,9 @@
 	"name": "hollywood-mal",
 	"displayName": "Hollywood MAL (hw4vsc)",
 	"description": "Adds coding support for Hollywood MAL (Cross-Platform Multimedia Application Layer)",
-	"version": "9.3.0-SNAPSHOT",
+	"version": "10.0.2",
 	"engines": {
-		"vscode": "^1.52.0"
+		"vscode": "^1.75.0"
 	},
 	"publisher": "michaeljurisch",
 	"author": {
@@ -23,10 +23,8 @@
 		"Multimedia",
 		"Games"
 	],
-	"activationEvents": [
-		"onLanguage:hollywood"
-	],
 	"main": "./out/extension",
+	"activationEvents": [],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/JohnArcher/vscode-hollywood-mal"
@@ -149,15 +147,18 @@
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -b",
-		"watch": "tsc -b -w"
+		"watch": "tsc -b -w",
+		"lint": "eslint . --ext .ts"
 	},
 	"devDependencies": {
-		"@types/node": "^14.17.0",
-		"@types/vscode": "^1.52.0",
-		"@typescript-eslint/eslint-plugin": "^4.28.5",
-		"@typescript-eslint/parser": "^4.28.5",
-		"eslint": "^7.31.0",
-		"typescript": "^4.3.5"
+		"@stylistic/eslint-plugin-plus": "^1.5.3",
+		"@stylistic/eslint-plugin-ts": "^1.5.3",
+		"@types/node": "^20.10.0",
+		"@types/vscode": "^1.75.0",
+		"@typescript-eslint/eslint-plugin": "^6.17.0",
+		"@typescript-eslint/parser": "^6.17.0",
+		"eslint": "^8.56.0",
+		"typescript": "^5.3.3"
 	},
 	"__metadata": {
 		"id": "100d38a2-22d4-4e27-9704-978ccb6e2968",

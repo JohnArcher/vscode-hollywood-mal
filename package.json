@@ -13,6 +13,7 @@
 	"maintainers": [
 		"Michael Jurisch"
 	],
+	"type": "module",
 	"license": "SEE LICENSE IN LICENSE",
 	"categories": [
 		"Programming Languages"
@@ -155,17 +156,21 @@
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -b",
 		"watch": "tsc -b -w",
-		"lint": "eslint . --ext .ts"
+		"lint": "eslint .",
+		"copy-json-definitions": "copyfiles -f \"src/definitions/**/*.json\" out/definitions",
+		"package-and-install": "npm run copy-json-definitions && vsce package && code --install-extension hollywood-mal-10.0.2-SNAPSHOT-4.vsix"
 	},
 	"devDependencies": {
-		"@stylistic/eslint-plugin-plus": "^1.5.3",
-		"@stylistic/eslint-plugin-ts": "^1.5.3",
-		"@types/node": "^20.10.0",
+		"@eslint/js": "^9.12.0",
+		"@stylistic/eslint-plugin-plus": "^2.9.0",
+		"@stylistic/eslint-plugin-ts": "^2.9.0",
+		"@types/eslint__js": "^8.42.3",
+		"@types/node": "^22.7.5",
 		"@types/vscode": "^1.75.0",
-		"@typescript-eslint/eslint-plugin": "^6.17.0",
-		"@typescript-eslint/parser": "^6.17.0",
-		"eslint": "^8.56.0",
-		"typescript": "^5.3.3"
+		"copyfiles": "^2.4.1",
+		"eslint": "^9.12.0",
+		"typescript": "~5.5.0",
+		"typescript-eslint": "^8.8.1"
 	},
 	"__metadata": {
 		"id": "100d38a2-22d4-4e27-9704-978ccb6e2968",

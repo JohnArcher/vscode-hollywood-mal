@@ -64,11 +64,6 @@ export class HollywoodDefinitionProvider implements DefinitionProvider {
   }
 
   private getDefinitions(document: TextDocument, selectedWord: string): Definition {
-    const functionRE = /\b(?:(Local|Global)(?:\s+))?(?:Function)(?:\s+([a-zA-Z_.:]+[.:])?([a-zA-Z_]\w*)\s*)?(\()([^)]*)(\))/i;
-    const inlineFunctionRE = /\b(?:(Local|Global)(?:\s+))?(?:([a-zA-Z_.:]+[.:])?([a-zA-Z_]\w*)\s*)?(?:\s*=\s*)(?:Function)(?:\s*)(\()([^)]*)(\))/i;
-
-    const constantsRE = /\b(?:Const(?:\s+))(#\S*)/i;
-
     // First pass: Find all commented lines
     const commentedLines = getCommentedLines(document);
 
@@ -86,7 +81,7 @@ export class HollywoodDefinitionProvider implements DefinitionProvider {
       // Example: Local t9 /* t10 */, t15
       const lineText = cleanMultiLineComment(line);
 
-      let name = functionRE.exec(lineText)?.[3] || inlineFunctionRE.exec(lineText)?.[3] || constantsRE.exec(lineText)?.[1];
+      let name = RE.functionRE.exec(lineText)?.[3] || RE.inlineFunctionRE.exec(lineText)?.[3] || RE.constantsRE.exec(lineText)?.[1];
 
       if (!name) { // special treatment for variables as they could be initialized comma separated like "Local t1, t2 = 1, 2"
         let tempVariableNames = RE.variableRE.exec(lineText)?.[0];
@@ -117,10 +112,10 @@ export class HollywoodDefinitionProvider implements DefinitionProvider {
       if (name === selectedWord) {
 
         /** Create a dynamic regex to find the selected word and its position on the line.
-                  * It has to be a regex to find the _exact_ match, otherwise if selectedWord is "myFunc"
-                  * then also "myFunc2" etc. would be found if you would use string.include() or string.indexOf().
-                  * It is also important to escape special characters like $ because this is a valid character
-                  * in a Hollywood variable but also a regex special character.
+          * It has to be a regex to find the _exact_ match, otherwise if selectedWord is "myFunc"
+          * then also "myFunc2" etc. would be found if you would use string.include() or string.indexOf().
+          * It is also important to escape special characters like $ because this is a valid character
+          * in a Hollywood variable but also a regex special character.
                   */
         const functionResult = new RegExp(escapeRegExp(selectedWord)).exec(line);
 

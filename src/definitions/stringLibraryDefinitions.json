@@ -1,0 +1,24 @@
+[
+  {
+    "name": "LowerStr",
+    "helpId": "LowerStr",
+    "shortDescription": "convert all characters in a string to lower case",
+    "synopsis": "var$ = LowerStr(string$[, encoding])",
+    "functionDocs": "Converts all characters in `string$` to lower case and returns the new string.\n\nThe optional `encoding` parameter can be used to set the character encoding to use. This defaults to the default string encoding set using [SetDefaultEncoding()](https://www.hollywood-mal.com/docs/html/hollywood/SetDefaultEncoding.html). See [Character encodings](https://www.hollywood-mal.com/docs/html/hollywood/CharacterEncoding.html) for details.",
+    "inputsDocs": "* `string$` — string to convert\n* `encoding` — *optional:* character encoding to use (defaults to default string encoding) (V7.0)",
+    "resultsDocs": "* `var$` — converted string",
+    "example": "```\ntest$ = LowerStr(\"Hello World!\")\nPrint(test$)\n```\n\nThis will print \"hello world!\" to the screen.",
+    "insertText": "LowerStr(${1:string$})"
+  },
+  {
+    "name": "UpperStr",
+    "helpId": "UpperStr",
+    "shortDescription": "convert string to upper case",
+    "synopsis": "var$ = UpperStr(string$[, encoding])",
+    "functionDocs": "Converts all characters in `string$` to upper case.\n\nThe optional `encoding` parameter can be used to set the character encoding to use. This defaults to the default string encoding set using [SetDefaultEncoding()](https://www.hollywood-mal.com/docs/html/hollywood/SetDefaultEncoding.html). See [Character encodings](https://www.hollywood-mal.com/docs/html/hollywood/CharacterEncoding.html) for details.",
+    "inputsDocs": "`string$` — string to convert to upper case\n* `encoding` — *optional:* character encoding to use (defaults to default string encoding) (V7.0)",
+    "resultsDocs": "* `var$` — resulting string",
+    "example": "```\nPrint(UpperStr(\"Hello World!\"))\n```\n\nPrints \"HELLO WORLD!\" to the screen.",
+    "insertText": "UpperStr(${1:string$})"
+  }
+]

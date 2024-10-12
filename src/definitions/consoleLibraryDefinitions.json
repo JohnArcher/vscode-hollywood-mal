@@ -1,0 +1,26 @@
+[
+  {
+    "name": "ClearConsole",
+    "helpId": "ClearConsole",
+    "shortDescription": "clear console",
+    "version": "10.0",
+    "synopsis": "ClearConsole()",
+    "functionDocs": "This function clears the console by copying the current background character set using [SetConsoleBackground()](https://www.hollywood-mal.com/docs/html/hollywood/SetConsoleBackground.html) to every cell of the window. `ClearConsole()` will also set the `Clear` flag from the [SetConsoleOptions()](https://www.hollywood-mal.com/docs/html/hollywood/SetConsoleOptions.html) command to `True` for the current window to ensure that the window is cleared on the next refresh. If you don't want that, use [EraseConsole()](https://www.hollywood-mal.com/docs/html/hollywood/EraseConsole.html) instead. See [EraseConsole](https://www.hollywood-mal.com/docs/html/hollywood/EraseConsole.html) for details.\n\nYou must enable advanced console mode using [EnableAdvancedConsole()](https://www.hollywood-mal.com/docs/html/hollywood/EnableAdvancedConsole.html) before you can use this function. See [EnableAdvancedConsole](https://www.hollywood-mal.com/docs/html/hollywood/EnableAdvancedConsole.html) for details.",
+    "inputsDocs": "none",
+    "resultsDocs": "none",
+    "insertText": "ClearConsole()",
+    "platforms": ["Linux", "macOS", "Windows"]
+  },
+  {
+    "name": "EraseConsole",
+    "helpId": "EraseConsole",
+    "shortDescription": "erase console",
+    "version": "10.0",
+    "synopsis": "EraseConsole()",
+    "functionDocs": "This function clears the console by copying the current background character set using [SetConsoleBackground()](https://www.hollywood-mal.com/docs/html/hollywood/SetConsoleBackground.html) to every cell of the window. In contrast to [ClearConsole()](https://www.hollywood-mal.com/docs/html/hollywood/ClearConsole.html) `EraseConsole()` won't set the `Clear` flag from the [SetConsoleOptions()](https://www.hollywood-mal.com/docs/html/hollywood/SetConsoleOptions.html) command to `True` for the current window. If you want that, use [ClearConsole()](https://www.hollywood-mal.com/docs/html/hollywood/ClearConsole.html) instead. See [ClearConsole](https://www.hollywood-mal.com/docs/html/hollywood/ClearConsole.html) for details.\n\nYou must enable advanced console mode using [EnableAdvancedConsole()](https://www.hollywood-mal.com/docs/html/hollywood/EnableAdvancedConsole.html) before you can use this function. See [EnableAdvancedConsole](https://www.hollywood-mal.com/docs/html/hollywood/EnableAdvancedConsole.html) for details.",
+    "inputsDocs": "none",
+    "resultsDocs": "none",
+    "insertText": "EraseConsole()",
+    "platforms": ["Linux", "macOS", "Windows"]
+  }
+]

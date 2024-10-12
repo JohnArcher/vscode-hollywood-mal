@@ -1,0 +1,38 @@
+[
+  {
+    "name": "HaveItem",
+    "helpId": "HaveItem",
+    "shortDescription": "check if a table item exists",
+    "version": "6.0",
+    "synopsis": "bool = HaveItem(t, key)  \nbool = HasItem(t, key)",
+    "functionDocs": "This function checks whether the specified table has an item at index `key` or not. If there is an item at this index, `HaveItem()` will return `True`. This is a convenience function for [RawGet()](https://www.hollywood-mal.com/docs/html/hollywood/RawGet.html).\n\nNote that if you pass a string in the `key` parameter, it will be converted to lower case automatically. If you don't want that, use [RawGet()](https://www.hollywood-mal.com/docs/html/hollywood/RawGet.html) instead.\n\nStarting with Hollywood 9.1, this function has a synonym called `HasItem()` which does the same but is more grammatical.",
+    "inputsDocs": "* `t` — table to query\n* `key` — key to check",
+    "resultsDocs": "* `bool` — `True` or `False` depending on whether the item exists",
+    "example": "```\nt = {x = 10, y = 20}\nNPrint(HaveItem(t, \"x\"), HaveItem(t, \"y\"), HaveItem(t, \"z\"))\n```\n\nThe code above will print 1 / 1 / 0 (= `True`, `True`, `False`).",
+    "insertText": "HaveItem(${1:t}, ${2:key})"
+  },
+  {
+    "name": "HasItem",
+    "helpId": "HaveItem",
+    "shortDescription": "check if a table item exists",
+    "version": "9.1",
+    "synopsis": "bool = HasItem(t, key)  \nbool = HaveItem(t, key)",
+    "functionDocs": "This function checks whether the specified table has an item at index `key` or not. If there is an item at this index, `HaveItem()` will return `True`. This is a convenience function for [RawGet()](https://www.hollywood-mal.com/docs/html/hollywood/RawGet.html).\n\nNote that if you pass a string in the `key` parameter, it will be converted to lower case automatically. If you don't want that, use [RawGet()](https://www.hollywood-mal.com/docs/html/hollywood/RawGet.html) instead.\n\nStarting with Hollywood 9.1, this function has a synonym called `HasItem()` which does the same but is more grammatical.",
+    "inputsDocs": "* `t` — table to query\n* `key` — key to check",
+    "resultsDocs": "* `bool` — `True` or `False` depending on whether the item exists",
+    "example": "```\nt = {x = 10, y = 20}\nNPrint(HasItem(t, \"x\"), HasItem(t, \"y\"), HasItem(t, \"z\"))\n```\n\nThe code above will print 1 / 1 / 0 (= `True`, `True`, `False`).",
+    "insertText": "HasItem(${1:t}, ${2:key})"
+  },
+  {
+    "name": "ListItems",
+    "helpId": "ListItems",
+    "shortDescription": "count items of a list",
+    "version": "2.0",
+    "synopsis": "c = ListItems(list)",
+    "functionDocs": "This function iterates over all items in the `list` specified by list and returns how many items it has. Counting will stop when an element of type [Nil](https://www.hollywood-mal.com/docs/html/hollywood/PrgTypeNil.html) is found in the list.\n\nNote that this function only counts items at successive integer indices. It starts at index 0 and counts all items at successive integer indices until a [Nil](https://www.hollywood-mal.com/docs/html/hollywood/PrgTypeNil.html) item is encountered. To count all items of a table, use the [TableItems()](https://www.hollywood-mal.com/docs/html/hollywood/TableItems.html) function instead. See [TableItems](https://www.hollywood-mal.com/docs/html/hollywood/TableItems.html) for details.\n\nNote that this function is rather slow when used with normal Hollywood tables. To accelerate `ListItems()`, you have to use it with optimized lists created by [CreateList()](https://www.hollywood-mal.com/docs/html/hollywood/CreateList.html). See [CreateList](https://www.hollywood-mal.com/docs/html/hollywood/CreateList.html) for details.",
+    "inputsDocs": "* `list` — table whose items are to be counted",
+    "resultsDocs": "* `c` — counter",
+    "example": "```\nPrint(ListItems({1, 2, 3, 4, 5, 6, 7, 8, 9, 10}))\n```\n\nThis returns 10.",
+    "insertText": "ListItems(${1:list})"
+  }
+]

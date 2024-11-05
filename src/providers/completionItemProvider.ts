@@ -7,13 +7,54 @@ import HollywoodCommandTypesEnum from '../enums/hollywoodCommandTypes.enum';
 import { getCommentedLines, cleanMultiLineComment } from '../utils';
 import * as RE from '../regexConstants';
 
-// import completionItems from '../definitions/commandCompletionItems.json';
-import preprocDefinitions from '../definitions/preprocDefinitions.json';
-import consoleLibraryDefinitions from '../definitions/consoleLibraryDefinitions.json';
-import drawLibraryDefinitions from '../definitions/drawLibraryDefinitions.json';
-import stringLibraryDefinitions from '../definitions/stringLibraryDefinitions.json';
-import tableLibraryDefinitions from '../definitions/tableLibraryDefinitions.json';
-import miscDefinitions from '../definitions/miscDefinitons.json';
+import miscDefinitions from '../definitions/misc_definitons.json';
+import preprocDefinitions from "../definitions/preproc_commands.json";
+
+const files = [
+  { filePath: '../definitions/amiga_support_library.json', category: HollywoodLibrariesEnum.AmigaSupport },
+  { filePath: '../definitions/anim_library.json', category: HollywoodLibrariesEnum.Animation },
+  { filePath: '../definitions/application_library.json', category: HollywoodLibrariesEnum.Application },
+  { filePath: '../definitions/asynchronous_operation_library.json', category: HollywoodLibrariesEnum.AsynchronousOperation },
+  { filePath: '../definitions/bgpic_library.json', category: HollywoodLibrariesEnum.Bgpic },
+  { filePath: '../definitions/brush_library.json', category: HollywoodLibrariesEnum.Brush },
+  { filePath: '../definitions/clipboard_library.json', category: HollywoodLibrariesEnum.Clipboard },
+  { filePath: '../definitions/console_library.json', category: HollywoodLibrariesEnum.Console },
+  { filePath: '../definitions/debug_library.json', category: HollywoodLibrariesEnum.Debug },
+  { filePath: '../definitions/display_library.json', category: HollywoodLibrariesEnum.Display },
+  { filePath: '../definitions/dos_library.json', category: HollywoodLibrariesEnum.DOS },
+  { filePath: '../definitions/draw_library.json', category: HollywoodLibrariesEnum.Draw },
+  { filePath: '../definitions/error_management_library.json', category: HollywoodLibrariesEnum.ErrorManagement },
+  { filePath: '../definitions/event_library.json', category: HollywoodLibrariesEnum.Event },
+  { filePath: '../definitions/graphics_library.json', category: HollywoodLibrariesEnum.Graphics },
+  { filePath: '../definitions/icon_library.json', category: HollywoodLibrariesEnum.Icon },
+  { filePath: '../definitions/ipc_library.json', category: HollywoodLibrariesEnum.IPC },
+  { filePath: '../definitions/joystick_library.json', category: HollywoodLibrariesEnum.Joystick },
+  { filePath: '../definitions/layers_library.json', category: HollywoodLibrariesEnum.Layers },
+  { filePath: '../definitions/legacy_library.json', category: HollywoodLibrariesEnum.Legacy },
+  { filePath: '../definitions/locale_library.json', category: HollywoodLibrariesEnum.Locale },
+  { filePath: '../definitions/math_library.json', category: HollywoodLibrariesEnum.Math },
+  { filePath: '../definitions/memory_block_library.json', category: HollywoodLibrariesEnum.MemoryBlock },
+  { filePath: '../definitions/menu_library.json', category: HollywoodLibrariesEnum.Menu },
+  { filePath: '../definitions/mobile_support_library.json', category: HollywoodLibrariesEnum.MobileSupport },
+  { filePath: '../definitions/mouse_pointer_library.json', category: HollywoodLibrariesEnum.MousePointer },
+  { filePath: '../definitions/network_library.json', category: HollywoodLibrariesEnum.Network },
+  { filePath: '../definitions/object_library.json', category: HollywoodLibrariesEnum.Object },
+  { filePath: '../definitions/palette_library.json', category: HollywoodLibrariesEnum.Palette },
+  { filePath: '../definitions/plugin_library.json', category: HollywoodLibrariesEnum.Plugin },
+  { filePath: '../definitions/requester_library.json', category: HollywoodLibrariesEnum.Requester },
+  { filePath: '../definitions/serial_port_library.json', category: HollywoodLibrariesEnum.SerialPort },
+  { filePath: '../definitions/serializer_library.json', category: HollywoodLibrariesEnum.Serializer },
+  { filePath: '../definitions/sound_library.json', category: HollywoodLibrariesEnum.Sound },
+  { filePath: '../definitions/sprite_library.json', category: HollywoodLibrariesEnum.Sprite },
+  { filePath: '../definitions/string_library.json', category: HollywoodLibrariesEnum.String },
+  { filePath: '../definitions/system_library.json', category: HollywoodLibrariesEnum.System },
+  { filePath: '../definitions/table_library.json', category: HollywoodLibrariesEnum.Table },
+  { filePath: '../definitions/text_library.json', category: HollywoodLibrariesEnum.Text },
+  { filePath: '../definitions/time_library.json', category: HollywoodLibrariesEnum.Time },
+  { filePath: '../definitions/vectorgraphics_library.json', category: HollywoodLibrariesEnum.VectorGraphics },
+  { filePath: '../definitions/video_library.json', category: HollywoodLibrariesEnum.Video },
+  { filePath: '../definitions/windows_support_library.json', category: HollywoodLibrariesEnum.WindowsSupport },
+];
 
 export class HollywoodCompletionItemProvider implements CompletionItemProvider {
 
@@ -26,14 +67,9 @@ export class HollywoodCompletionItemProvider implements CompletionItemProvider {
       const symbols = this.getUserspeficSymbols(document);
 
       if (this.commandCompletionItems.length === 0) {
-        const hollywoodComands: HollywoodCompletionItemModel[] = [
-          ...consoleLibraryDefinitions.map((item: HollywoodCompletionItemModel) => { item.category = HollywoodLibrariesEnum.Console; return item; }),
-          ...drawLibraryDefinitions.map((item: HollywoodCompletionItemModel) => { item.category = HollywoodLibrariesEnum.Draw; return item; }),
-          ...stringLibraryDefinitions.map((item: HollywoodCompletionItemModel) => { item.category = HollywoodLibrariesEnum.String; return item; }),
-          ...tableLibraryDefinitions.map((item: HollywoodCompletionItemModel) => { item.category = HollywoodLibrariesEnum.Table; return item; }),
-        ];
-
-        const commands = this.generateCompletionItems(hollywoodComands, CompletionItemKind.Function);
+        this.loadHollywoodCommands().then((hollywoodComands) => {
+          return this.generateCompletionItems(hollywoodComands, CompletionItemKind.Function);
+        }).then((commands) => this.commandCompletionItems.push(...commands));
 
         const hollywoodPreprocs: HollywoodCompletionItemModel[] = [
           ...preprocDefinitions.map((item: HollywoodCompletionItemModel) => {
@@ -60,9 +96,8 @@ export class HollywoodCompletionItemProvider implements CompletionItemProvider {
         const miscItems = this.generateCompletionItems(misc, CompletionItemKind.Keyword, HollywoodCommandTypesEnum.Misc);
 
 
-        this.commandCompletionItems = [
-          ...commands, ...preprocs, ...miscItems
-        ];
+        this.commandCompletionItems.push(...preprocs);
+        this.commandCompletionItems.push(...miscItems);
       }
 
       // TODO:
@@ -81,6 +116,18 @@ export class HollywoodCompletionItemProvider implements CompletionItemProvider {
       resolve(items);
 
     });
+  }
+
+  private async loadHollywoodCommands(): Promise<HollywoodCompletionItemModel[]> {
+    const importPromises = files.map(file => import(file.filePath).then(module => {
+      module.default.forEach(item => {
+        item.category = file.category;
+      });
+      return module.default;
+    }));
+
+    const modules = await Promise.all(importPromises);
+    return modules.flat();
   }
 
   private getUserspeficSymbols(document: TextDocument): CompletionItem[] {

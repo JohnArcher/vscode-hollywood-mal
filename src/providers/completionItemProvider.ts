@@ -8,11 +8,11 @@ import { getCommentedLines, cleanMultiLineComment } from '../utils';
 import * as RE from '../regexConstants';
 
 import miscDefinitions from '../definitions/misc_definitons.json';
-import preprocDefinitions from "../definitions/preproc_commands.json";
+import preprocDefinitions from "../definitions/preprocessor.json";
 
 const files = [
   { filePath: '../definitions/amiga_support_library.json', category: HollywoodLibrariesEnum.AmigaSupport },
-  { filePath: '../definitions/anim_library.json', category: HollywoodLibrariesEnum.Animation },
+  { filePath: '../definitions/anim_library.json', category: HollywoodLibrariesEnum.Anim },
   { filePath: '../definitions/application_library.json', category: HollywoodLibrariesEnum.Application },
   { filePath: '../definitions/asynchronous_operation_library.json', category: HollywoodLibrariesEnum.AsynchronousOperation },
   { filePath: '../definitions/bgpic_library.json', category: HollywoodLibrariesEnum.Bgpic },
@@ -21,13 +21,13 @@ const files = [
   { filePath: '../definitions/console_library.json', category: HollywoodLibrariesEnum.Console },
   { filePath: '../definitions/debug_library.json', category: HollywoodLibrariesEnum.Debug },
   { filePath: '../definitions/display_library.json', category: HollywoodLibrariesEnum.Display },
-  { filePath: '../definitions/dos_library.json', category: HollywoodLibrariesEnum.DOS },
+  { filePath: '../definitions/dos_library.json', category: HollywoodLibrariesEnum.Dos },
   { filePath: '../definitions/draw_library.json', category: HollywoodLibrariesEnum.Draw },
   { filePath: '../definitions/error_management_library.json', category: HollywoodLibrariesEnum.ErrorManagement },
   { filePath: '../definitions/event_library.json', category: HollywoodLibrariesEnum.Event },
   { filePath: '../definitions/graphics_library.json', category: HollywoodLibrariesEnum.Graphics },
   { filePath: '../definitions/icon_library.json', category: HollywoodLibrariesEnum.Icon },
-  { filePath: '../definitions/ipc_library.json', category: HollywoodLibrariesEnum.IPC },
+  { filePath: '../definitions/ipc_library.json', category: HollywoodLibrariesEnum.Ipc },
   { filePath: '../definitions/joystick_library.json', category: HollywoodLibrariesEnum.Joystick },
   { filePath: '../definitions/layers_library.json', category: HollywoodLibrariesEnum.Layers },
   { filePath: '../definitions/legacy_library.json', category: HollywoodLibrariesEnum.Legacy },
@@ -73,8 +73,12 @@ export class HollywoodCompletionItemProvider implements CompletionItemProvider {
 
         const hollywoodPreprocs: HollywoodCompletionItemModel[] = [
           ...preprocDefinitions.map((item: HollywoodCompletionItemModel) => {
-            // Try to map the category string to the enum
-            const category = HollywoodLibrariesEnum[item.category as keyof typeof HollywoodLibrariesEnum];
+            // Adjust category to match the enum key format (e.g. "amiga support" -> "AmigaSupport")
+            const formattedCategory = item.category
+              .split(' ')
+              .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+              .join('');
+            const category = HollywoodLibrariesEnum[formattedCategory as keyof typeof HollywoodLibrariesEnum];
 
             if (category) {
               item.category = category;

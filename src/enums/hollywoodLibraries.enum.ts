@@ -7,6 +7,7 @@ enum HollywoodLibrariesEnum {
   Brush = 'Brush',
   Clipboard = 'Clipboard',
   Console = 'Console',
+  Constants = 'Constants',
   Debug = 'Debug',
   Display = 'Display',
   Dos = 'DOS',

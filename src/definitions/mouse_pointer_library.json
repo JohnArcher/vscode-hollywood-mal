@@ -1,0 +1,75 @@
+[
+  {
+    "name": "CreatePointer",
+    "helpId": "CreatePointer",
+    "shortDescription": "create a new mouse pointer",
+    "version": "4.0",
+    "synopsis": "[id] = CreatePointer(id, type, ...)  \n[id] = CreatePointer(id, #SPRITE, srcid[, frame, spotx, spoty])  \n[id] = CreatePointer(id, #BRUSH, srcid[, spotx, spoty])  \n[id] = CreatePointer(id, #POINTER, ptrtype)",
+    "functionDocs": "This function creates a new mouse pointer and assigns the identifier `id` to it. If you pass [Nil](https://www.hollywood-mal.com/docs/html/hollywood/PrgTypeNil_.html) in `id`, `CreatePointer()` will automatically choose an identifier and return it. The mouse pointer object created by this function can be displayed later by calling the [SetPointer()](https://www.hollywood-mal.com/docs/html/hollywood/SetPointer_.html) function. Mouse pointers can be created either from a sprite or brush source, or you can choose a predefined mouse pointer. The calling convention of `CreatePointer()` depends on the type you specify as the second argument.\n\nFor the types `#SPRITE` and `#BRUSH` you have to specify the identifier of the object that shall be used as the source for the pointer graphics. The mouse pointer created by this function is independent of the source object, so you can free the source object after calling `CreatePointer()`.\n\nIf you specify `#POINTER` as the type, you have to provide an additional argument that defines which predefined mouse pointer image you want to obtain. Currently, this can be `#STDPTR_SYSTEM` for the system's standard pointer and `#STDPTR_BUSY` for the system's standard wait pointer.\n\nThe spotx and spoty arguments specify the hot spot inside the mouse pointer. The hot spot is the mouse pointer's pixel that is used to click. If the mouse pointer image is an arrow, then the hot spot is usually exactly at the tip of the arrow. If you do not specify the spotx & spoty arguments, `CreatePointer()` will use the center of the image as the hot spot.\n\nPlease note that not all systems can handle true colour mouse pointers. If the system does not support true colour mouse pointers, Hollywood will reduce the colors. Also, your image data might get scaled because some systems impose limits on the maximum mouse pointer size.\n\nOn AmigaOS 3, `CreatePointer()` also supports palette brushes and sprites. Pointers on classic Amiga hardware are always palette-based because they are implemented using hardware sprites so if you pass palette brushes or sprites to `CreatePointer()` on AmigaOS 3 you have full control over the exact pens used by the pointer which is more convenient than using 32-bit graphics because those will first have to be mapped down to palette graphics on AmigaOS 3 and you won't have any control over the palette pens in the remapped brush or sprite.",
+    "inputsDocs": "* `id` — id for the mouse pointer or [Nil](https://www.hollywood-mal.com/docs/html/hollywood/PrgTypeNil_.html) for [auto id selection](https://www.hollywood-mal.com/docs/html/hollywood/AutoIDSelect_.html)\n* `type` — type from which to take the source data\n* `...` — further arguments depend on the type specified (see above)",
+    "resultsDocs": "* `id` — optional: identifier of the mouse pointer; will only be returned when you pass [Nil](https://www.hollywood-mal.com/docs/html/hollywood/PrgTypeNil_.html) as argument 1 (see above)",
+    "example": "```\nCreatePointer(1, #BRUSH, 2, 0, 0)\nSetPointer(1)\n```\n\nThe code above creates a new mouse pointer 1 from the brush with the id 2. The hot spot will be at position 0:0 (i.e. the top-left corner of the image). After creating the mouse pointer it will be displayed using SetPointer().",
+    "platforms": ["All"],
+    "insertText": "CreatePointer(${1:id}, ${2:type})"
+  },
+  {
+    "name": "FreePointer",
+    "helpId": "FreePointer",
+    "shortDescription": "free a mouse pointer",
+    "version": "4.0",
+    "synopsis": "FreePointer(id)",
+    "functionDocs": "This function frees the mouse pointer specified by `id`. The mouse pointer must have been created previously using [CreatePointer()](https://www.hollywood-mal.com/docs/html/hollywood/CreatePointer_.html). Please note that the mouse pointer must not be currently active. You may only free mouse pointers that are not displayed currently.",
+    "inputsDocs": "* `id` — identifier of the mouse pointer to be freed",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "FreePointer(${1:id})"
+  },
+  {
+    "name": "HidePointer",
+    "helpId": "HidePointer",
+    "shortDescription": "hide the mouse pointer in the current display",
+    "version": "1.0",
+    "synopsis": "HidePointer()",
+    "functionDocs": "This function hides the mouse pointer. Use this command with care because it might confuse the user. You can bring the pointer back to the display using [ShowPointer()](https://www.hollywood-mal.com/docs/html/hollywood/ShowPointer_.html).\n\nPlease note that every display has its private pointer setting. Thus, this function will only hide the mouse pointer in the current display. If the user activates another display, the mouse pointer will be visible again.",
+    "inputsDocs": "none",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "HidePointer()"
+  },
+  {
+    "name": "MovePointer",
+    "helpId": "MovePointer",
+    "shortDescription": "move the mouse pointer",
+    "version": "1.0",
+    "synopsis": "MovePointer(x, y)",
+    "functionDocs": "This function moves the mouse pointer to the location specified by `x` and `y`. Use this function with care because it might confuse the user.",
+    "inputsDocs": "* `x` — desired new x position of the pointer\n* `y` — desired new y position of the pointer",
+    "example": "```\nMovePointer(#CENTER, #CENTER)\n```\n\nThe above code moves the pointer to the center of your display.",
+    "platforms": ["All"],
+    "insertText": "MovePointer(${1:x}, ${2:y})"
+  },
+  {
+    "name": "SetPointer",
+    "helpId": "SetPointer",
+    "shortDescription": "change mouse pointer of current display",
+    "version": "4.0",
+    "synopsis": "SetPointer(id)",
+    "functionDocs": "This function displays the mouse pointer specified by `id`. The mouse pointer must have been previously created by [CreatePointer()](https://www.hollywood-mal.com/docs/html/hollywood/CreatePointer_.html).\n\nPlease note that every display has its private pointer setting. Thus, this function will only set the mouse pointer in the current display. If you want to change the mouse pointer of all your displays, you need to call `SetPointer()` for each of them (after making each active using [SelectDisplay()](https://www.hollywood-mal.com/docs/html/hollywood/SelectDisplay_.html)).\n\nPlease note: This function has already been available since version 1.5 but its functionality changed completely in version 4.0. The old command is no longer supported.",
+    "inputsDocs": "* `id` — identifier of the mouse pointer to be displayed",
+    "example": "See [CreatePointer](https://www.hollywood-mal.com/docs/html/hollywood/CreatePointer_.html)",
+    "platforms": ["All"],
+    "insertText": "SetPointer(${1:id})"
+  },
+  {
+    "name": "ShowPointer",
+    "helpId": "ShowPointer",
+    "shortDescription": "show the mouse pointer in the current display",
+    "version": "1.0",
+    "synopsis": "ShowPointer()",
+    "functionDocs": "This function brings the mouse pointer back after it has been hidden using [HidePointer()](https://www.hollywood-mal.com/docs/html/hollywood/HidePointer_.html).",
+    "inputsDocs": "none",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "ShowPointer()"
+  }
+]

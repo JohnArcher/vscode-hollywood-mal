@@ -9,6 +9,7 @@ import * as RE from '../regexConstants';
 
 import miscDefinitions from '../definitions/misc_definitons.json';
 import preprocDefinitions from "../definitions/preprocessor.json";
+import inbuiltConstants from "../definitions/constants.json";
 
 const files = [
   { filePath: '../definitions/amiga_support_library.json', category: HollywoodLibrariesEnum.AmigaSupport },
@@ -99,9 +100,12 @@ export class HollywoodCompletionItemProvider implements CompletionItemProvider {
 
         const miscItems = this.generateCompletionItems(misc, CompletionItemKind.Keyword, HollywoodCommandTypesEnum.Misc);
 
+        const constants: HollywoodCompletionItemModel[] = [...inbuiltConstants.map((item: HollywoodCompletionItemModel) => { item.category = HollywoodLibrariesEnum.Constants; return item; })];
+        const constantItems = this.generateCompletionItems(constants, CompletionItemKind.Constant, HollywoodCommandTypesEnum.Constant);
 
         this.commandCompletionItems.push(...preprocs);
         this.commandCompletionItems.push(...miscItems);
+        this.commandCompletionItems.push(...constantItems);
       }
 
       // TODO:

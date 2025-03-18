@@ -3,9 +3,10 @@
  */
 export interface HollywoodCompletionItemModel {
   /**
-   * Name of the command
+   * Name of the command.
+   * Corresponds to the first part of "Name" in the Hollywood documentation
    */
-  name: string; // entspricht in Hollywood-Doku ersten Teil von "Name". Siehe GetApplicationInfo
+  name: string;
 
   helpId?: string; // Teil der Url, die auf die entsprechende Hilfeseite verweist. Wird vermutlich meistens wie "name" sein. TODO: Andreas fragen.
 
@@ -33,5 +34,10 @@ export interface HollywoodCompletionItemModel {
    */
   platforms?: string[]; // siehe in Hollywood-Doku: DrawConsoleBorder
 
-  insertText?: string; // TODO nur ein Test. das kann ich Andreas nicht zumuten. Oder doch? Ist wie Synopsys, aber ohne optionale Parameter!? Michi fragen.
+  /**
+   * The text that should be inserted into the document when the completion item is selected.
+   * If not provided, the `name` property will be used.
+   * Is equal to `synopsis` but without optional parameters.
+   */
+  insertText?: string;
 }

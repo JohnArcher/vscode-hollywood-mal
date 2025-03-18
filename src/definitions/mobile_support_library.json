@@ -1,0 +1,87 @@
+[
+  {
+    "name": "CallJavaMethod",
+    "helpId": "CallJavaMethod",
+    "shortDescription": "call method of Java activity",
+    "version": "8.0",
+    "synopsis": "[ret] = CallJavaMethod(name$[, t, type1, value1, type2, value2, ...])",
+    "functionDocs": "This is a powerful function that allows you to call directly into the Java code of Hollywood's Android activity. The Java code may then access the whole Android API to enhance your app with custom features unavailable in Hollywood.\n\nYou have to pass the name of the method to call in the `name$` argument. Note that Java is a case-sensitive language so the method name you pass in `name$` must exactly match its definition in the Java code.\n\nOptionally, you can pass a table in the second argument. This table currently supports the following tags:\n\n- `Static`: Set this to `True` if the method you'd like to call is static. By default, `CallJavaMethod()` expects the method to be non-static.\n\n- `ReturnType`: Set this tag to configure the return data type for the method passed in `name$`. This must be one of the following predefined constants:\n\n  - `#BYTE`: Java's `byte` data type, a signed 8-bit quantity.\n  - `#SHORT`: Java's `short` data type, a signed 16-bit quantity.\n  - `#INTEGER`: Java's `int` data type, a signed 32-bit quantity.\n  - `#FLOAT`: Java's `float` data type, a 32-bit floating point number.\n  - `#DOUBLE`: Java's `double` data type, a 64-bit floating point number.\n  - `#BOOLEAN`: Java's `boolean` data type, a boolean value (`True` or `False`).\n  - `#STRING`: Java's `String` data type, a text string.\n  - `#VOID`: No return value.\n\n  This tag defaults to `#VOID`, i.e. the method doesn't return any value.\n\n- `ReturnArray`: If this tag is set to `True`, the method passed in `name$` is expected to return an array of the data type specified in `ReturnType`. Note that if `ReturnArray` is set to `True`, `ReturnType` must not be set to `#VOID`. Defaults to `False`.\n\nAfter the optional table argument, `CallJavaMethod()` accepts an unlimited number of `type` and `value` pairs. These pairs can be used to pass parameters to the method specified in `name$`. For each `type` there must be a corresponding `value` argument directly after it.\n\nThe following predefined constants are currently supported for the `type` argument:\n\n- `#BYTE`: Java's `byte` data type, a signed 8-bit quantity.\n- `#SHORT`: Java's `short` data type, a signed 16-bit quantity.\n- `#INTEGER`: Java's `int` data type, a signed 32-bit quantity.\n- `#FLOAT`: Java's `float` data type, a 32-bit floating point number.\n- `#DOUBLE`: Java's `double` data type, a 64-bit floating point number.\n- `#BOOLEAN`: Java's `boolean` data type, a boolean value (`True` or `False`).\n- `#STRING`: Java's `String` data type, a text string.\n\nThe value that follows each `type` argument must correspond to the type specified for that parameter, e.g. if you pass `#STRING` in a `type` argument, a string must follow after the `#STRING` argument.\n\nHere is an example Java method:\n\n```\npublic int littleTest(String s, int v) {\n    Log.v(\"Test\", \"Got data: \" + s + \" \" + v);\n    return 50;\n}\n```\n\nNote that it is important to declare the method using the `public` keyword because it is accessed from outside its class. To call the Java method `littleTest()` from your Hollywood script using `CallJavaMethod()`, you'd have to use the following code:\n\n```\nr = CallJavaMethod(\"littleTest\", {ReturnType = #INTEGER},\n        #STRING, \"Hello Java!\", #INTEGER, 10)\n```\n\nSince we have declared the Java method as returning an integer value and its implementation on the Java side returns 50, the Hollywood variable `r` will be set to 50 as soon as `CallJavaMethod()` returns.\n\nNote that this function can only be used in connection with the Hollywood APK Compiler because the Hollywood Player doesn't allow you to inject any custom code into its activity. This is only supported by the Hollywood APK Compiler.\n\nThe Java methods you declare will all be part of a subclass of Hollywood's Android `Activity`. Thus, you can call any of the `Activity` methods directly from the methods called by `CallJavaMethod()`. Keep in mind, though, that Java methods run by `CallJavaMethod()` will not be executed on the main (UI) thread but on Hollywood's VM thread. So if you need to access Android APIs that can only be called from the UI thread (like most of the `View-related` APIs), you must first delegate from the Hollywood thread to the main thread or the code won't work.",
+    "inputsDocs": "* `name$` — name of method to call\n* `t` — optional: table configuring further options (see above)\n* `type1` — optional: type of first parameter to pass to method (see above for possible values)\n* `value1` — optional: actual value of first parameter\n* `...` — optional: unlimited number of method parameters",
+    "resultsDocs": "* `ret` — optional: in case `ReturnType` is not `#VOID`, the value returned by the Java method",
+    "platforms": ["Android"],
+    "insertText": "CallJavaMethod(${1:name$})"
+  },
+  {
+    "name": "GetAsset",
+    "helpId": "GetAsset",
+    "shortDescription": "get handle to Android asset",
+    "version": "6.1",
+    "synopsis": "handle$ = GetAsset(f$)",
+    "functionDocs": "This function can be used to get a handle to an Android asset linked to an APK file compiled by the Hollywood APK Compiler, which is an external add-on for Hollywood. The string returned by this function can then be passed to all Hollywood functions that deal with files, e.g. [LoadBrush()](https://www.hollywood-mal.com/docs/html/hollywood/LoadBrush_.html) or [OpenMusic()](https://www.hollywood-mal.com/docs/html/hollywood/OpenMusic_.html). Keep in mind, though, that assets are read-only. Trying to write to an asset handle will result in an error.\n\nNote that since Android is based on Linux, asset names are case sensitive. Thus, the name you pass to this function must exactly match the name specified with the Hollywood APK Compiler or Hollywood will report a \"File not found\" error.\n\nFor convenience reasons, `GetAsset()` is also supported by all other Hollywood versions but it simply returns the string passed to the function when used outside APKs generated by the Hollywood APK Compiler.",
+    "inputsDocs": "* `f$` — name of the asset to obtain",
+    "resultsDocs": "* `handle$` — handle to the asset which can then be passed to all Hollywood functions that deal with files",
+    "example": "```\nLoadBrush(1, GetAsset(\"test.png\"))\n```\n\nThe code above loads the asset \"test.png\" into brush number 1. For this code to work you need to link a file named \"test.png\" (case must match exactly!) to your APK with the Hollywood APK Compiler.",
+    "platforms": ["Android"],
+    "insertText": "GetAsset(${1:f$})"
+  },
+  {
+    "name": "HideKeyboard",
+    "helpId": "HideKeyboard",
+    "shortDescription": "hide the software keyboard",
+    "version": "5.0",
+    "synopsis": "HideKeyboard()",
+    "functionDocs": "This function can be used to hide the host system's software keyboard on mobile devices. As soon as the software keyboard is hidden, the user will no longer be able to trigger any `OnKeyDown` or `OnKeyUp` events.\n\nTo show the software keyboard again, use the [ShowKeyboard()](https://www.hollywood-mal.com/docs/html/hollywood/ShowKeyboard_.html) function.",
+    "inputsDocs": "none",
+    "resultsDocs": "none",
+    "platforms": ["Android", "iOS"],
+    "insertText": "HideKeyboard()"
+  },
+  {
+    "name": "PerformSelector",
+    "helpId": "PerformSelector",
+    "shortDescription": "perform selector",
+    "version": "7.0",
+    "synopsis": "[ret] = PerformSelector(s$[, ...])",
+    "functionDocs": "This function can be used to perform a selector of your application's delegate, i.e. it allows you to make calls from your Hollywood script into native code. The name of the selector has to be passed as a string in `s$`.\n\nThe selector specified by `s$` will then be run with an `NSMutableArray` as its sole argument. Inside that array, index 1 will contain the `lua_State` and index 2 will contain a pointer to a `hwPluginAPI` structure, allowing you to access all public APIs and especially the Lua VM. Indices 3 and 4 contain the `UIViewController` and `UIView`, respectively. Upon return, you must set index 0 to an `NSValue` containing an `int` which specifies the return code of your function. This is all very similar to the way functions in Hollywood plugins are executed. So please see the Hollywood SDK documentation for more details (especially the chapters concerning writing library plugins).\n\nYou need to implement the desired selector in your application's delegate in native code. This is what a custom selector might look like in Objective C:\n\n```\n- (void)MyTestSelector:(NSMutableArray *) args\n{\n   // get essential pointers from Hollywood\n   lua_State *L = (lua_State *)\n       [((NSValue *) [args objectAtIndex:1]) pointerValue];\n   hwPluginAPI *hwcl = (hwPluginAPI *)\n       [((NSValue *) [args objectAtIndex:2]) pointerValue];\n\n   // we return 1 because we push one string\n   int retval = 1;\n\n   // print string at stack index 2\n   printf(\"%s\\n\", hwcl->LuaBase->luaL_checklstring(L, 2, NULL));\n\n   // push return value\n   hwcl->LuaBase->lua_pushstring(L, \"Test return value\");\n\n   // set return value\n   [args replaceObjectAtIndex:0 withObject:[NSValue value:&retval\n       withObjCType:@encode(int*)]];\n}\n```\n\nThis selector will print the string argument that is passed to the `PerformSelector()` call in argument 2. It will then return the string \"Test return value\" to the Hollywood script. You could run this selector from your Hollywood script like this:\n\n```\nDebugPrint(PerformSelector(\"MyTestSelector\", \"Test\"))\n```\n\nThis code will pass the string \"Test\" to the `MyTestSelector` method. [DebugPrint()](https://www.hollywood-mal.com/docs/html/hollywood/DebugPrint_.html) will print \"Test return value\" because that is the return value of `MyTestSelector`.\n\nKeep in mind that your selector function will not be run on the main (UI) thread but on Hollywood's VM thread. So when accessing UIKit functionality (or other frameworks that need to run on the main thread) you need to delegate the respective code to the main thread first.",
+    "inputsDocs": "* `s$` — name of selector to run",
+    "resultsDocs": "* `ret` — optional: return values of your selector function",
+    "platforms": ["iOS"],
+    "insertText": "PerformSelector(${1:s$})"
+  },
+  {
+    "name": "ShowKeyboard",
+    "helpId": "ShowKeyboard",
+    "shortDescription": "show the software keyboard",
+    "version": "5.0",
+    "synopsis": "ShowKeyboard()",
+    "functionDocs": "This function can be used to show the host system's software keyboard on mobile devices. As soon as the software keyboard is visible, the user will be able to enter text that will then be sent to your script in the form of `OnKeyDown` and `OnKeyUp` events. Thus, you should install the appropriate event handlers using [InstallEventHandler()](https://www.hollywood-mal.com/docs/html/hollywood/InstallEventHandler_.html) before calling `ShowKeyboard()`.\n\nTo hide the software keyboard, use the [HideKeyboard()](https://www.hollywood-mal.com/docs/html/hollywood/HideKeyboard_.html) function.",
+    "inputsDocs": "none",
+    "resultsDocs": "none",
+    "platforms": ["Android", "iOS"],
+    "insertText": "ShowKeyboard()"
+  },
+  {
+    "name": "ShowToast",
+    "helpId": "ShowToast",
+    "shortDescription": "show a short message",
+    "version": "5.3",
+    "synopsis": "ShowToast(s$[, x, y, long])",
+    "functionDocs": "This function can be used to show a short message (a so-called \"toast\") that disappears automatically after a certain period of time. You have to pass the message to display in the string argument `s$`. The optional arguments allow you to specify the desired position of the message on the screen and whether the presentation time should be long or short. You can also use Hollywood's special coordinate constants in the `x` and `y` arguments.",
+    "inputsDocs": "* `s$` — message to show\n* `x` — optional: x position for the message\n* `y` — optional: y position for the message\n* `long` — optional: whether or not the presentation duration should be long or short (defaults to `False` which means a short presentation duration)",
+    "example": "```\nShowToast(\"Hello World!\", #CENTER, #CENTER)\n```\n\nThe code above shows the message \"Hello World!\" in the center of the screen and hides it automatically after a short period of time.",
+    "platforms": ["Android", "iOS"],
+    "insertText": "ShowToast(${1:s$})"
+  },
+  {
+    "name": "Vibrate",
+    "helpId": "Vibrate",
+    "shortDescription": "vibrate device",
+    "version": "8.0",
+    "synopsis": "Vibrate(ms)",
+    "functionDocs": "This function can be used to vibrate the device for the duration specified by `ms`. The duration must be specified in milliseconds.",
+    "inputsDocs": "* `ms` — duration in milliseconds to vibrate",
+    "example": "```\nVibrate(1000)\n```\n\nThe code above will vibrate the device for one second.",
+    "platforms": ["Android"],
+    "insertText": "Vibrate(${1:ms})"
+  }
+]

@@ -1,0 +1,100 @@
+[
+  {
+    "name": "DeletePrefs",
+    "helpId": "DeletePrefs",
+    "shortDescription": "delete user preferences",
+    "version": "6.1",
+    "synopsis": "DeletePrefs()",
+    "functionDocs": "This function can be used to delete user preferences that have been saved using [SavePrefs()](https://www.hollywood-mal.com/docs/html/hollywood/SavePrefs_.html). You can use this function to implement a restoration of the default settings. By calling `DeletePrefs()` all user preferences will be physically erased from the user's hard drive.\n\nNote that this function will only work if you have specified a unique identifier for your application by using the [@APPIDENTIFIER](https://www.hollywood-mal.com/docs/html/hollywood/atAPPIDENTIFIER_.html) preprocessor command. See [APPIDENTIFIER](https://www.hollywood-mal.com/docs/html/hollywood/atAPPIDENTIFIER_.html).",
+    "inputsDocs": "none",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "DeletePrefs()"
+  },
+  {
+    "name": "GetApplicationInfo",
+    "helpId": "GetApplicationInfo",
+    "shortDescription": "get information about the application",
+    "version": "6.0",
+    "synopsis": "t = GetApplicationInfo()",
+    "functionDocs": "This function can be used to obtain the information specified in the @APPXXX preprocessor commands. `GetApplicationInfo()` returns a table that contains the following fields:\n\n- `Title`: This is set to the value of [@APPTITLE](https://www.hollywood-mal.com/docs/html/hollywood/atAPPTITLE_.html). See [APPTITLE](https://www.hollywood-mal.com/docs/html/hollywood/atAPPTITLE_.html).\n\n- `Version`: This is set to the value of [@APPVERSION](https://www.hollywood-mal.com/docs/html/hollywood/atAPPVERSION_.html). See [APPVERSION](https://www.hollywood-mal.com/docs/html/hollywood/atAPPVERSION_.html).\n\n- `Author`: This is set to the value of [@APPAUTHOR](https://www.hollywood-mal.com/docs/html/hollywood/atAPPAUTHOR_.html). See [APPAUTHOR](https://www.hollywood-mal.com/docs/html/hollywood/atAPPAUTHOR_.html).\n\n- `Copyright`: This is set to the value of [@APPCOPYRIGHT](https://www.hollywood-mal.com/docs/html/hollywood/atAPPCOPYRIGHT_.html). See [APPCOPYRIGHT](https://www.hollywood-mal.com/docs/html/hollywood/atAPPCOPYRIGHT_.html).\n\n- `Description`: This is set to the value of [@APPDESCRIPTION](https://www.hollywood-mal.com/docs/html/hollywood/atAPPDESCRIPTION_.html). See [APPDESCRIPTION](https://www.hollywood-mal.com/docs/html/hollywood/atAPPDESCRIPTION_.html).\n\n- `Identifier`: This is set to the value of [@APPIDENTIFIER](https://www.hollywood-mal.com/docs/html/hollywood/atAPPIDENTIFIER_.html). See [APPIDENTIFIER](https://www.hollywood-mal.com/docs/html/hollywood/atAPPIDENTIFIER_.html). (V6.1)",
+    "inputsDocs": "none",
+    "resultsDocs": "* `t` — a table containing the fields described above",
+    "platforms": ["All"],
+    "insertText": "GetApplicationInfo()"
+  },
+  {
+    "name": "GetCommandLine",
+    "helpId": "GetCommandLine",
+    "shortDescription": "get the arguments from the command line",
+    "version": "3.0",
+    "synopsis": "t, n, console = GetCommandLine()",
+    "functionDocs": "This function allows you to obtain the arguments that your script has been started with. This makes it possible for your script to take arguments from the user and then react on it accordingly. All arguments that are not recognized by Hollywood will be forwarded to your script. Please note that arguments must be prefixed by a dash character (-). A parameter may also follow after each argument.\n\n`GetCommandLine()` returns three values: The second return value is a number which simply specifies how many arguments have been passed to your script from the command line. The first return value is a table which contains all arguments and their parameters. The table is an array of \"n\"-tables with the items `arg` and `param`. `arg` will be initialized to the argument excluding the dash character. `param` will receive the parameter for that argument if there is one, else it will be receive an empty string (\"\"). The third return value is new in Hollywood 4.7 and indicates whether or not Hollywood was started from a console. In that case, the third return value will be `True`, else it will be `False`.\n\nUnder AmigaOS this function will also take the tooltypes of the script's or applet's icon into account if the program was started from Workbench.\n\nUnder macOS this function will look into the `CFBundleExecutableArgs` dictionary entry in the application bundle's Info.plist if the program was started from Finder.",
+    "inputsDocs": "none",
+    "resultsDocs": "* `t` — table containing all arguments and their parameters\n* `n` — number of arguments that have been passed to the program\n* `console` — `True` if program was started from a console, otherwise `False` (V4.7)",
+    "example": "```\nargs, count = GetCommandLine()\nNPrint(\"Number of arguments:\", count)\nFor Local k = 0 to count - 1\n   NPrint(\"Arg #\", k, \":\", args[k].arg, \"Param:\", args[k].param)\nNext\n```\n\nThe code above gets all arguments from the command line and prints them to the screen.",
+    "platforms": ["All"],
+    "insertText": "GetCommandLine()"
+  },
+  {
+    "name": "GetFileArgument",
+    "helpId": "GetFileArgument",
+    "shortDescription": "get file argument passed to a compiled script",
+    "version": "5.0",
+    "synopsis": "f$ = GetFileArgument([path])",
+    "functionDocs": "`GetFileArgument()` allows you to retrieve the file argument that was passed to a compiled Hollywood script. Thus, this function will only work correctly when used by executables that have been compiled with Hollywood because in script mode the file argument is obviously always the Hollywood script itself. `GetFileArgument()` extends the [GetCommandLine()](https://www.hollywood-mal.com/docs/html/hollywood/GetCommandLine_.html) function because the latter only allows you to retrieve option arguments, not the file argument itself.\n\nThis function is especially useful when writing tools that should be able to act as viewers for certain file formats with Hollywood. By using `GetFileArgument()` you could create programs which can be used as a default tool for certain file formats.\n\nStarting with Hollywood 9.0, there is an optional argument named `path`. If this is set to `True`, `GetFileArgument()` will return a fully qualified path to the file instead of just the file name. For compatibility reasons, this argument defaults to `False`.",
+    "inputsDocs": "* `path` — optional: set this to `True` to get a fully qualified to the file (defaults to `False`) (V9.0)",
+    "resultsDocs": "* `f$` — the file argument passed to the compiled Hollywood script or an empty string if Hollywood is running in interpreter mode",
+    "platforms": ["All"],
+    "insertText": "GetFileArgument()"
+  },
+  {
+    "name": "GetProgramInfo",
+    "helpId": "GetProgramInfo",
+    "shortDescription": "get information about the current program",
+    "version": "3.0",
+    "synopsis": "type, name$[, hw$] = GetProgramInfo()",
+    "functionDocs": "This function can be used to obtain some information about the currently running Hollywood program. `GetProgramInfo()` will return two values: The first return value specifies the program type currently running inside Hollywood. This variable can be `#PRGTYPE_SCRIPT` for Hollywood scripts, `#PRGTYPE_APPLET` for Hollywood applets, or `#PRGTYPE_PROGRAM` for compiled executables. The second return value is a string which contains the file name of the currently running program. If the currently running program is an applet or a script, its name will be returned in `name$`. If the currently running program is a compiled executable, `name$` will receive the file name of this executable.\n\nIf the currently running program is an applet or a script, there will be a third return value `hw$`. This return value will contain the file name of the Hollywood interpreter used to run this applet or script.",
+    "inputsDocs": "none",
+    "resultsDocs": "* `type` — type of the currently running program (`#PRGTYPE_SCRIPT`, `#PRGTYPE_APPLET` or `#PRGTYPE_PROGRAM`)\n* `name$` — file name of the currently running program\n* `hw$` — optional: this value is only returned if the currently running program is a script or an applet; it specifies the path to the Hollywood interpreter used to run this script or applet",
+    "platforms": ["All"],
+    "insertText": "GetProgramInfo()"
+  },
+  {
+    "name": "GetRawArguments",
+    "helpId": "GetRawArguments",
+    "shortDescription": "get all arguments passed to program",
+    "version": "10.0",
+    "synopsis": "args = GetRawArguments()",
+    "functionDocs": "This function can be used to get all arguments passed to your program or script either via the console or via the host system's desktop manager. The arguments will be returned in the `args` table and won't be formatted in any way. They will be returned in their raw form as they were passed to your program or script. This means that the returned arguments may also include special arguments handled by Hollywood, e.g. \"-window\" or \"-quiet\".\n\nNote that the first table entry will always contain the name of the program but this will not necessarily include a qualified path but just the name of the program as it was specified by the caller.\n\n`GetRawArguments()` can be useful if your script should be capable of handling multiple file arguments. [GetFileArgument()](https://www.hollywood-mal.com/docs/html/hollywood/GetFileArgument_.html) only allows you to get the very first file passed to your program and [GetCommandLine()](https://www.hollywood-mal.com/docs/html/hollywood/GetCommandLine_.html) expects arguments to be formatted in a certain way which makes it impossible to use it to get al file arguments. `GetRawArguments()` allows you to get all file arguments because arguments are never formatted in any way but they are simply forwarded to your script without any modification by Hollywood.",
+    "inputsDocs": "none",
+    "resultsDocs": "* `args` — all arguments in a table; the first entry in that table will contain the name of the program (not necessarily with its path)",
+    "example": "```\nt = GetRawArguments()\nDebugPrint(\"Program:\", t[0])\nFor Local k = 1 To ListItems(t) - 1\n   DebugPrint(\"Argument\", k .. \":\", t[k])\nNext\n```\n\nThe code above gets all arguments passed to the script and prints them.",
+    "platforms": ["All"],
+    "insertText": "GetRawArguments()"
+  },
+  {
+    "name": "LoadPrefs",
+    "helpId": "LoadPrefs",
+    "shortDescription": "load user preferences",
+    "version": "6.1",
+    "synopsis": "LoadPrefs(prefs[, t])",
+    "functionDocs": "This function loads user preferences that have been stored using the [SavePrefs()](https://www.hollywood-mal.com/docs/html/hollywood/SavePrefs_.html) command into the table specified by `prefs`. Prior to calling `LoadPrefs()`, the `prefs` table should have been initialized to the default preferences. `LoadPrefs()` will then overwrite all table items for which custom user preferences exist and keep the default values of the items for which there are no user preferences.\n\nNote that this function will only work if you have specified a unique identifier for your application by using the [@APPIDENTIFIER](https://www.hollywood-mal.com/docs/html/hollywood/atAPPIDENTIFIER_.html) preprocessor command. See [APPIDENTIFIER](https://www.hollywood-mal.com/docs/html/hollywood/atAPPIDENTIFIER_.html).\n\nStarting with Hollywood 9.0, this function accepts a new optional table argument that can be used to specify further options.\n\nThe following tags are currently recognized in the optional table argument:\n\n- `Adapter`: This table tag can be used to specify the deserializer that should be used to import the preferences. This can be the name of an external deserializer plugin (e.g. `xml`) or it can be one of the following inbuilt deserializers:\n\n  - `Default`: Use Hollywood's default deserializer. This will deserialize data from the JSON format to a Hollywood table.\n\n  - `Inbuilt`: Use Hollywood's legacy deserializer. Using this deserializer is not recommended any longer as the data is in a proprietary, non-human-readable format. Using JSON is a much better choice.\n\n  If the `Adapter` tag isn't specified, it will default to the default set using [SetDefaultAdapter()](https://www.hollywood-mal.com/docs/html/hollywood/SetDefaultAdapter_.html).\n\n- `UserTags`: This tag can be used to specify additional data that should be passed to serializer plugins. If you use this tag, you must set it to a table of key-value pairs that contain the additional data that should be passed to plugins. See [User tags](https://www.hollywood-mal.com/docs/html/hollywood/UserTagsInfo_.html). (V10.0)",
+    "inputsDocs": "* `prefs` — table to load user preferences into\n* `t` — optional: table containing further options (see above) (V9.0)",
+    "example": "```\n@APPIDENTIFIER \"com.airsoftsoftwair.example\"\nprf = {lastfile$ = \"Unnamed\", lastxpos = 0, lastypos = 0}\nLoadPrefs(prf)\n```\n\nThis initializes the table `prf` to default values and then uses `LoadPrefs()` to read user preferences saved using [SavePrefs()](https://www.hollywood-mal.com/docs/html/hollywood/SavePrefs_.html) into the table. See [SavePrefs](https://www.hollywood-mal.com/docs/html/hollywood/SavePrefs_.html).",
+    "platforms": ["All"],
+    "insertText": "LoadPrefs(${1:prefs})"
+  },
+  {
+    "name": "SavePrefs",
+    "helpId": "SavePrefs",
+    "shortDescription": "save user preferences",
+    "version": "6.1",
+    "synopsis": "SavePrefs(prefs[, t])",
+    "functionDocs": "This function saves the table `prefs`, containing user preferences for your application, to an external file. You can then load these preferences back into your program the next time your program is started by using the [LoadPrefs()](https://www.hollywood-mal.com/docs/html/hollywood/LoadPrefs_.html) function. The actual location where the preferences file will be stored is platform-dependent.\n\nNote that this function will only work if you have specified a unique identifier for your application by using the [@APPIDENTIFIER](https://www.hollywood-mal.com/docs/html/hollywood/atAPPIDENTIFIER_.html) preprocessor command. See [APPIDENTIFIER](https://www.hollywood-mal.com/docs/html/hollywood/atAPPIDENTIFIER_.html).\n\nStarting with Hollywood 9.0, this function accepts a new optional table argument that can be used to specify further options.\n\nThe following tags are currently recognized in the optional table argument:\n\n- `Adapter`: This table tag can be used to specify the serializer that should be used to export the preferences. This can be the name of an external serializer plugin (e.g. `xml`) or it can be one of the following inbuilt serializers:\n\n  - `Default`: Use Hollywood's default serializer. This will serialize the preferences to the JSON format.\n\n  - `Inbuilt`: Use Hollywood's legacy serializer. This will serialize the table into a custom, proprietary format.\n\n  If the `Adapter` tag isn't specified, it will default to the default set using [SetDefaultAdapter()](https://www.hollywood-mal.com/docs/html/hollywood/SetDefaultAdapter_.html).\n\n- `UserTags`: This tag can be used to specify additional data that should be passed to serializer plugins. If you use this tag, you must set it to a table of key-value pairs that contain the additional data that should be passed to plugins. See [User tags](https://www.hollywood-mal.com/docs/html/hollywood/UserTagsInfo_.html). (V10.0)",
+    "inputsDocs": "* `prefs` — table containing user preferences to save\n* `t` — optional: table containing further options (see above) (V9.0)",
+    "example": "```\n@APPIDENTIFIER \"com.airsoftsoftwair.example\"\nprf = {lastfile$ = \"test.txt\", lastxpos = 100, lastypos = 200}\nSavePrefs(prf)\n```\n\nThis saves the table `prf` to a platform-dependent location. At the next program start you can load the preferences by using the [LoadPrefs()](https://www.hollywood-mal.com/docs/html/hollywood/LoadPrefs_.html) function. See [LoadPrefs](https://www.hollywood-mal.com/docs/html/hollywood/LoadPrefs_.html).",
+    "platforms": ["All"],
+    "insertText": "SavePrefs(${1:prefs})"
+  }
+]

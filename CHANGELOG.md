@@ -4,6 +4,10 @@ All notable changes to the "hw4vsc" extension will be documented in this file.
 
 ## [10.0.2] - _unreleased_
 
+### Added
+
+- FINALLY improved intellisense with proper **code completion** and **quick info** for **all inbuilt Hollywood 10 functions**, including constants and preprocessor commands
+
 ### Changed
 
 - internal: Uses eslint

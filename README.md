@@ -40,6 +40,7 @@ You can find the Hollywood documentation here: <https://www.hollywood-mal.com/do
     * [Run a Task](#run-a-task)
     * [Run a script with F5](#run-a-script-with-f5)
   * [Dark and Light Theme](#dark-and-light-theme)
+  * [Intellisense](#intellisense)
   * [Go to definition](#go-to-definition)
   * [Document Symbols/Go to Symbol](#document-symbolsgo-to-symbol)
   * [Code Snippets](#code-snippets)
@@ -54,9 +55,10 @@ First of all you can use the great inbuilt editing features of Visual Studio Cod
 Additionally this extension supports:
 
 * Hollywood specific syntax highlighting including a [Light and Dark Theme](#dark-and-light-theme)
+* [Intellisense with code completion](#intellisense) of all inbuilt Hollywood functions/commands
 * Hollywood specific [Code Snippets](#code-snippets)
 * [Go to definition](#go-to-definition) functionallity for variables, constants, and functions
-* [Document Symbols](#document-symbols) for showing your variables, constants, and functions in the Outline and Breadcrump view and for easy code navigation
+* [Document Symbols](#document-symbolsgo-to-symbol) for showing your variables, constants, and functions in the Outline and Breadcrump view and for easy code navigation
 * Code indention
 * Code folding
 
@@ -260,6 +262,20 @@ There are two ways to **activate or switch** the theme:
    2. Enter `Color Theme`
    3. Pick `Hollywood (Dark)` or `Hollywood (Light)` from the list
 
+## Intellisense
+
+IntelliSense is a general term for various code editing features like code completion, quick info, and some more. This plugin currently provides code completion and quick info support for all inbuilt Hollywood functions includig preprocessor commands and constants.
+
+As soon as you start typing, a box with matching commands is opened. Pressing `Tab` or `Enter` will insert the selected entry, often with placeholders for all required parameters.
+
+TODO ADD IMAGE
+
+Additonally you will see the quick help section for each command. If that is not the case or you want to hide this box, simply press `Ctrl+Space`.
+
+If you right away press `Ctrl+Space`, a complete list of all functions, preprocessor commands and constants is shown.
+
+**Notice:** Loading this amount of definition data for code completion and quick help could initally take some time when you opening or creating a project.
+
 ## Go to definition
 
 This feature lets you jump to variable, constant, or function definitions/declarations by pressing `F12` when on a proper symbol. This is also possible with `Ctrl+Click` on a symbol.
@@ -319,11 +335,10 @@ This extension is far from complete or bug free. The overall goal is: Provide ne
 
 This includes and adds:
 
-* Proper code completion, also for # and @
-* inline help [here](https://code.visualstudio.com/api/language-extensions/programmatic-language-features#help-with-function-and-method-signatures) and [here](https://code.visualstudio.com/api/language-extensions/programmatic-language-features#help-with-function-and-method-signatures)
+* inline help / paramter info [here](https://code.visualstudio.com/api/language-extensions/programmatic-language-features#help-with-function-and-method-signatures) and [here](https://code.visualstudio.com/api/language-extensions/programmatic-language-features#help-with-function-and-method-signatures)
 * more snippets
 * Commands (Contribution point)
 * Menus (Contribution point)
 * Help (press F1 or similar and help file gets loaded with word under cursor)
-* Quick Help
+* Code completion for Hollywood plugins
 * ...

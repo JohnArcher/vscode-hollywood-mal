@@ -1,0 +1,100 @@
+[
+  {
+    "name": "ConfigureJoystick",
+    "helpId": "ConfigureJoystick",
+    "shortDescription": "set joystick options",
+    "version": "10.0",
+    "synopsis": "ConfigureJoystick(t)",
+    "functionDocs": "This function can be used to configure several joystick options. You have to pass a table as the sole function parameter `t`. This table can contain the following tags:\n\n- `UseAmigaInput`: This tag is only supported on AmigaOS 4. If you set it to `True`, OS4's AmigaInput system will be used to query joystick states. The advantage of using AmigaInput instead of lowlevel.library, which is the default on Amiga, is that you can query more than 7 buttons and users don't have to use the AmigaInput prefs to map their controllers to lowlevel.library ports.",
+    "inputsDocs": "* `t` — table containing one or more options (see above)",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "ConfigureJoystick(${1:t})"
+  },
+  {
+    "name": "CountJoysticks",
+    "helpId": "CountJoysticks",
+    "shortDescription": "return number of joysticks currently plugged in",
+    "version": "4.6",
+    "synopsis": "r = CountJoysticks()",
+    "functionDocs": "This function counts the number of joysticks currently plugged in. You can then query the single joysticks using commands like [JoyDir()](https://www.hollywood-mal.com/docs/html/hollywood/JoyDir_.html) and [JoyButton()](https://www.hollywood-mal.com/docs/html/hollywood/JoyButton_.html). This function is useful to check if there is a joystick available at all. If it returns 0, then there is currently no joystick that is recognized by Hollywood.",
+    "inputsDocs": "none",
+    "resultsDocs": "* `r` — number of joysticks available or 0 if none",
+    "platforms": ["All"],
+    "insertText": "CountJoysticks()"
+  },
+  {
+    "name": "JoyAxisX",
+    "helpId": "JoyAxisX",
+    "shortDescription": "return state of joystick's x axis",
+    "version": "10.0",
+    "synopsis": "state = JoyAxisX(port[, idx])",
+    "functionDocs": "This function returns the current x axis state of the joystick at the port specified by `port`. The x axis state is returned in the range of -1000 to 1000. The optional argument `idx` can be used to specify the index of the joystick to use in case there are multiple joysticks on a controller. Joystick indices start at 0.\n\n`port` can range from 0 to the number of joysticks currently plugged in minus 1. You can find out the number of joysticks currently available using the [CountJoysticks()](https://www.hollywood-mal.com/docs/html/hollywood/CountJoysticks_.html) function. Please note that under AmigaOS, port 0 addresses the standard joystick port although this is port 1 on classic Amiga hardware. Hollywood switches these ports for cross-platform consistency where port 0 shall always refer to the default joystick.",
+    "inputsDocs": "* `port` — port number (usually 0 for the standard Joystick port)\n* `idx` — optional: joystick index to query (defaults to 0)",
+    "resultsDocs": "* `state` — state of the joystick x axis, ranging from -1000 to 1000",
+    "platforms": ["All"],
+    "insertText": "JoyAxisX(${1:port})"
+  },
+  {
+    "name": "JoyAxisY",
+    "helpId": "JoyAxisY",
+    "shortDescription": "return state of joystick's y axis",
+    "version": "10.0",
+    "synopsis": "state = JoyAxisY(port[, idx])",
+    "functionDocs": "This function returns the current y axis state of the joystick at the port specified by `port`. The y axis state is returned in the range of -1000 to 1000. The optional argument `idx` can be used to specify the index of the joystick to use in case there are multiple joysticks on a controller. Joystick indices start at 0.\n\n`port` can range from 0 to the number of joysticks currently plugged in minus 1. You can find out the number of joysticks currently available using the [CountJoysticks()](https://www.hollywood-mal.com/docs/html/hollywood/CountJoysticks_.html) function. Please note that under AmigaOS, port 0 addresses the standard joystick port although this is port 1 on classic Amiga hardware. Hollywood switches these ports for cross-platform consistency where port 0 shall always refer to the default joystick.",
+    "inputsDocs": "* `port` — port number (usually 0 for the standard Joystick port)\n* `idx` — optional: joystick index to query (defaults to 0)",
+    "resultsDocs": "* `state` — state of the joystick y axis, ranging from -1000 to 1000",
+    "platforms": ["All"],
+    "insertText": "JoyAxisY(${1:port})"
+  },
+  {
+    "name": "JoyAxisZ",
+    "helpId": "JoyAxisZ",
+    "shortDescription": "return state of joystick's z axis",
+    "version": "10.0",
+    "synopsis": "state = JoyAxisZ(port[, idx])",
+    "functionDocs": "This function returns the current z axis state of the joystick at the port specified by `port`. The z axis state is returned in the range of -1000 to 1000. The optional argument `idx` can be used to specify the index of the joystick to use in case there are multiple joysticks on a controller. Joystick indices start at 0.\n\n`port` can range from 0 to the number of joysticks currently plugged in minus 1. You can find out the number of joysticks currently available using the [CountJoysticks()](https://www.hollywood-mal.com/docs/html/hollywood/CountJoysticks_.html) function. Please note that under AmigaOS, port 0 addresses the standard joystick port although this is port 1 on classic Amiga hardware. Hollywood switches these ports for cross-platform consistency where port 0 shall always refer to the default joystick.",
+    "inputsDocs": "* `port` — port number (usually 0 for the standard Joystick port)\n* `idx` — optional: joystick index to query (defaults to 0)",
+    "resultsDocs": "* `state` — state of the joystick z axis, ranging from -1000 to 1000",
+    "platforms": ["All"],
+    "insertText": "JoyAxisZ(${1:port})"
+  },
+  {
+    "name": "JoyButton",
+    "helpId": "JoyButton",
+    "shortDescription": "check if joystick button is pressed",
+    "version": "1.5",
+    "synopsis": "pressed = JoyButton(port[, button])",
+    "functionDocs": "This function returns `True` if a button of the Joystick plugged into the port specified by `port` has been pressed. Otherwise `False` is returned. The optional argument `button` specifies which button to look for. If you are looking for a specific button, specify the number of this button (must be between 1 and 32). If you are looking for multiple buttons, specify 0 and this function will return a 32-bit mask in which each of the 32 bits indicates the state of the button (pressed or not pressed).\n\n`port` can range from 0 to the number of joysticks currently plugged in minus 1. You can find out the number of joysticks currently available using the [CountJoysticks()](https://www.hollywood-mal.com/docs/html/hollywood/CountJoysticks_.html) function. Please note that under AmigaOS, port 0 addresses the standard joystick port although this is port 1 on classic Amiga hardware. Hollywood switches these ports for cross-platform consistency where port 0 shall always refer to the default joystick.",
+    "inputsDocs": "* `port` — port number (usually 0 for the standard Joystick port)\n* `button` — optional: button to look for or 0 for all buttons (defaults to 1 which means look for first, i.e. fire, button) (V4.6)",
+    "resultsDocs": "* `pressed` — `True` if button is pressed, otherwise FALSE; if you passed 0 for `button`, then this will be a 32-bit mask indicating the states of all 32 buttons",
+    "example": "```\nWhile fire = FALSE\n  fire = JoyButton(0)\n  VWait\nWend\n```\n\nThe above code waits until the user presses fire.",
+    "platforms": ["All"],
+    "insertText": "JoyButton(${1:port})"
+  },
+  {
+    "name": "JoyDir",
+    "helpId": "JoyDir",
+    "shortDescription": "return direction of joystick",
+    "version": "1.5",
+    "synopsis": "dir = JoyDir(port[, idx])",
+    "functionDocs": "This function returns the direction of the Joystick plugged into the port specified by `port`. The optional argument `idx` can be used to specify the index of the joystick to use in case there are multiple joysticks on a controller. Joystick indices start at 0.\n\nOne of the following states will be returned:\n\n- `#JOYUP` Joystick direction is up\n- `#JOYUPRIGHT` Joystick direction is up-right\n- `#JOYRIGHT` Joystick direction is right\n- `#JOYDOWNRIGHT` Joystick direction is down-right\n- `#JOYDOWN` Joystick direction is down\n- `#JOYDOWNLEFT` Joystick direction is down-left\n- `#JOYLEFT` Joystick direction is left\n- `#JOYUPLEFT` Joystick direction is up-left\n- `#JOYNODIR` no direction selected\n\n`port` can range from 0 to the number of joysticks currently plugged in minus 1. You can find out the number of joysticks currently available using the [CountJoysticks()](https://www.hollywood-mal.com/docs/html/hollywood/CountJoysticks_.html) function. Please note that under AmigaOS, port 0 addresses the standard joystick port although this is port 1 on classic Amiga hardware. Hollywood switches these ports for cross-platform consistency where port 0 shall always refer to the default joystick.",
+    "inputsDocs": "* `port` — port number (usually 0 for the standard Joystick port)\n* `idx` — optional: joystick index to query (defaults to 0) (V10.0)",
+    "resultsDocs": "* `dir` — current Joystick state (one of the constants from above)",
+    "example": "```\nWhile state <> #JOYRIGHT\n  state = JoyDir(0)\n  VWait\nWend\n```\n\nThe above code waits until the user moves the Joystick in port 0 to right.",
+    "platforms": ["All"],
+    "insertText": "JoyDir(${1:port})"
+  },
+  {
+    "name": "JoyHat",
+    "helpId": "JoyHat",
+    "shortDescription": "return state of joystick hat",
+    "version": "10.0",
+    "synopsis": "state = JoyHat(port[, idx])",
+    "functionDocs": "This function returns the state of the hat of the joystick at the port specified by `port`. Joystick hats are also known as point-of-view d-pads. The returned state will be -1 if the hat is in the center, otherwise a value between 0 and 27000 will be returned. The optional argument `idx` can be used to specify the index of the joystick hat to use in case there are multiple hats on a controller. Indices start at 0.\n\n`port` can range from 0 to the number of joysticks currently plugged in minus 1. You can find out the number of joysticks currently available using the [CountJoysticks()](https://www.hollywood-mal.com/docs/html/hollywood/CountJoysticks_.html) function. Please note that under AmigaOS, port 0 addresses the standard joystick port although this is port 1 on classic Amiga hardware. Hollywood switches these ports for cross-platform consistency where port 0 shall always refer to the default joystick.",
+    "inputsDocs": "* `port` — port number (usually 0 for the standard Joystick port)\n* `idx` — optional: joystick index to query (defaults to 0)",
+    "resultsDocs": "* `state` — state of the joystick hat, ranging from -1 (center) to 27000",
+    "platforms": ["All"],
+    "insertText": "JoyHat(${1:port})"
+  }
+]

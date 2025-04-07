@@ -1,0 +1,62 @@
+[
+  {
+    "name": "DisablePlugin",
+    "helpId": "DisablePlugin",
+    "shortDescription": "disable a plugin",
+    "version": "6.0",
+    "synopsis": "DisablePlugin(name$)",
+    "functionDocs": "This function can be used to disable the specified plugin. Please note that not all plugins can be disabled. Disabling plugins is only supported for plugins that provide loaders and savers for additional formats. It is not supported for plugins that replace complete core components inside Hollywood, e.g. by providing a custom display adapter. These plugins cannot be disabled.\n\nTo enable a plugin again later, call the [EnablePlugin()](https://www.hollywood-mal.com/docs/html/hollywood/EnablePlugin_.html) function. See [EnablePlugin](https://www.hollywood-mal.com/docs/html/hollywood/EnablePlugin_.html).",
+    "inputsDocs": "* `name$` — name of the plugin to disable",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "DisablePlugin(${1:name$})"
+  },
+  {
+    "name": "EnablePlugin",
+    "helpId": "EnablePlugin",
+    "shortDescription": "enable a plugin",
+    "version": "6.0",
+    "synopsis": "EnablePlugin(name$)",
+    "functionDocs": "This function can be used to enable the specified plugin. This is only necessary if you disabled it previously using [DisablePlugin()](https://www.hollywood-mal.com/docs/html/hollywood/DisablePlugin_.html).",
+    "inputsDocs": "* `name$` — name of the plugin to enable",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "EnablePlugin(${1:name$})"
+  },
+  {
+    "name": "GetPlugins",
+    "helpId": "GetPlugins",
+    "shortDescription": "get information about available plugins",
+    "version": "5.3",
+    "synopsis": "t = GetPlugins()",
+    "functionDocs": "This function returns a table that contains information about all available plugins. You will get one subtable for each plugin that has been loaded. Use [ListItems()](https://www.hollywood-mal.com/docs/html/hollywood/ListItems_.html) to find out how many plugin subtables are in the table. Each subtable will contain the following fields:\n\n- `Name`: Name of the plugin.\n\n- `Version`: Version number of plugin.\n\n- `Revision`: Revision number of plugin.\n\n- `Capabilities`: Bitmask describing the Hollywood capabilities that this plugin extends. This will be a combination of the following capabilities:\n\n  ```\n  #PLUGINCAPS_CONVERT\n  #PLUGINCAPS_LIBRARY\n  #PLUGINCAPS_IMAGE\n  #PLUGINCAPS_ANIM\n  #PLUGINCAPS_SOUND\n  #PLUGINCAPS_VECTOR\n  #PLUGINCAPS_VIDEO\n  #PLUGINCAPS_SAVEIMAGE\n  #PLUGINCAPS_SAVEANIM\n  #PLUGINCAPS_SAVESAMPLE\n  #PLUGINCAPS_REQUIRE\n  #PLUGINCAPS_DISPLAYADAPTER\n  #PLUGINCAPS_TIMERADAPTER\n  #PLUGINCAPS_REQUESTERADAPTER\n  #PLUGINCAPS_FILEADAPTER\n  #PLUGINCAPS_DIRADAPTER\n  #PLUGINCAPS_AUDIOADAPTER\n  #PLUGINCAPS_EXTENSION\n  #PLUGINCAPS_NETWORKADAPTER\n  #PLUGINCAPS_SERIALIZE\n  #PLUGINCAPS_ICON\n  #PLUGINCAPS_SAVEICON\n  #PLUGINCAPS_IPCADAPTER\n  #PLUGINCAPS_FONT\n  ```\n\n- `Author`: Author of the plugin.\n\n- `Description`: Description of the plugin.\n\n- `Copyright`: Copyright string of the plugin.\n\n- `URL`: URL of the plugin's homepage (where to get updates, etc.)\n\n- `Date`: Compilation date of plugin.\n\n- `Settings`: Fully qualified path to settings tool of the plugin.\n\n- `HelpFile`: Fully qualified path to the help file of the plugin.\n\n- `Path`: Fully qualified path to the plugin's binary code.\n\n- `FileTypes`: This item contains a subtable that contains tables describing all file formats that this plugin makes available. This is for example useful for adapting your file requesters to contain additional extensions that are supported by plugins. For every new file type there will be a table with the following fields initialized:\n\n  - `Type`: Set to the type of the file format. This will be one of the following constants:\n\n    ```\n    #FILETYPE_IMAGE\n    #FILETYPE_ANIM\n    #FILETYPE_SOUND\n    #FILETYPE_VIDEO\n    #FILETYPE_ICON\n    #FILETYPE_FONT\n    ```\n\n  - `Name`: Set to a string describing the name of the file format, e.g. \"TIFF\".\n\n  - `Extensions`: Set to a string containing all extensions used by this file format. The extensions are separated by the \"|\" character and do not contain a dot, e.g. \"tif|tiff\".\n\n  - `MIMEType`: Set to a string that describes the MIME of the file format. This can also be empty.\n\n  - `Flags`: Set to a bitmask combination that describes the capabilities of this file type. The following flags are currently defined:\n\n    - `#FILETYPEFLAGS_SAVE`: If this flag is set, the entry describes a file type that this plugin can save. The `FormatID` tag will contain the constant used to refer to this plugin file type saver in that case.\n\n    - `#FILETYPEFLAGS_ALPHA`: Indicates that this file type supports alpha channel loading or saving (depending on whether `#FILETYPEFLAGS_SAVE` is set).\n\n    - `#FILETYPEFLAGS_QUALITY`: Only used for `#FILETYPE_IMAGE` or `#FILETYPE_ANIM` with save mode enabled. In that case this flag indicates that the image/anim saver supports different quality levels (ranging from 0 to 100).\n\n    - `#FILETYPEFLAGS_FPS`: Only used for `#FILETYPE_ANIM` with save mode enabled. In that case this flag indicates that the anim saver supports different frames per second settings.\n\n  - `FormatID`: If `#FILETYPEFLAGS_SAVE` is set in `Flags`, this tag will contain the constant identifier that has to be passed to the respective save function in order to use this file type saver. For example, for files of type `#FILETYPE_IMAGE` `FormatID` contains the identifier that has to be passed to [SaveBrush()](https://www.hollywood-mal.com/docs/html/hollywood/SaveBrush_.html).\n\n- `ModuleName`: Contains the plugin's module name. This is equal to the plugin's file name minus the file extension. The module name of the plugin is unique among all loaded plugins. Hollywood will never load two plugins with the same module name. (V6.0)\n\n- `Disabled`: Tells you whether or not this plugin is currently disabled because of a call to [DisablePlugin()](https://www.hollywood-mal.com/docs/html/hollywood/DisablePlugin_.html). (V6.0)",
+    "inputsDocs": "none",
+    "resultsDocs": "* `t` — table containing information about the plugins loaded",
+    "platforms": ["All"],
+    "insertText": "GetPlugins()"
+  },
+  {
+    "name": "HavePlugin",
+    "helpId": "HavePlugin",
+    "shortDescription": "check if a plugin is available",
+    "version": "6.0",
+    "synopsis": "ok, loaded = HavePlugin(name$[, version, revision])",
+    "functionDocs": "This function can be used to check if the plugin specified in `name$` is currently available. In that case `HavePlugin()` will return `True` in the first return value. The second return value indicates whether the plugin has been auto-loaded at startup or not. By default, Hollywood will auto-load all plugins at startup but this behaviour can be changed either by prefixing plugin filenames with an underscore character ('_') or by using the [-skipplugins](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage_.html) console argument. If the plugin has not been loaded, you can call [LoadPlugin()](https://www.hollywood-mal.com/docs/html/hollywood/LoadPlugin_.html) on it to load it manually.\n\n`HavePlugin()` accepts two optional arguments that can be used to check if a certain version of the plugin is available. Note that this can only be checked if the plugin has been loaded already. If the plugin hasn't been loaded yet, `HavePlugin()` won't be able to check its version.",
+    "inputsDocs": "* `name$` — plugin to check\n* `version` — optional: version number to look for (defaults to 0 which means any version is acceptable)\n* `revision` — optional: revision number to look for (defaults to 0 which means any revision is acceptable)",
+    "resultsDocs": "* `ok` — `True` if the plugin is available in the specified version\n* `loaded` — `True` if the plugin has already been loaded",
+    "platforms": ["All"],
+    "insertText": "HavePlugin(${1:name$})"
+  },
+  {
+    "name": "LoadPlugin",
+    "helpId": "LoadPlugin",
+    "shortDescription": "load a plugin at runtime",
+    "version": "6.0",
+    "synopsis": "LoadPlugin(name$[, table])",
+    "functionDocs": "This function can be used to load and initialize the specified plugin at runtime. `LoadPlugin()` does basically the same as [@REQUIRE](https://www.hollywood-mal.com/docs/html/hollywood/atREQUIRE_.html) but can be called while your script is already running while [@REQUIRE](https://www.hollywood-mal.com/docs/html/hollywood/atREQUIRE_.html) is executed by the preprocessor. As `LoadPlugin()` is a runtime function you cannot load certain plugins which require lowlevel initialization from this function, e.g. it is not possible to runtime-load plugins which install display adapters because Hollywood has already setup its inbuilt display driver by then. Runtime loading plugins which just install loaders or savers of additional file formats works fine, though.\n\n`LoadPlugin()` accepts an optional table argument which can contain the following tags:\n\n- `Version`: Minimum plugin version required. Hollywood will fail if the installed plugin does not have at least this version number. This defaults to 0 which means that any version will do.\n\n- `Revision`: Minimum plugin revision required. Hollywood will fail if the installed plugin does not have at least this revision number. This defaults to 0 which means that any revision will do.\n\n- `SkipRequire`: Set this tag to `True` if you want Hollywood to skip calling the plugin's require initialization code. This is only useful for some advanced debugging purposes and should normally not be touched. Defaults to `False`.\n\nAdditionally, the optional table argument can contain an unlimited number of additional tags to be passed directly to the plugin's initialization routine exactly in the same way as done by the [@REQUIRE](https://www.hollywood-mal.com/docs/html/hollywood/atREQUIRE_.html) preprocessor command. The additional argument acceptable here depend on the respective plugin. Please consult the documentation of the plugin to find out if it accepts any additional parameters that can be passed here.\n\nSee [REQUIRE](https://www.hollywood-mal.com/docs/html/hollywood/atREQUIRE_.html).",
+    "inputsDocs": "* `name$` — plugin to load\n* `table` — optional: table containing further parameters (see above)",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "LoadPlugin(${1:name$})"
+  }
+]

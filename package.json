@@ -2,7 +2,7 @@
 	"name": "hollywood-mal",
 	"displayName": "Hollywood MAL (hw4vsc)",
 	"description": "Adds coding support for Hollywood MAL (Cross-Platform Multimedia Application Layer)",
-	"version": "10.0.1",
+	"version": "10.0.2",
 	"engines": {
 		"vscode": "^1.75.0"
 	},
@@ -71,6 +71,13 @@
 			{
 				"language": "hollywood",
 				"path": "./snippets/hollywood.json"
+			}
+		],
+		"keybindings": [
+			{
+				"key": "alt+L",
+				"command": "extension.selectFilePath",
+				"when": "editorTextFocus && editorLangId == 'hollywood'"
 			}
 		],
 		"configuration": {
@@ -147,15 +154,22 @@
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -b",
-		"watch": "tsc -b -w"
+		"watch": "tsc -b -w",
+		"lint": "eslint .",
+		"copy-json-definitions": "copyfiles -f \"src/definitions/**/*.json\" out/definitions",
+		"package-and-install": "npm run copy-json-definitions && vsce package && code --install-extension hollywood-mal-10.0.2.vsix"
 	},
 	"devDependencies": {
-		"@types/node": "^20.10.0",
+		"@eslint/js": "^9.12.0",
+		"@stylistic/eslint-plugin-plus": "^2.9.0",
+		"@stylistic/eslint-plugin-ts": "^2.9.0",
+		"@types/eslint__js": "^8.42.3",
+		"@types/node": "^22.7.5",
 		"@types/vscode": "^1.75.0",
-		"@typescript-eslint/eslint-plugin": "^6.17.0",
-		"@typescript-eslint/parser": "^6.17.0",
-		"eslint": "^8.56.0",
-		"typescript": "^5.3.3"
+		"copyfiles": "^2.4.1",
+		"eslint": "^9.12.0",
+		"typescript": "~5.5.0",
+		"typescript-eslint": "^8.8.1"
 	},
 	"__metadata": {
 		"id": "100d38a2-22d4-4e27-9704-978ccb6e2968",

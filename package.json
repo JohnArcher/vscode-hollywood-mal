@@ -2,7 +2,7 @@
 	"name": "hollywood-mal",
 	"displayName": "Hollywood MAL (hw4vsc)",
 	"description": "Adds coding support for Hollywood MAL (Cross-Platform Multimedia Application Layer)",
-	"version": "10.0.2-SNAPSHOT-5",
+	"version": "10.0.2",
 	"engines": {
 		"vscode": "^1.75.0"
 	},
@@ -157,7 +157,7 @@
 		"watch": "tsc -b -w",
 		"lint": "eslint .",
 		"copy-json-definitions": "copyfiles -f \"src/definitions/**/*.json\" out/definitions",
-		"package-and-install": "npm run copy-json-definitions && vsce package && code --install-extension hollywood-mal-10.0.2-SNAPSHOT-5.vsix"
+		"package-and-install": "npm run copy-json-definitions && vsce package && code --install-extension hollywood-mal-10.0.2.vsix"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.12.0",

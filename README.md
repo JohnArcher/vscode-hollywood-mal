@@ -264,11 +264,11 @@ There are two ways to **activate or switch** the theme:
 
 ## Intellisense
 
-IntelliSense is a general term for various code editing features like code completion, quick info, and some more. This plugin currently provides code completion and quick info support for all inbuilt Hollywood functions includig preprocessor commands and constants.
+IntelliSense is a general term for various code editing features like code completion, quick info, and some more. This plugin currently provides code completion and quick info support (with **extensive help**) for all inbuilt Hollywood functions includig preprocessor commands and constants (no help texts for those).
 
 As soon as you start typing, a box with matching commands is opened. Pressing `Tab` or `Enter` will insert the selected entry, often with placeholders for all required parameters.
 
-TODO ADD IMAGE
+![Intellisense](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/intellisense_code_completion.gif)
 
 Additonally you will see the quick help section for each command. If that is not the case or you want to hide this box, simply press `Ctrl+Space`.
 

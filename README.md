@@ -315,12 +315,14 @@ You can use code snippets to quickly generate code patterns you regularly need, 
 
 ## Thank you
 
-I would like to thank the following people for their help and support:
+I would like to thank the following people for their help, support and donations:
 
 * Michael Rupp ([mrupp12bit](https://github.com/mrupp12bit)), creator of [TAWS - The Amiga Workbench Simulation](https://www.taws.ch/) and [SonosController](http://aminet.net/search?query=SonosController)
 * [midwan](https://github.com/midwan)
 * *root* from a1k.org
 * Andreas Falkenhahn for his support and creating [Hollywood](https://www.hollywood-mal.com)
+* Thomas Kölsch
+* Nick Sommer
 * Both of my two AmigaSons for interest and motivation and my wife for understanding and providing free time for my hobby
 
 ## Support

@@ -1,0 +1,52 @@
+[
+  {
+    "name": "CreateShortcut",
+    "helpId": "CreateShortcut",
+    "shortDescription": "create a shortcut to a file",
+    "version": "4.7",
+    "synopsis": "CreateShortcut(src$, dest$, desc$)",
+    "functionDocs": "This function can be used to create a `*.lnk` shortcut to file `src$` in file `dest$`. The shortcut will use the description passed in `desc$`. The source file passed in `src$` can be either an executable or a document file.",
+    "inputsDocs": "* `src$` — source file to which the shortcut shall point\n* `dest$` — shortcut file that shall be created\n* `desc$` — description string of shortcut",
+    "example": "```\nCreateShortcut(\"test.exe\", \"test.lnk\", \"Test shortcut\")\n```\n\nThe code above creates a link to file \"test.exe\" as \"test.lnk\" using the description \"Test shortcut\".",
+    "platforms": ["Windows"],
+    "insertText": "CreateShortcut(${1:src$}, ${2:dest$}, ${3:desc$})"
+  },
+  {
+    "name": "GetShortcutPath",
+    "helpId": "GetShortcutPath",
+    "shortDescription": "get path from shortcut",
+    "version": "5.2",
+    "synopsis": "p$, desc$ = GetShortcutPath(f$)",
+    "functionDocs": "This function can be used to get the full path from the `*.lnk` shortcut file specified in `f$`. The path that this shortcut is pointing to will then be returned in the first return value. If the shortcut file contains a description, it will be returned in the second value.",
+    "inputsDocs": "* `f$` — shortcut file",
+    "resultsDocs": "* `p$` — full path that shortcut points to\n* `desc$` — description of shortcut (if available)",
+    "example": "```\np$ = GetShortcutPath(\"test.lnk\")\n```\n\nThe code above returns the full path of the shortcut \"test.lnk\".",
+    "platforms": ["Windows"],
+    "insertText": "GetShortcutPath(${1:f$})"
+  },
+  {
+    "name": "ReadRegistryKey",
+    "helpId": "ReadRegistryKey",
+    "shortDescription": "read a key from the registry",
+    "version": "4.5",
+    "synopsis": "value = ReadRegistryKey(base, key$)",
+    "functionDocs": "This function can be used to read a key from the Windows registry. You have to specify the base tree as well as the key to read. The base tree can be one of the following constants:\n\n```\n#HKEY_CLASSES_ROOT\n#HKEY_CURRENT_CONFIG\n#HKEY_LOCAL_MACHINE\n#HKEY_USERS\n#HKEY_CURRENT_USER\n```\n\nThe return value will be a number in case the registry key contains a number. If the registry key contains a string or binary data, you will get a string as a return value. Hollywood strings are capable of holding binary data because they allow `NULL` characters in them.",
+    "inputsDocs": "* `base` — one of the base tree constants from above\n* `key$` — the registry key to query",
+    "resultsDocs": "* `value` — value of specified registry key; will be either a number or a string",
+    "example": "```\nprogram_files$ = ReadRegistryKey(#HKEY_LOCAL_MACHINE,\n      \"Software/Microsoft/Windows/CurrentVersion/ProgramFilesDir\")\n```\n\nThe code above reads the default location of programs under Windows from the registry. On a German Windows system, this will usually return \"C:/Programme\".",
+    "platforms": ["Windows"],
+    "insertText": "ReadRegistryKey(${1:base}, ${2:key$})"
+  },
+  {
+    "name": "WriteRegistryKey",
+    "helpId": "WriteRegistryKey",
+    "shortDescription": "write a key to the registry",
+    "version": "4.5",
+    "synopsis": "WriteRegistryKey(base, key$, value)",
+    "functionDocs": "This function can be used to write a key to the Windows registry. You have to specify the base tree, the key, and the value which shall be written in the specified key. If the specified key does not exist, it will be created by this function. The base tree can be one of the following constants:\n\n```\n#HKEY_CLASSES_ROOT\n#HKEY_CURRENT_CONFIG\n#HKEY_LOCAL_MACHINE\n#HKEY_USERS\n#HKEY_CURRENT_USER\n```\n\nThe value for the key can be a either number or a string. You can also write binary data to the registry by passing a string. Hollywood strings are capable of holding arbitrary binary data because they allow `NULL` characters in them. Under normal circumstances, however, writing numbers or normal strings to the registry should be sufficient.",
+    "inputsDocs": "* `base` — one of the base tree constants from above\n* `key$` — the registry key to create/modify\n* `value` — value to set the key to; can be either a number or a string",
+    "resultsDocs": "none",
+    "platforms": ["Windows"],
+    "insertText": "WriteRegistryKey(${1:base}, ${2:key$}, ${3:value})"
+  }
+]

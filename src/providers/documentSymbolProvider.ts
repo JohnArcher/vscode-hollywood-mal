@@ -41,7 +41,6 @@ export class HollywoodDocumentSymbolProvider implements DocumentSymbolProvider {
 
     // Third pass: scan the document for variable and constant definitions
     // REFACTOR: extract method
-    const constantsRE = /\b(?:Const(?:\s+))(#\S*)/i;
 
     for (let lineNumber = 0; lineNumber < document.lineCount; lineNumber++) {
       const line = document.lineAt(lineNumber).text;
@@ -87,7 +86,7 @@ export class HollywoodDocumentSymbolProvider implements DocumentSymbolProvider {
           }
         }
       } else {
-        const constantName = constantsRE.exec(line)?.[1];
+        const constantName = RE.constantsRE.exec(line)?.[1];
 
         if (constantName) {
           const startLinePosition = line.indexOf(constantName);
@@ -104,17 +103,6 @@ export class HollywoodDocumentSymbolProvider implements DocumentSymbolProvider {
   }
 
   private getFunctions(startLineNumnber: number, document: TextDocument) {
-
-    const functionRE = /\b(?:(Local|Global)(?:\s+))?(?:Function)(?:\s+([a-zA-Z_.:]+[.:])?([a-zA-Z_]\w*)\s*)?(\()([^)]*)(\))/i;
-    const inlineFunctionRE = /\b(?:(Local|Global)(?:\s+))?(?:([a-zA-Z_.:]+[.:])?([a-zA-Z_]\w*)\s*)?(?:\s*=\s*)(?:Function)(?:\s*)(\()([^)]*)(\))/i;
-    /**
-         * Anonymous functions have to be ignored here, otherwise they break the structure!
-         * These are functions that are passed to another function as a anonymous parameter
-         * Example: Sort(array, Function(a, b) Return(a < b) EndFunction)
-         */
-    const anonymousFunction = /(?:.*\(.*)Function(?:\s*)(\()([^)]*)(\))(?:.*)EndFunction(?:.*\).*)/i;
-    const endFunctionRE = /\bEndFunction\b/i;
-
     for (let lineNumber = startLineNumnber; lineNumber < document.lineCount; lineNumber++) {
       const line = document.lineAt(lineNumber);
 
@@ -124,7 +112,7 @@ export class HollywoodDocumentSymbolProvider implements DocumentSymbolProvider {
 
       // Try to get the function name in one of the two function regexes.
       // If the first regex is undefined at index 3 look if the second is defined there.
-      const functionName = functionRE.exec(line.text)?.[3] || inlineFunctionRE.exec(line.text)?.[3];
+      const functionName = RE.functionRE.exec(line.text)?.[3] || RE.inlineFunctionRE.exec(line.text)?.[3];
 
       // found the regex which means the beginning of the function
       if (functionName) {
@@ -142,7 +130,7 @@ export class HollywoodDocumentSymbolProvider implements DocumentSymbolProvider {
 
         // Try to find out whether the whole function is defined on one line
         // example: Local Function test() Local t = 1 DebugPrint(t) EndFunction
-        if (endFunctionRE.test(line.text) === false) { // the function end is NOT on the same line, ...
+        if (RE.endFunctionRE.test(line.text) === false) { // the function end is NOT on the same line, ...
 
           // ... so do the recursive call to try to get the next function definition
           endLineNumber = this.getFunctions(lineNumber + 1, document);
@@ -167,7 +155,12 @@ export class HollywoodDocumentSymbolProvider implements DocumentSymbolProvider {
         );
 
       } else { // if it is not the beginning of a function, test whether it is the end of the function definition or if it is an anonymous function
-        if (!anonymousFunction.exec(line.text) && endFunctionRE.test(line.text)) {
+        /**
+         * Anonymous functions have to be ignored here, otherwise they break the structure!
+         * These are functions that are passed to another function as a anonymous parameter
+         * Example: Sort(array, Function(a, b) Return(a < b) EndFunction)
+         */
+        if (!RE.anonymousFunctionRE.exec(line.text) && RE.endFunctionRE.test(line.text)) {
           return lineNumber;
         }
       }

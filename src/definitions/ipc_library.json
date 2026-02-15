@@ -1,0 +1,26 @@
+[
+  {
+    "name": "CreatePort",
+    "helpId": "CreatePort",
+    "shortDescription": "create a message port for your script",
+    "version": "5.0",
+    "synopsis": "CreatePort(name$)",
+    "functionDocs": "This function will create a message port for your script and assign the specified name to it. In order to receive messages sent by [SendMessage()](https://www.hollywood-mal.com/docs/html/hollywood/SendMessage_.html), your script needs to have a message port. Other Hollywood applications can then communicate with your script by sending messages to this port. All messages that arrive at your message port will be forwarded to the callback function which you need to install using the [InstallEventHandler()](https://www.hollywood-mal.com/docs/html/hollywood/InstallEventHandler_.html) function (use the `OnUserMessage` event handler). If you do not install this event handler, you will not get any notifications on incoming messages.\n\nPlease remember that message port names are always given in case sensitive notation. Thus, \"MYPORT\" and \"myport\" denote two different message ports. For style reasons it is suggested that you use only upper case characters for your port name. Furthermore, each message port must be unique in the system. If you specify a port name which is already in use, this function will fail. Thus, make sure that you use a unique name.\n\nPlease note that every Hollywood script can only have one message port. If you have already created a message port and call this function again, the old message port will be deleted.\n\nSee [InstallEventHandler](https://www.hollywood-mal.com/docs/html/hollywood/InstallEventHandler_.html).",
+    "inputsDocs": "* `name$` — desired name for your message port",
+    "example": "```\nFunction p_EventFunc(msg)\n  Switch msg.action\n  Case \"OnUserMessage\"\n    Switch msg.command\n    Case \"EXIT\"\n      DebugPrint(\"Exit received! Quitting now.\")\n      End\n    Default\n      Local t = SplitStr(msg.args, \"\\0\")\n      DebugPrint(msg.command, \"called with\", msg.argc, \"argument(s)\")\n      For Local k = 1 To msg.argc\n         DebugPrint(\"Argument\", k .. \":\", t[k - 1])\n      Next\n    EndSwitch\n  EndSwitch\nEndFunction\nCreatePort(\"MY_COOL_PORT_123\")\nInstallEventHandler({OnUserMessage = p_EventFunc})\nRepeat\n  WaitEvent\nForever\n```\n\nSave the code above as a Hollywood script and run it with Hollywood. Then save the following code as a new Hollywood script and run it:\n\n---\n\n```\nSendMessage(\"MY_COOL_PORT_123\", \"INIT\", \"Value1\", \"Value2\", \"Value3\")\nSendMessage(\"MY_COOL_PORT_123\", \"DO_SOMETHING\", \"Argument1\")\nSendMessage(\"MY_COOL_PORT_123\", \"EXIT\")\n```\n\nThe code above will then communicate with the first script. You can see that the messages are arriving from the debug output of script number one.",
+    "platforms": ["All"],
+    "insertText": "CreatePort(${1:name$})"
+  },
+  {
+    "name": "SendMessage",
+    "helpId": "SendMessage",
+    "shortDescription": "send message to a message port",
+    "version": "5.0",
+    "synopsis": "SendMessage(port$, cmd$[, ...])",
+    "functionDocs": "This function sends the command specified in `cmd$` to the message port specified in `port$`. The command specified in `cmd$` must not contain any space characters. Additionally, you can send an unlimited number of arguments to the message port. Just pass them as optional arguments after the command name. The optional arguments must be passed as strings.\n\nThe port specified in `port$` must have been created previously by a call to [CreatePort()](https://www.hollywood-mal.com/docs/html/hollywood/CreatePort_.html). Please remember that port names are case sensitive, i.e. \"MYPORT\" and \"myport\" denote two different message ports. For style guide reasons, port names are usually in upper case only.\n\nThe message will be sent to the specified message port in form of a `OnUserMessage` event that will be forwarded to the callback you specified when installing this event handler using [InstallEventHandler()](https://www.hollywood-mal.com/docs/html/hollywood/InstallEventHandler_.html).",
+    "inputsDocs": "* `port$` — name of the port you want to address\n* `cmd$` — the command(s) you want to send to that port\n* `...` — optional: additional string arguments to send to the port",
+    "example": "See [CreatePort](https://www.hollywood-mal.com/docs/html/hollywood/CreatePort_.html)",
+    "platforms": ["All"],
+    "insertText": "SendMessage(${1:port$}, ${2:cmd$})"
+  }
+]

@@ -1,0 +1,87 @@
+[
+  {
+    "name": "Assert",
+    "helpId": "Assert",
+    "shortDescription": "fail if given expression is false",
+    "version": "5.0",
+    "synopsis": "Assert(expr)",
+    "functionDocs": "This command checks whether or not the given expression is `False` (or [Nil](https://www.hollywood-mal.com/docs/html/hollywood/PrgTypeNil_.html)) and causes an error if this is the case. This is mainly useful for debugging purposes. You can also pass a table or a function in `expr`. In that case, `expr` will be considered `True`.\n\nThis call can be disabled by specifying the `-nodebug` console argument when running a script or applet. In that case, calling `Assert()` will do nothing at all. See [Console arguments](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage_.html).",
+    "inputsDocs": "* `expr` — expression to check",
+    "example": "```\na = 5\nb = 0\nAssert(b <> 0)\nc = a / b\n```\n\nIn the above code, `Assert()` is used to make sure that we don't divide by zero. `Assert()` will prevent such an error by checking `b` against zero.",
+    "platforms": ["All"],
+    "insertText": "Assert(${1:expr})"
+  },
+  {
+    "name": "CloseResourceMonitor",
+    "helpId": "CloseResourceMonitor",
+    "shortDescription": "close Hollywood's resource monitor",
+    "version": "4.5",
+    "synopsis": "CloseResourceMonitor()",
+    "functionDocs": "This function will close Hollywood's inbuilt resource monitor. You can bring it up again by calling [OpenResourceMonitor()](https://www.hollywood-mal.com/docs/html/hollywood/OpenResourceMonitor_.html).\n\nSee [OpenResourceMonitor](https://www.hollywood-mal.com/docs/html/hollywood/OpenResourceMonitor_.html).",
+    "inputsDocs": "none",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "CloseResourceMonitor()"
+  },
+  {
+    "name": "DebugOutput",
+    "helpId": "DebugOutput",
+    "shortDescription": "enable/disable debug output",
+    "version": "1.0",
+    "synopsis": "DebugOutput(enable)",
+    "functionDocs": "This function enables or disables debug output to the default debug device. If debug output is enabled, Hollywood will print information about any function it calls so you can easily track down problems.\n\nThis call can be disabled by specifying the `-nodebug` console argument when running a script or applet. In that case, calling `DebugOutput()` will do nothing at all. See [Console arguments](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage_.html).",
+    "inputsDocs": "* `enable` — enable flag; `True` to enable debug output, `False` to disable it",
+    "example": "```\nDebugOutput(TRUE)\n```\n\nThe above code enables debug output.",
+    "platforms": ["All"],
+    "insertText": "DebugOutput(${1:enable})"
+  },
+  {
+    "name": "DebugPrint",
+    "helpId": "DebugPrint",
+    "shortDescription": "print to debug device",
+    "version": "2.0",
+    "synopsis": "DebugPrint(...)",
+    "functionDocs": "This function prints all arguments you specify to the current debug device. This is usually your console window. You can specify as many arguments as you like and they may be of any type. If you pass multiple arguments to this function, they will be printed with a space to separate them.\n\n`DebugPrint()` will also automatically append a newline character to the end of its output. If you don't want that, use [DebugPrintNR()](https://www.hollywood-mal.com/docs/html/hollywood/DebugPrintNR_.html) instead. See [DebugPrintNR](https://www.hollywood-mal.com/docs/html/hollywood/DebugPrintNR_.html).\n\nThis function supersedes the DebugStr() and DebugVal() calls. They now simply point to this call.\n\nThis call can be disabled by specifying the `-nodebug` console argument when running a script or applet. In that case, calling `DebugPrint()` will do nothing at all. See [Console arguments](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage_.html).\n\nAlso note that when compiling an applet or executable, debugging will be automatically disabled unless you explicitly enable it by setting the `EnableDebug` tag to `True` in [@OPTIONS](https://www.hollywood-mal.com/docs/html/hollywood/atOPTIONS_.html). So if you have compiled an applet or executable and you see that `DebugPrint()` doesn't do anything, the reason is probably that debugging is disabled.",
+    "inputsDocs": "* `...` — at least one value to print to the debug device",
+    "example": "```\nDebugPrint(\"The user entered\", name$, \"as his name and\", age,\n           \"as his age!\")\n```",
+    "platforms": ["All"],
+    "insertText": "DebugPrint()"
+  },
+  {
+    "name": "DebugPrintNR",
+    "helpId": "DebugPrintNR",
+    "shortDescription": "print to debug device without newline",
+    "version": "6.1",
+    "synopsis": "DebugPrintNR(...)",
+    "functionDocs": "This does the same as [DebugPrint()](https://www.hollywood-mal.com/docs/html/hollywood/DebugPrint_.html) but doesn't append a new line character to the string.\n\nThis call can be disabled by specifying the `-nodebug` console argument when running a script or applet. In that case, calling `DebugPrintNR()` will do nothing at all. See [Console arguments](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage_.html).\n\nAlso note that when compiling an applet or executable, debugging will be automatically disabled unless you explicitly enable it by setting the `EnableDebug` tag to `True` in [@OPTIONS](https://www.hollywood-mal.com/docs/html/hollywood/atOPTIONS_.html). So if you have compiled an applet or executable and you see that `DebugPrintNR()` doesn't do anything, the reason is probably that debugging is disabled.\n\nSee [DebugPrint](https://www.hollywood-mal.com/docs/html/hollywood/DebugPrint_.html).",
+    "inputsDocs": "* `...` — at least one value to print to the debug device",
+    "example": "```\nDebugPrintNR(\"Hello \")\nDebugPrintNR(\"World!\")\nDebugPrintNR(\"\\n\")\n```\n\nThis does the same as `DebugPrint(\"Hello World!\")`.",
+    "platforms": ["All"],
+    "insertText": "DebugPrintNR()"
+  },
+  {
+    "name": "DebugPrompt",
+    "helpId": "DebugPrompt",
+    "shortDescription": "read user input from debug device",
+    "version": "5.0",
+    "synopsis": "s$ = DebugPrompt(p$)",
+    "functionDocs": "This function can be used to prompt the user to enter a string in the current debug device. `DebugPrompt()` will present the string specified in `p$` as the prompt and halt the script's execution until the user has entered a string and confirmed his input using the RETURN key. The string will then be returned by this function.\n\nThis call can be disabled by specifying the `-nodebug` console argument when running a script or applet. In that case, calling `DebugPrompt()` will just return an empty string. See [Console arguments](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage_.html).\n\nAlso note that when compiling an applet or executable, debugging will be automatically disabled unless you explicitly enable it by setting the `EnableDebug` tag to `True` in [@OPTIONS](https://www.hollywood-mal.com/docs/html/hollywood/atOPTIONS_.html). So if you have compiled an applet or executable and you see that `DebugPrompt()` doesn't do anything, the reason is probably that debugging is disabled.",
+    "inputsDocs": "* `p$` — prompt to present to the user",
+    "resultsDocs": "* `s$` — string entered by user",
+    "example": "```\nname$ = DebugPrompt(\"What is your name? \")\nage$ = DebugPrompt(\"And your age? \")\nhome$ = DebugPrompt(\"Where do you live? \")\nDebugPrint(\"Your name is\", name$, \"and you are\", age$,\n           \"years old and live in\", home$, \"!\")\n```\n\nThe code above demonstrates the usage of the `DebugPrompt()` function.",
+    "platforms": ["All"],
+    "insertText": "DebugPrompt(${1:p$})"
+  },
+  {
+    "name": "OpenResourceMonitor",
+    "helpId": "OpenResourceMonitor",
+    "shortDescription": "open Hollywood's resource monitor",
+    "version": "4.5",
+    "synopsis": "OpenResourceMonitor()",
+    "functionDocs": "This function will open Hollywood's inbuilt resource monitor. The resource monitor will display a list of all resources that Hollywood has currently in memory. The list is updated several times per second so it is always up to date.\n\nThe resource monitor is very useful to make sure the memory management of your script is correct. Although Hollywood features resource tracking and will automatically deallocate all resources when it terminates, it is still important for bigger projects to keep an eye on their resource management because otherwise, your program will consume more and more memory. If you do not keep an eye on your resources, it can often happen that the longer your program runs, the more memory it will consume, and that must never happen.\n\nHollywood's resource monitor conveniently allows you to keep an eye on your resources. If you have the resource monitor always open while you develop, you will easily notice if there is a resource problem somewhere. For example, if you notice that brush or layer numbers are steadily increasing while your script runs, you should be alarmed and it is likely that there is something wrong with your code which you need to fix.\n\nYou can also enable the resource monitor directly at startup by using the [-resourcemonitor](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage_.html) console argument.\n\nTo close the resource monitor, simply close its window or just call the [CloseResourceMonitor()](https://www.hollywood-mal.com/docs/html/hollywood/CloseResourceMonitor_.html) function.",
+    "inputsDocs": "none",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "OpenResourceMonitor()"
+  }
+]

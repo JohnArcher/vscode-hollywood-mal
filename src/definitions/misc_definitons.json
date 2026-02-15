@@ -1,0 +1,14 @@
+[
+  {
+    "name": "region",
+    "shortDescription": "defines the beginning of a collapsible region",
+    "synopsis": ";region regionName",
+    "insertText": ";region ${0}"
+  },
+  {
+    "name": "endregion",
+    "shortDescription": "defines the end of a collapsible region",
+    "synopsis": ";endregion",
+    "insertText": ";endregion"
+  }
+]

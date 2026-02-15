@@ -1,0 +1,64 @@
+[
+  {
+    "name": "Error",
+    "helpId": "Error",
+    "shortDescription": "exit with custom error message",
+    "version": "2.0",
+    "synopsis": "Error(msg$)",
+    "functionDocs": "This function terminates the script and displays the message specified in `msg$`. This is useful if your script shall be aborted because an unexpected condition occurred.",
+    "inputsDocs": "* `msg$` — error message to show",
+    "example": "```\nIf Exists(\"Game.dat\") = False Then Error(\"Cannot read game data!\")\n```\n\nThe code above checks for the file \"Game.dat\" and exits with an error message if it does not exist.",
+    "platforms": ["All"],
+    "insertText": "Error(${1:msg$})"
+  },
+  {
+    "name": "ExitOnError",
+    "helpId": "ExitOnError",
+    "shortDescription": "enable/disable Hollywood's error handler",
+    "version": "1.0",
+    "synopsis": "ExitOnError(enable)",
+    "functionDocs": "This function enables or disables Hollywood's error handler. If the error handler is enabled and an error occurs, your script will either be stopped and Hollywood will display the error message, or, in case you have installed a custom error handling callback using [RaiseOnError()](https://www.hollywood-mal.com/docs/html/hollywood/RaiseOnError_.html), this custom error handling callback will be executed. See [Error handling](https://www.hollywood-mal.com/docs/html/hollywood/PrgErrorHandling_.html).\n\nIt can be useful to disable the error handler for a very short time if you need to check whether a certain command has succeeded or not. This can be done by enclosing the command in an `ExitOnError()` block. See [Error handling](https://www.hollywood-mal.com/docs/html/hollywood/PrgErrorHandling_.html). It is not advised to disable the error handler for a longer time because errors can easily accumulate so in general you should only keep the error handler enabled.\n\nIn Hollywood 7.1 and up the new question mark syntax to check for errors is preferable to using `ExitOnError()` because it is much shorter and less prone to accidental mistakes. See [Error handling](https://www.hollywood-mal.com/docs/html/hollywood/PrgErrorHandling_.html).",
+    "inputsDocs": "* `enable` — `True` to enable the error handler; `False` to disable it",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "ExitOnError(${1:enable})"
+  },
+  {
+    "name": "GetErrorName",
+    "helpId": "GetErrorName",
+    "shortDescription": "get string for an error code",
+    "version": "1.0",
+    "synopsis": "err$ = GetErrorName(code)",
+    "functionDocs": "This function returns a string for a specified error code. The string describes the error for the passed code. This command should be called right after [GetLastError()](https://www.hollywood-mal.com/docs/html/hollywood/GetLastError_.html) because the error string might contain some information that will be trashed when the next normal function is executed. Calling condition functions between [GetLastError()](https://www.hollywood-mal.com/docs/html/hollywood/GetLastError_.html) and `GetErrorName()` is no problem. Please see the example for more information.\n\nBe sure to read also the documentation of [GetLastError()](https://www.hollywood-mal.com/docs/html/hollywood/GetLastError_.html) for more detailed information on manual error handling.\n\nSee [Error codes](https://www.hollywood-mal.com/docs/html/hollywood/ErrorCodes_.html).",
+    "inputsDocs": "* `code` — an error code as returned by [GetLastError()](https://www.hollywood-mal.com/docs/html/hollywood/GetLastError_.html)",
+    "resultsDocs": "* `err$` — a string describing the error occurred",
+    "example": "See [GetLastError](https://www.hollywood-mal.com/docs/html/hollywood/GetLastError_.html)",
+    "platforms": ["All"],
+    "insertText": "GetErrorName(${1:code})"
+  },
+  {
+    "name": "GetLastError",
+    "helpId": "GetLastError",
+    "shortDescription": "get error code for the last command",
+    "version": "1.0",
+    "synopsis": "code = GetLastError()",
+    "functionDocs": "This function queries Hollywood's internal error flag and returns the result. This flag is zero if the last command executed was successful. If the command failed, an error code which is not zero will be returned. This error code can than be used to query Hollywood for a name string that describes the error occurred. (use [GetErrorName()](https://www.hollywood-mal.com/docs/html/hollywood/GetErrorName_.html) then)\n\nImportant note: Hollywood's internal error flag will be reset to zero before a command is called. Therefore the error code you will get when you call `GetLastError()` is the error code of the function that was called before `GetLastError()`.\n\nImportant note `#2`: This function is only useful if the automatical error handler is disabled. If it is enabled (which is the default), the error handler will break your script immediately when an error occurs. So your script will never reach a `GetLastError()` call if an error occurred and the automatic error handler is enabled. Therefore you will have to call [ExitOnError()](https://www.hollywood-mal.com/docs/html/hollywood/ExitOnError_.html) with `False` as the flag to disable Hollywood's error handler.\n\nSee [Error codes](https://www.hollywood-mal.com/docs/html/hollywood/ErrorCodes_.html).",
+    "inputsDocs": "none",
+    "resultsDocs": "* `code` — non-zero if an error occurred, zero for success",
+    "example": "```\nExitOnError(FALSE)       ; disable automatic error handler\nLoadBGPic(1,\"blablabla\") ; this command will fail!\ncode=GetLastError()\nIf code<>0\n  err$=GetErrorName(code)\n  SystemRequest(\"An error occurred!\",err$,\"OK\")\n  End\nEndIf\n```\n\nThe above code shows how to handle the error that LoadBGPic() will produce. It is important that there is no further command between the LoadBGPic() and the `GetLastError()`. If there would be another command, it would trash the error results of LoadBGPic().",
+    "platforms": ["All"],
+    "insertText": "GetLastError()"
+  },
+  {
+    "name": "RaiseOnError",
+    "helpId": "RaiseOnError",
+    "shortDescription": "install a custom error handler",
+    "version": "5.2",
+    "synopsis": "RaiseOnError(f)",
+    "functionDocs": "This function can be used to install a custom error handling function. Whenever an error occurs, this function will be called with the following four arguments: An error code, a string describing the error, the name of the last command, and the current line number.\n\nThis is useful if you do not want to use Hollywood's inbuilt automatic error handler. Please note that in certain situations the name of the last command and the current line number can be wrong.\n\nAlso note that if an error occurs in your custom error handling function, Hollywood will exit with a fatal error. Thus, you should keep the custom error handler as brief and straight-forward as possible.\n\nTo uninstall your custom error handler, simply pass [Nil](https://www.hollywood-mal.com/docs/html/hollywood/PrgTypeNil_.html) in the `f` argument.\n\nSee [Error codes](https://www.hollywood-mal.com/docs/html/hollywood/ErrorCodes_.html).",
+    "inputsDocs": "* `f` — function that shall be called whenever an error occurs",
+    "example": "```\nFunction p_ErrorFunc(code, msg$, cmd$, line)\n   DebugPrint(code, msg$, cmd$, line)\nEndFunction\n\nRaiseOnError(p_ErrorFunc)\n\nLoadBrush(1, \"non_existing_brush.png\")\n```\n\nThe code above installs a custom error function and then tries to load a non-existing brush. This leads to the error function being called and further information will be printed to the debug device.",
+    "platforms": ["All"],
+    "insertText": "RaiseOnError(${1:f})"
+  }
+]

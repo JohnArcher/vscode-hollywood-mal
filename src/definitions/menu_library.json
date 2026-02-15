@@ -1,0 +1,111 @@
+[
+  {
+    "name": "CreateMenu",
+    "helpId": "CreateMenu",
+    "shortDescription": "create a menu strip",
+    "version": "6.0",
+    "synopsis": "[id] = CreateMenu(id, table)",
+    "functionDocs": "This function can be used to create a menu strip that can later be attached to one or more displays by calling [SetDisplayAttributes()](https://www.hollywood-mal.com/docs/html/hollywood/SetDisplayAttributes_.html) on an existing display or by specifying the `Menu` tag in the [@DISPLAY](https://www.hollywood-mal.com/docs/html/hollywood/atDISPLAY_.html) preprocessor command or in the [CreateDisplay()](https://www.hollywood-mal.com/docs/html/hollywood/CreateDisplay_.html) call.\n\nYou have to pass an identifier for the new menu strip or [Nil](https://www.hollywood-mal.com/docs/html/hollywood/PrgTypeNil_.html). If you pass [Nil](https://www.hollywood-mal.com/docs/html/hollywood/PrgTypeNil_.html), `CreateMenu()` will return a handle to the new menu strip which you can then use to refer to this menu strip.\n\nYou also need to pass a table containing the actual menu tree definition to this function. Menus are defined as a tree structure that is composed of a master table that contains various subtables. See [MENU](https://www.hollywood-mal.com/docs/html/hollywood/atMENU_.html).\n\nThis command is also available from the preprocessor: Use [@MENU](https://www.hollywood-mal.com/docs/html/hollywood/atMENU_.html) to create menu strips at startup time!",
+    "inputsDocs": "* `id` — identifier for the menu strip or [Nil](https://www.hollywood-mal.com/docs/html/hollywood/PrgTypeNil_.html) for [auto id select](https://www.hollywood-mal.com/docs/html/hollywood/AutoIDSelect_.html)\n* `table` — menu tree definition",
+    "resultsDocs": "* `id` — optional: identifier of the new menu; will only be returned when you pass [Nil](https://www.hollywood-mal.com/docs/html/hollywood/PrgTypeNil_.html) as argument 1 (see above)",
+    "example": "```\nCreateMenu(1, {\n    {\"File\", {\n        {\"New\", ID = \"new\"},\n        {\"Open...\", ID = \"open\"},\n        {\"\"},\n        {\"Close\", ID = \"close\", Flags = #MENUITEM_DISABLED},\n        {\"\"},\n        {\"Save\", Flags = #MENUITEM_DISABLED, Hotkey = \"S\"},\n        {\"Compress\", ID = \"cmp\", Flags = #MENUITEM_TOGGLE},\n        {\"\"},\n        {\"Export image...\", {\n            {\"JPEG...\", ID = \"jpeg\"},\n            {\"PNG...\", ID = \"png\"},\n            {\"BMP...\", ID = \"bmp\"}}},\n        {\"\"},\n        {\"Dump state\", ID = \"dump\"},\n        {\"\"},\n        {\"Quit\", ID = \"quit\", Hotkey = \"Q\"}}},\n\n    {\"Edit\", {\n        {\"Cut\", ID = \"cut\"},\n        {\"Copy\", ID = \"copy\"},\n        {\"Paste\", ID = \"paste\"}}},\n\n    {\"?\", {\n        {\"About...\", ID = \"about\"}}}\n    })\n\nSetDisplayAttributes({Menu = 1})\n```\n\nThe code above creates a menu strip and attaches it to the current display.",
+    "platforms": ["All"],
+    "insertText": "CreateMenu(${1:id}, ${2:table})"
+  },
+  {
+    "name": "DeselectMenuItem",
+    "helpId": "DeselectMenuItem",
+    "shortDescription": "deselect a toggle menu item",
+    "version": "6.0",
+    "synopsis": "DeselectMenuItem(id, item$[, detached])",
+    "functionDocs": "This function can be used to deselect a toggle menu item. The optional argument `detached` specifies whether a menu strip that is attached to a display or a detached menu strip should be used. If `detached` is `False` (which is also the default), the menu strip of the display specified by `id` will be used. If `detached` is `True`, the menu strip specified by `id` will be used. In other words: If you set `detached` to `True`, you need to pass the identifier of a menu strip in `id`; otherwise you need to pass the identifier of a display in `id`.\n\nNote that when setting `detached` to `True` your operation will never have any effect on menu strips attached to a display. Setting `detached` to `True` is typically only used with menu strips that are shown as popup menus using the [PopupMenu()](https://www.hollywood-mal.com/docs/html/hollywood/PopupMenu_.html) function. It's impossible to address display menu strips when setting `detached` to `True` because a single menu strip can be attached to multiple displays.\n\nOn AmigaOS 4 you can also pass the special value of 0 for `id`. In that case, the context menu of the docky will be used.",
+    "inputsDocs": "* `id` — identifier of a display or a menu strip (see above)\n* `item$` — identifier of the item inside the menu strip\n* `detached` — optional: `False` if `id` specifies a display, `True` if it specifies a menu strip object (defaults to `False`) (V10.0)",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "DeselectMenuItem(${1:id}, ${2:item$})"
+  },
+  {
+    "name": "DisableMenuItem",
+    "helpId": "DisableMenuItem",
+    "shortDescription": " disable a menu item",
+    "version": "6.0",
+    "synopsis": "DisableMenuItem(id, item$[, detached])",
+    "functionDocs": "This function can be used to disable a menu item. The optional argument `detached` specifies whether a menu strip that is attached to a display or a detached menu strip should be used. If `detached` is `False` (which is also the default), the menu strip of the display specified by `id` will be used. If `detached` is `True`, the menu strip specified by `id` will be used. In other words: If you set `detached` to `True`, you need to pass the identifier of a menu strip in `id`; otherwise you need to pass the identifier of a display in `id`.\n\nNote that when setting `detached` to `True` your operation will never have any effect on menu strips attached to a display. Setting `detached` to `True` is typically only used with menu strips that are shown as popup menus using the [PopupMenu()](https://www.hollywood-mal.com/docs/html/hollywood/PopupMenu_.html) function. It's impossible to address display menu strips when setting `detached` to `True` because a single menu strip can be attached to multiple displays.\n\nOn AmigaOS 4 you can also pass the special value of 0 for `id`. In that case, the context menu of the docky will be used.",
+    "inputsDocs": "* `id` — identifier of a display or a menu strip object (see above)\n* `item$` — identifier of the item inside the menu strip\n* `detached` — optional: `False` if `id` specifies a display, `True` if it specifies a menu strip object (defaults to `False`) (V10.0)",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "DisableMenuItem(${1:id}, ${2:item$})"
+  },
+  {
+    "name": "EnableMenuItem",
+    "helpId": "EnableMenuItem",
+    "shortDescription": " enable a menu item",
+    "version": "6.0",
+    "synopsis": "EnableMenuItem(id, item$[, detached])",
+    "functionDocs": "This function can be used to enable a menu item. The optional argument `detached` specifies whether a menu strip that is attached to a display or a detached menu strip should be used. If `detached` is `False` (which is also the default), the menu strip of the display specified by `id` will be used. If `detached` is `True`, the menu strip specified by `id` will be used. In other words: If you set `detached` to `True`, you need to pass the identifier of a menu strip in `id`; otherwise you need to pass the identifier of a display in `id`.\n\nNote that when setting `detached` to `True` your operation will never have any effect on menu strips attached to a display. Setting `detached` to `True` is typically only used with menu strips that are shown as popup menus using the [PopupMenu()](https://www.hollywood-mal.com/docs/html/hollywood/PopupMenu_.html) function. It's impossible to address display menu strips when setting `detached` to `True` because a single menu strip can be attached to multiple displays.\n\nOn AmigaOS 4 you can also pass the special value of 0 for `id`. In that case, the context menu of the docky will be used.",
+    "inputsDocs": "* `id` — identifier of a display or a menu strip (see above)\n* `item$` — identifier of the item inside the menu strip\n* `detached` — optional: `False` if `id` specifies a display, `True` if it specifies a menu strip object (defaults to `False`) (V10.0)",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "EnableMenuItem(${1:id}, ${2:item$})"
+  },
+  {
+    "name": "FreeMenu",
+    "helpId": "FreeMenu",
+    "shortDescription": "free a menu strip",
+    "version": "6.0",
+    "synopsis": "FreeMenu(id)",
+    "functionDocs": "This command can be used to the free the specified menu strip. Please note that only menu strips that are no longer attached to a display can be freed. To detach a menu strip from a display, call [SetDisplayAttributes()](https://www.hollywood-mal.com/docs/html/hollywood/SetDisplayAttributes_.html) on the display passing the special value -1 in the `Menu` tag.",
+    "inputsDocs": "* `id` — identifier of the menu strip to free",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "FreeMenu(${1:id})"
+  },
+  {
+    "name": "IsMenuItemDisabled",
+    "helpId": "IsMenuItemDisabled",
+    "shortDescription": "check if a menu item is disabled",
+    "version": "6.0",
+    "synopsis": "result = IsMenuItemDisabled(id, item$[, detached])",
+    "functionDocs": "This function can be used to check whether a menu item is disabled or not. The optional argument `detached` specifies whether a menu strip that is attached to a display or a detached menu strip should be used. If `detached` is `False` (which is also the default), the menu strip of the display specified by `id` will be used. If `detached` is `True`, the menu strip specified by `id` will be used. In other words: If you set `detached` to `True`, you need to pass the identifier of a menu strip in `id`; otherwise you need to pass the identifier of a display in `id`.\n\nNote that when setting `detached` to `True` your operation will never have any effect on menu strips attached to a display. Setting `detached` to `True` is typically only used with menu strips that are shown as popup menus using the [PopupMenu()](https://www.hollywood-mal.com/docs/html/hollywood/PopupMenu_.html) function. It's impossible to address display menu strips when setting `detached` to `True` because a single menu strip can be attached to multiple displays.\n\nOn AmigaOS 4 you can also pass the special value of 0 for `id`. In that case, the context menu of the docky will be used.",
+    "inputsDocs": "* `id` — identifier of a display or a menu strip (see above)\n* `item$` — identifier of the item inside the menu strip\n* `detached` — optional: `False` if `id` specifies a display, `True` if it specifies a menu strip object (defaults to `False`) (V10.0)",
+    "resultsDocs": "* `result` — `True` if the menu item is disabled, `False` otherwise",
+    "platforms": ["All"],
+    "insertText": "IsMenuItemDisabled(${1:id}, ${2:item$})"
+  },
+  {
+    "name": "IsMenuItemSelected",
+    "helpId": "IsMenuItemSelected",
+    "shortDescription": "check if a menu item is selected",
+    "version": "6.0",
+    "synopsis": "result = IsMenuItemSelected(id, item$[, detached])",
+    "functionDocs": "This function can be used to check whether a toggle or radio menu item is selected or not. The optional argument `detached` specifies whether a menu strip that is attached to a display or a detached menu strip should be used. If `detached` is `False` (which is also the default), the menu strip of the display specified by `id` will be used. If `detached` is `True`, the menu strip specified by `id` will be used. In other words: If you set `detached` to `True`, you need to pass the identifier of a menu strip in `id`; otherwise you need to pass the identifier of a display in `id`.\n\nNote that when setting `detached` to `True` your operation will never have any effect on menu strips attached to a display. Setting `detached` to `True` is typically only used with menu strips that are shown as popup menus using the [PopupMenu()](https://www.hollywood-mal.com/docs/html/hollywood/PopupMenu_.html) function. It's impossible to address display menu strips when setting `detached` to `True` because a single menu strip can be attached to multiple displays.\n\nOn AmigaOS 4 you can also pass the special value of 0 for `id`. In that case, the context menu of the docky will be used.",
+    "inputsDocs": "* `id` — identifier of a display or a menu strip (see above)\n* `item$` — identifier of the item inside the menu strip\n* `detached` — optional: `False` if `id` specifies a display, `True` if it specifies a menu strip object (defaults to `False`) (V10.0)",
+    "resultsDocs": "* `result` — `True` if the menu item is selected, `False` otherwise",
+    "platforms": ["All"],
+    "insertText": "IsMenuItemSelected(${1:id}, ${2:item$})"
+  },
+  {
+    "name": "PopupMenu",
+    "helpId": "PopupMenu",
+    "shortDescription": "show popup menu",
+    "version": "10.0",
+    "synopsis": "PopupMenu(id[, x, y])",
+    "functionDocs": "This function shows the menu strip specified by `id` as a popup menu. Popup menus are also known as context menus and are typically shown when the user presses the right mouse button at a certain area of the display. The menu strip passed to `PopupMenu()` must have been created using either [CreateMenu()](https://www.hollywood-mal.com/docs/html/hollywood/CreateMenu_.html) or [@MENU](https://www.hollywood-mal.com/docs/html/hollywood/atMENU_.html) and it must only consist of a single strip. The title of the menu strip is ignored.\n\nThe optional arguments `x` and `y` allow you to specify the desired position of the popup menu. Note that this must be passed in coordinates relative to the screen's top-left corner, i.e. if you pass 0 for `x` and `y`, the popup menu will appear in the top-left corner of the screen. If you omit the `x` and `y` arguments, the popup menu will be shown at the location of the mouse pointer.\n\n`PopupMenu()` will block the script execution until the user has selected a menu item or closed the popup menu. Just as with normal menu events, popup menu events will be sent to your script through the `OnMenuSelect` event handler. See [InstallEventHandler](https://www.hollywood-mal.com/docs/html/hollywood/InstallEventHandler_.html).\n\nNote that on AmigaOS and compatibles the right mouse button is typically reserved for accessing the screen menu. If you want to be able to listen to the right mouse button to show a popup menu, you need to set the `TrapRMB` tag to `True`. See [DISPLAY](https://www.hollywood-mal.com/docs/html/hollywood/atDISPLAY_.html).",
+    "inputsDocs": "* `id` — identifier of a menu strip\n* `x` — optional: desired x position for the popup menu\n* `y` — optional: desired y position for the popup menu",
+    "example": "```\nCreateMenu(1, {{\"Unused\", {\n   {\"Cut\", ID = \"cut\"},\n   {\"Copy\", ID = \"copy\"},\n   {\"Paste\", ID = \"paste\"},\n   {\"\"},\n   {\"Undo\", ID = \"undo\"},\n   {\"Redo\", ID = \"redo\"}\n}}})\nPopupMenu(1)\n```\n\nThe code above defines and shows a popup menu.",
+    "platforms": ["All"],
+    "insertText": "PopupMenu(${1:id})"
+  },
+  {
+    "name": "SelectMenuItem",
+    "helpId": "SelectMenuItem",
+    "shortDescription": "select a toggle or radio menu item",
+    "version": "6.0",
+    "synopsis": "SelectMenuItem(id, item$[, detached])",
+    "functionDocs": "This function can be used to select a toggle or radio menu item. The optional argument `detached` specifies whether a menu strip that is attached to a display or a detached menu strip should be used. If `detached` is `False` (which is also the default), the menu strip of the display specified by `id` will be used. If `detached` is `True`, the menu strip specified by `id` will be used. In other words: If you set `detached` to `True`, you need to pass the identifier of a menu strip in `id`; otherwise you need to pass the identifier of a display in `id`.\n\nNote that when setting `detached` to `True` your operation will never have any effect on menu strips attached to a display. Setting `detached` to `True` is typically only used with menu strips that are shown as popup menus using the [PopupMenu()](https://www.hollywood-mal.com/docs/html/hollywood/PopupMenu_.html) function. It's impossible to address display menu strips when setting `detached` to `True` because a single menu strip can be attached to multiple displays.\n\nOn AmigaOS 4 you can also pass the special value of 0 for `id`. In that case, the context menu of the docky will be used.\n\nPlease note that radio groups can only have one active item at a time: This means that if you select a new radio menu item using `SelectMenuItem()`, the previously selected radio menu item will automatically be deselected.",
+    "inputsDocs": "* `id` — identifier of a display or a menu strip (see above)\n* `item$` — identifier of the item inside the menu strip\n* `detached` — optional: `False` if `id` specifies a display, `True` if it specifies a menu strip object (defaults to `False`) (V10.0)",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "SelectMenuItem(${1:id}, ${2:item$})"
+  }
+]

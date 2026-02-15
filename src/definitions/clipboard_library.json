@@ -1,0 +1,51 @@
+[
+  {
+    "name": "ClearClipboard",
+    "helpId": "ClearClipboard",
+    "shortDescription": "clear clipboard contents",
+    "version": "4.5",
+    "synopsis": "ClearClipboard()",
+    "functionDocs": "This function can be used to empty the clipboard. Any data that is currently stored in the clipboard will be deleted.",
+    "inputsDocs": "none",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "ClearClipboard()"
+  },
+  {
+    "name": "GetClipboard",
+    "helpId": "GetClipboard",
+    "shortDescription": "read clipboard contents",
+    "version": "4.5",
+    "synopsis": "type[, data] = GetClipboard()",
+    "functionDocs": "This function retrieves the data that is currently stored in the clipboard. `GetClipboard()` will return two values: The first return value indicates the format of the data in the clipboard, and the second return value then contains the format-specific data. Currently, Hollywood supports two different kinds of clipboard data: Text and images.\n\nIf there is currently text stored in the clipboard, `GetClipboard()` will return `#CLIPBOARD_TEXT` as the first return value, and a string containing the text in the clipboard as the second return value.\n\nIf there is currently an image stored in the clipboard, `GetClipboard()` will return `#CLIPBOARD_IMAGE` as the first return value, and the second return value will be a handle to a brush which will contain the image from the clipboard. Once you are done working with this brush, you should call [FreeBrush()](https://www.hollywood-mal.com/docs/html/hollywood/FreeBrush_.html) on it to free any memory allocated by it.\n\nIf there is neither text nor an image in the clipboard, `GetClipboard()` will return `#CLIPBOARD_UNKNOWN` to you. The second return value is unused in this case. If the clipboard is empty, then `#CLIPBOARD_EMPTY` will be returned.\n\nTo get notified whenever the contents of the clipboard change, you can install the `ClipboardChange` event handler using [InstallEventHandler()](https://www.hollywood-mal.com/docs/html/hollywood/InstallEventHandler_.html).\n\nIf you just want to find out the format of the data currently in the clipboard without actually receiving a copy of this data, you can use the [PeekClipboard()](https://www.hollywood-mal.com/docs/html/hollywood/PeekClipboard_.html) command. But keep in mind that the data on the clipboard can change at any time. So there is no guarantee that the data that was on the clipboard when you called [PeekClipboard()](https://www.hollywood-mal.com/docs/html/hollywood/PeekClipboard_.html) will still be there when you call `GetClipboard()`.",
+    "inputsDocs": "none",
+    "resultsDocs": "* `type` — format of the data currently in the clipboard or `#CLIPBOARD_EMPTY` or `#CLIPBOARD_UNKNOWN`\n* `data` — optional: if the first return value is not `#CLIPBOARD_EMPTY` or `#CLIPBOARD_UNKNOWN` then this return value contains the actual data retrieved from the clipboard; the data that is returned here depends on the format (see above)",
+    "example": "```\nSetClipboard(#CLIPBOARD_TEXT, \"Hello clipboard!\")\ntype, data = GetClipboard()\nIf type = #CLIPBOARD_TEXT\n  NPrint(data)\nElse\n  NPrint(\"No text on the clipboard!\")\nEndIf\n```\n\nThe code above puts the text \"Hello clipboard!\" on the clipboard and then retrieves the current clipboard contents. If no other program meddles with the clipboard between [SetClipboard()](https://www.hollywood-mal.com/docs/html/hollywood/SetClipboard_.html) and `GetClipboard()`, this code should print \"Hello clipboard!\" to the screen then.",
+    "platforms": ["All"],
+    "insertText": "GetClipboard()"
+  },
+  {
+    "name": "PeekClipboard",
+    "helpId": "PeekClipboard",
+    "shortDescription": "examine clipboard contents",
+    "version": "4.5",
+    "synopsis": "type = PeekClipboard()",
+    "functionDocs": "This function peeks into the clipboard and returns the format of the data that is currently stored in the clipboard. Currently, Hollywood recognizes only text and image data in the clipboard. Thus, this function will return one of the following type specifiers:\n\n- `#CLIPBOARD_TEXT`: Text is currently on the clipboard.\n\n- `#CLIPBOARD_IMAGE`: Graphics data is currently on the clipboard.\n\n- `#CLIPBOARD_EMPTY`: The clipboard is currently empty.\n\n- `#CLIPBOARD_UNKNOWN`: Hollywood did not recognize the data currently stored on the clipboard.\n\nTo retrieve the data from the clipboard, you have to use [GetClipboard()](https://www.hollywood-mal.com/docs/html/hollywood/GetClipboard_.html) but keep in mind that the data on the clipboard can change at any time. So there is no guarantee that the data that was on the clipboard when you called `PeekClipboard()` will still be there when you call [GetClipboard()](https://www.hollywood-mal.com/docs/html/hollywood/GetClipboard_.html).",
+    "inputsDocs": "none",
+    "resultsDocs": "* `type` — value specifying the format of the data currently on the clipboard",
+    "platforms": ["All"],
+    "insertText": "PeekClipboard()"
+  },
+  {
+    "name": "SetClipboard",
+    "helpId": "SetClipboard",
+    "shortDescription": "change clipboard contents",
+    "version": "4.5",
+    "synopsis": "SetClipboard(type, data)",
+    "functionDocs": "This function can be used to put new data on the clipboard. The previous contents of the clipboard will be erased. Currently, you can put either text or an image on the clipboard with this function.\n\nTo put text on the clipboard, specify `#CLIPBOARD_TEXT` as `type` and pass a string containing the text to be put on the clipboard in the `data` argument.\n\nTo put an image on the clipboard, specify `#CLIPBOARD_IMAGE` as `type` and pass the identifier of a brush containing the image you wish to save to the clipboard in the `data` argument.",
+    "inputsDocs": "* `type` — format of the data specified in second argument\n* `data` — depends on the format specified in argument 1; see above for more information",
+    "example": "See [GetClipboard](https://www.hollywood-mal.com/docs/html/hollywood/GetClipboard_.html)",
+    "platforms": ["All"],
+    "insertText": "SetClipboard(${1:type}, ${2:data})"
+  }
+]

@@ -6,7 +6,7 @@ All notable changes to the "hw4vsc" extension will be documented in this file.
 
 ### Added
 
--
+- Added code completion and quick info for Hollywood 11
 
 ## [10.0.2] - 2025-04-07
 

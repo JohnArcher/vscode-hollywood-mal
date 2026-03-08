@@ -1,5 +1,17 @@
 [
   {
+    "name": "Base64Str",
+    "helpId": "Base64Str",
+    "shortDescription": "encode or decode Base64 data",
+    "version": "6.0",
+    "synopsis": "data$ = Base64Str(s$, decode)",
+    "functionDocs": "This function can be used to encode arbitrary data into the Base64 format or decode a Base64 formatted string back into its original binary data. The second argument specifies whether this function should encode or decode the data.",
+    "inputsDocs": "* `s$` — data to encode or decode\n* `decode` — `True` to decode Base64 data, `False` to encode the specified data into Base64",
+    "resultsDocs": "* `data$` — encoded or decoded data",
+    "platforms": ["All"],
+    "insertText": "Base64Str(${1:s$}, ${2:decode})"
+  },
+  {
     "name": "DeserializeTable",
     "helpId": "DeserializeTable",
     "shortDescription": "deserialize string to table",
@@ -23,6 +35,19 @@
     "resultsDocs": "* `mode` — current serialization mode",
     "platforms": ["All"],
     "insertText": "GetSerializeMode()"
+  },
+  {
+    "name": "ReadFunction",
+    "helpId": "ReadFunction",
+    "shortDescription": "read a function from a file",
+    "version": "4.0",
+    "synopsis": "func = ReadFunction(id)",
+    "functionDocs": "This function reads a Hollywood function from the file specified by `id` and returns it. Reading starts from the current file cursor position which you can modify using the [Seek()](https://www.hollywood-mal.com/docs/html/hollywood/Seek_.html) command.\n\nThe function must have been written to the file by the [WriteFunction()](https://www.hollywood-mal.com/docs/html/hollywood/WriteFunction_.html) command.",
+    "inputsDocs": "* `id` — file to read from",
+    "resultsDocs": "* `func` — the function read from the file",
+    "example": "See [WriteFunction](https://www.hollywood-mal.com/docs/html/hollywood/WriteFunction_.html)",
+    "platforms": ["All"],
+    "insertText": "ReadFunction(${1:id})"
   },
   {
     "name": "ReadTable",
@@ -72,6 +97,18 @@
     "resultsDocs": "none",
     "platforms": ["All"],
     "insertText": "SetSerializeOptions(${1:t})"
+  },
+  {
+    "name": "WriteFunction",
+    "helpId": "WriteFunction",
+    "shortDescription": "write a function to a file",
+    "version": "4.0",
+    "synopsis": "WriteFunction(id, func[, txtmode, nobrk])",
+    "functionDocs": "This function writes the Hollywood function specified by `func` to the file specified by `id` at the current file cursor position which you can modify by using the [Seek()](https://www.hollywood-mal.com/docs/html/hollywood/Seek_.html) command. The function will be written to the file as precompiled bytecode, i.e. it will not be human readable.\n\nYou can load saved functions into other projects by using the [ReadFunction()](https://www.hollywood-mal.com/docs/html/hollywood/ReadFunction_.html) command. The optional argument `txtmode` specifies whether or not the function shall be written to the file as binary data or as base64 encoded data. The latter is useful for embedding Hollywood functions in human readable text files, for instance XML files. In case you enable text mode, `WriteFunction()` will automatically insert a line break after every 72 characters for better readability. If you don't want that, set the optional argument `nobrk` to `True`. In that case, no line breaks will be inserted.",
+    "inputsDocs": "* `id` — file to write to\n* `func` — function to write to the file\n* `txtmode` — optional: `True` to write the function in base64 notation or `False` to write plain binary data (defaults to `False`)\n* `nobrk` — optional: `True` if you don't want to have line breaks inserted when in text mode (defaults to `False`); this argument is ignored in binary mode (V6.1)",
+    "example": "```\nFunction p_LittleTestFunc(a, b)\n  Return(a+b)\nEndFunction\n\nOpenFile(1, \"func.bin\", #MODE_WRITE)\nWriteFunction(1, p_LittleTestFunc)\nCloseFile(1)\n\nOpenFile(1, \"func.bin\", #MODE_READ)\np_MyAdd = ReadFunction(1)\nCloseFile(1)\n\nPrint(p_MyAdd(5, 6))  ; prints 11\n```\n\nThe code above writes the function p_LittleTestFunc() to file \"func.bin\". After that, it opens file \"func.bin\" again and reads the function back into Hollywood. The imported function will be stored in the variable p_MyAdd(). Finally, we will call the newly imported function p_MyAdd() and it will add the numbers 5 and 6 for us.",
+    "platforms": ["All"],
+    "insertText": "WriteFunction(${1:id}, ${2:func})"
   },
   {
     "name": "WriteTable",

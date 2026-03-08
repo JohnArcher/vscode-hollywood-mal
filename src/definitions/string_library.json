@@ -39,18 +39,6 @@
     "insertText": "Asc(${1:string$})"
   },
   {
-    "name": "Base64Str",
-    "helpId": "Base64Str",
-    "shortDescription": "encode or decode Base64 data",
-    "version": "6.0",
-    "synopsis": "data$ = Base64Str(s$, decode)",
-    "functionDocs": "This function can be used to encode arbitrary data into the Base64 format or decode a Base64 formatted string back into its original binary data. The second argument specifies whether this function should encode or decode the data.",
-    "inputsDocs": "* `s$` — data to encode or decode\n* `decode` — `True` to decode Base64 data, `False` to encode the specified data into Base64",
-    "resultsDocs": "* `data$` — encoded or decoded data",
-    "platforms": ["All"],
-    "insertText": "Base64Str(${1:s$}, ${2:decode})"
-  },
-  {
     "name": "BinStr",
     "helpId": "BinStr",
     "shortDescription": "convert value to a binary formatted string",
@@ -182,7 +170,7 @@
     "shortDescription": "compare two strings",
     "version": "7.0",
     "synopsis": "r = CompareStr(s1$, s2$[, casesen, encoding])",
-    "functionDocs": "This function compares `s1$` and `s2$` and returns how the two strings are related. If `s1$` is lexically less than `s2$`, -1 is returned. If `s1$` is lexically greater than `s2$`, 1 is returned, otherwise, i.e. if the strings are equal, the return value is 0.\n\nThe optional argument `casesen` can be used to specify whether or not the strings should be compared in a case-sensitive manner. This defaults to the global case sensitive default mode set using [IgnoreCase()](https://www.hollywood-mal.com/docs/html/hollywood/IgnoreCase_.html). See [IgnoreCase](https://www.hollywood-mal.com/docs/html/hollywood/IgnoreCase_.html).\n\nThe optional `encoding` parameter can be used to set the character encoding to use. This defaults to the default string encoding set using [SetDefaultEncoding()](https://www.hollywood-mal.com/docs/html/hollywood/SetDefaultEncoding_.html). See [Character encodings](https://www.hollywood-mal.com/docs/html/hollywood/CharacterEncoding_.html).",
+    "functionDocs": "This function compares `s1$` and `s2$` and returns how the two strings are related. If `s1$` is lexically less than `s2$`, -1 is returned. If `s1$` is lexically greater than `s2$`, 1 is returned, otherwise, i.e. if the strings are equal, the return value is 0.\n\nThe optional argument `casesen` can be used to specify whether or not the strings should be compared in a case-sensitive manner. This defaults to the global case sensitive default mode set using [IgnoreCase()](https://www.hollywood-mal.com/docs/html/hollywood/IgnoreCase_.html). See [IgnoreCase](https://www.hollywood-mal.com/docs/html/hollywood/IgnoreCase_.html).\n\nThe optional `encoding` parameter can be used to set the character encoding to use. This defaults to the default string encoding set using [SetDefaultEncoding()](https://www.hollywood-mal.com/docs/html/hollywood/SetDefaultEncoding_.html). See [Character encodings](https://www.hollywood-mal.com/docs/html/hollywood/CharacterEncoding_.html).\n\nNote that if you're using [Miniwood](https://www.hollywood-mal.com/docs/html/hollywood/Miniwood_.html) and you want to have full Unicode support, you will also have to load `locale` library via the [@USING](https://www.hollywood-mal.com/docs/html/hollywood/atUSING_.html) preprocessor command. Otherwise `CompareStr()` will only support with ASCII characters.",
     "inputsDocs": "* `s1$` — first string to compare\n* `s2$` — second string to compare\n* `casesen` — optional: `True` for a case-sensitive comparison, otherwise FALSE; the default is `True` or whatever default has been set using the [IgnoreCase()](https://www.hollywood-mal.com/docs/html/hollywood/IgnoreCase_.html) command\n* `encoding` — optional: character encoding to use (defaults to default string encoding)",
     "resultsDocs": "* `r` — relation of the two strings",
     "example": "```\nDebugPrint(CompareStr(\"z\", \"a\"))\n```\n\nThe code above prints 1 because \"z\" is lexically greater than \"a\".",
@@ -654,6 +642,18 @@
     "insertText": "RightStr(${1:string$}, ${2:len})"
   },
   {
+    "name": "SHA1Str",
+    "helpId": "SHA1Str",
+    "shortDescription": "calculate SHA1 hash of string",
+    "version": "11.0",
+    "synopsis": "hash$ = SHA1Str(s$)",
+    "functionDocs": "This function calculates the SHA1 hash of the string specified in `s$` and returns it. The 160-bit checksum is returned as a string containing 20 hex digits. Note that Hollywood strings can also contain binary data so that you can also use this function with non-text strings.\n\nIf you want to compute the SHA1 hash of a file, use the [SHA1()](https://www.hollywood-mal.com/docs/html/hollywood/SHA1_.html) function instead.",
+    "inputsDocs": "* `s$` — string whose SHA1 hash you want to have calculated",
+    "resultsDocs": "* `hash$` — SHA1 hash of string",
+    "platforms": ["All"],
+    "insertText": "SHA1Str(${1:s$})"
+  },
+  {
     "name": "SplitStr",
     "helpId": "SplitStr",
     "shortDescription": "split a string in several pieces",
@@ -742,19 +742,6 @@
     "example": "```\nr = ToNumber(\"10000\")         ; returns 10000\nr = ToNumber(\"10110111\", 2)   ; returns 183\nr = ToNumber(\"523\", 8)        ; returns 339\nr = ToNumber(\"FFFF\", 16)      ; returns 65535\n```",
     "platforms": ["All"],
     "insertText": "ToNumber(${1:s$})"
-  },
-  {
-    "name": "ToString",
-    "helpId": "ToString",
-    "shortDescription": "convert any data type to a string",
-    "version": "2.0",
-    "synopsis": "s$ = ToString(data)",
-    "functionDocs": "This function can convert any type to a string. You can pass in tables, functions, strings, numbers and `Nil`. `ToString()` is also used by the [Print()](https://www.hollywood-mal.com/docs/html/hollywood/Print_.html) and [DebugPrint()](https://www.hollywood-mal.com/docs/html/hollywood/DebugPrint_.html) commands so they can print any types, too.\n\nAdditionally, if you pass in a table which metatable has a `__tostring` field, this metamethod is called.",
-    "inputsDocs": "* `data` — value to convert to string",
-    "resultsDocs": "* `s$` — a string",
-    "example": "```\ns$ = ToString(DisplayBrush)   ; returns \"Function: 74cd2456\"\ns$ = ToString({1,2,3,4,5})    ; returns \"Table: 74ab1344\"\ns$ = ToString(Nil)            ; returns \"Nil\"\ns$ = ToString(5)              ; returns \"5\"\ns$ = ToString(\"Hello\")        ; returns \"Hello\"\n```",
-    "platforms": ["All"],
-    "insertText": "ToString(${1:data})"
   },
   {
     "name": "ToUserData",

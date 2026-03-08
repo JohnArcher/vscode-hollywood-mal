@@ -1,0 +1,28 @@
+[
+  {
+    "name": "CompressFile",
+    "helpId": "CompressFile",
+    "shortDescription": "compress a file",
+    "version": "4.0",
+    "synopsis": "size = CompressFile(src$, dst$)",
+    "functionDocs": "This function compresses file `src$` and saves the packed data to `dst$`. The return value specifies the size of the compressed file. Hollywood uses zlib for data compression.\n\nTo decompress files packed by `CompressFile()` use the Hollywood function [DecompressFile()](https://www.hollywood-mal.com/docs/html/hollywood/DecompressFile_.html).",
+    "inputsDocs": "* `src$` — file to compress\n* `dst$` — output file",
+    "resultsDocs": "* `size` — size of the compressed file",
+    "example": "```\nCompressFile(\"image.bmp\", \"image.pak\")\n```\n\nThe code above compresses file image.bmp to image.pak.",
+    "platforms": ["All"],
+    "insertText": "CompressFile(${1:src$}, ${2:dst$})"
+  },
+  {
+    "name": "DecompressFile",
+    "helpId": "DecompressFile",
+    "shortDescription": "decompress a file",
+    "version": "4.0",
+    "synopsis": "size = DecompressFile(src$, dst$)",
+    "functionDocs": "This function decompresses file `src$` and saves the unpacked data to `dst$`. The file must have been packed by the [CompressFile()](https://www.hollywood-mal.com/docs/html/hollywood/CompressFile_.html) function. The return value specifies the size of the uncompressed file.",
+    "inputsDocs": "* `src$` — file to decompress\n* `dst$` — output file",
+    "resultsDocs": "* `size` — size of the decompressed file",
+    "example": "```\nDecompressFile(\"image.pak\", \"image.bmp\")\n```\n\nThe code above decompresses file image.pak to image.bmp.",
+    "platforms": ["All"],
+    "insertText": "DecompressFile(${1:src$}, ${2:dst$})"
+  }
+]

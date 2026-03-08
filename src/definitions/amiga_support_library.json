@@ -16,9 +16,10 @@
     "helpId": "CreateRexxPort",
     "shortDescription": "create a Rexx port for your script",
     "version": "2.5",
-    "synopsis": "CreateRexxPort(name$)",
-    "functionDocs": "This function will create a rexx port for your script and assign the specified name to it. In order to receive ARexx messages, your script needs to have an ARexx port. Other applications can then communicate with your script by sending messages to this port. All messages that arrive at your Rexx port will be forwarded to the callback function which you need to install using the [InstallEventHandler()](https://www.hollywood-mal.com/docs/html/hollywood/InstallEventHandler_.html) function (use the OnARexx event handler). If you do not install this event handler, you will not get any notifications on incoming messages.\n\nPlease remember that Rexx port names are always given in case sensitive notation. Thus, \"MYPORT\" and \"myport\" denote two different Rexx ports. For style reasons it is suggested that you use only upper case characters for your port name. Furthermore, each Rexx port must be unique in the system. If you specify a port name which is already in use, this function will fail. Thus, make sure that you use a unique name.\n\nPlease note that every Hollywood script can only have one ARexx port. Hence, this function can only be called once in your script. You cannot delete the port created by this function. It will be automatically destroyed when Hollywood exits.\n\nAn example how to catch ARexx messages is provided below. See [InstallEventHandler](https://www.hollywood-mal.com/docs/html/hollywood/InstallEventHandler_.html).",
-    "inputsDocs": "* `name$` — desired name for your Rexx port",
+    "synopsis": "[name$ =] CreateRexxPort(name$[, enum])",
+    "functionDocs": "This function will create a Rexx port named `name$` for your script. In order to receive ARexx messages, your script needs to have an ARexx port. Other applications can then communicate with your script by sending messages to this port. All messages that arrive at your Rexx port will be forwarded to the callback function which you need to install using the [InstallEventHandler()](https://www.hollywood-mal.com/docs/html/hollywood/InstallEventHandler_.html) function (use the `OnARexx` event handler). If you do not install this event handler, you will not get any notifications on incoming messages.\n\nPlease remember that Rexx port names are always given in case sensitive notation. Thus, \"MYPORT\" and \"myport\" denote two different Rexx ports. For style reasons it is suggested that you use only upper case characters for your port name. Furthermore, each Rexx port must be unique in the system. If you specify a port name which is already in use, this function will fail. Thus, make sure that you use a unique name.\n\nStarting with Hollywood 11, you can set the optional `enum` argument to `True` to force `CreateRexxPort()` to automatically find a vacant Rexx port. It will do this by using the specified `name$` and appending numbers like .1, .2, .3... to it until it finds a port name that is still available. This port name will then be returned to you.\n\nPlease note that every Hollywood script can only have one ARexx port. Hence, this function can only be called once in your script. You cannot delete the port created by this function. It will be automatically destroyed when Hollywood exits.\n\nAn example how to catch ARexx messages is provided below. See [InstallEventHandler](https://www.hollywood-mal.com/docs/html/hollywood/InstallEventHandler_.html).",
+    "inputsDocs": "* `name$` — desired name for your Rexx port\n* `enum` — optional: `True` if Hollywood should automatically enumerate Rexx ports until it finds an available one or `False` if `CreateRexxPort()` should fail if the specified name is not available (defaults to `False`) (V11.0)",
+    "resultsDocs": "* `name$` — optional: actual name of the Rexx port; this will only be returned if you have set the `enum` argument to `True` (see above) (V11.0)",
     "example": "```\nFunction p_EventFunc(msg)\n  Switch msg.action\n  Case \"OnARexx\"\n    Switch msg.command\n    Case \"RealFunc\"\n      Return(100)\n    Default\n      Local t = SplitStr(msg.args, \"\\0\")\n      DebugPrint(msg.command, \"called with\", msg.argc, \"argument(s)\")\n      For Local k = 1 To msg.argc\n         DebugPrint(\"Argument\", k .. \":\", t[k - 1])\n      Next\n    EndSwitch\n  EndSwitch\nEndFunction\nCreateRexxPort(\"MY_COOL_REXX_PORT_123\")\nInstallEventHandler({OnARexx = p_EventFunc})\nRepeat\n  WaitEvent\nForever\n```\n\nSave the code above as a Hollywood script and run it with Hollywood. Then save the following code as a Rexx script and execute it from a Shell with \"RX test.rx\":\n\n```\n/* remember the first line of every Rexx script must be a comment */\nOPTIONS RESULTS\n\n/* the port of our Hollywood script is now the host */\nADDRESS MY_COOL_REXX_PORT_123\n\n/* send commands from Rexx to Hollywood and watch the debug output */\nDummyFunc_1 '\"Dummy Arg 1\"'\nDummyFunc_2 1 2 3\nDummyFunc_3 '\"First arg\"' '\"Second arg\"' '\"Third arg\"'\nDummyFunc_4  /* no args */\nDummyFunc_5 \"These will be handled as separate arguments\"\nDummyFunc_6 '\"This is a single argument (use double quotes!)\"'\n\n'RealFunc'\nSAY RESULT   /* this will print 100; it is the result from RealFunc */\n```",
     "platforms": ["AmigaOS"],
     "insertText": "CreateRexxPort(${1:name$})"
@@ -50,6 +51,19 @@
     "insertText": "GetFrontScreen()"
   },
   {
+    "name": "GetAssignPaths",
+    "helpId": "GetAssignPaths",
+    "shortDescription": "get all paths associated with an assign",
+    "version": "11.0",
+    "synopsis": "t = GetAssignPaths(name$)",
+    "functionDocs": "This function can be used to get all paths that are associated with the assign specified by `name$`. The assign passed in `name$` must end on a colon character (:). The individual paths associated with the assign will be returned as a table containing a number of strings.",
+    "inputsDocs": "* `name$` — assign to query",
+    "resultsDocs": "* `t` — table containing a number of strings with the individual paths",
+    "example": "```\nt = GetAssignPaths(\"LIBS:\")\nFor Local k = 0 To ListItems(t) - 1 Do DebugPrint(t[k])\n```\n\nThis code lists all paths that are part of the \"LIBS:\" assign.",
+    "platforms": ["AmigaOS"],
+    "insertText": "GetAssignPaths(${1:name$})"
+  },
+  {
     "name": "GetPubScreens",
     "helpId": "GetPubScreens",
     "shortDescription": "return a list of all available public screens",
@@ -61,6 +75,18 @@
     "example": "```\nt = GetPubScreens()\nFor Local k = 0 To ListItems(t) - 1 Do DebugPrint(t[k])\n```\n\nThis code lists all public screens.",
     "platforms": ["AmigaOS"],
     "insertText": "GetPubScreens()"
+  },
+  {
+    "name": "HaveRexxPort",
+    "helpId": "HaveRexxPort",
+    "shortDescription": "check if Rexx port exists",
+    "version": "11.0",
+    "synopsis": "ok = HaveRexxPort(name$)",
+    "functionDocs": "This function simply checks if the Rexx port specified by `name$` exists and returns `True` if it does or `False` otherwise.",
+    "inputsDocs": "* `name$` — port name to check",
+    "resultsDocs": "* `ok` — `True` if the Rexx port exists, `False` otherwise",
+    "platforms": ["AmigaOS"],
+    "insertText": "HaveRexxPort(${1:name$})"
   },
   {
     "name": "HideScreen",
@@ -123,6 +149,18 @@
     "example": "```\nSendRexxCommand(\"WORKBENCH\", \"WINDOW 'Sys:' OPEN\")\n```\n\nThe above code will open the SYS: drawer on your Workbench. Please note that the ARexx interface of the Workbench is a feature introduced in OS3.5. Thus, you will require OS3.5 or better. MorphOS does probably not support the Workbench ARexx interface because it is only rarely used. See the OS3.9 NDK for documentation on the available commands.",
     "platforms": ["AmigaOS"],
     "insertText": "SendRexxCommand(${1:port$}, ${2:cmd$})"
+  },
+  {
+    "name": "SetCXKey",
+    "helpId": "SetCXKey",
+    "shortDescription": "set global hotkey",
+    "version": "11.0",
+    "synopsis": "SetCXKey(key$)",
+    "functionDocs": "This function can be used to install the key or key combination specified by `key$` as a global hotkey for your application. Whenever the user presses the specified key or key combination, your application will receive a `Hotkey` event which you can listen to through the [InstallEventHandler()](https://www.hollywood-mal.com/docs/html/hollywood/InstallEventHandler_.html) function. Passing an empty string to this function will unset the current global hotkey.\n\nNote that global hotkeys are managed through AmigaOS's commodities system which is why this function will not work if you have disabled commodities support for your application by setting the `NoCommodity` tag to `True` in the [@OPTIONS](https://www.hollywood-mal.com/docs/html/hollywood/atOPTIONS_.html) preprocessor command.",
+    "inputsDocs": "* `key$` — key or key combination to set as the global hotkey or an empty string to remove the global hotkey",
+    "example": "```\nSetCXKey(\"alt x\")\n```\n\nThe above code sets the global hotkey to ALT+X which means that whenever the user presses this key combination, your script will receive a `Hotkey` event.",
+    "platforms": ["AmigaOS"],
+    "insertText": "SetCXKey(${1:key$})"
   },
   {
     "name": "SetScreenTitle",

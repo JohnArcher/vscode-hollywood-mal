@@ -1,5 +1,29 @@
 [
   {
+    "name": "CloseRegistryKey",
+    "helpId": "CloseRegistryKey",
+    "shortDescription": "close an open registry key",
+    "version": "11.0",
+    "synopsis": "CloseRegistryKey(id)",
+    "functionDocs": "This function closes the registry key specified by `id` which must have previously been opened using [OpenRegistryKey()](https://www.hollywood-mal.com/docs/html/hollywood/OpenRegistryKey_.html). You should always close registry keys as soon as you are finished with them. This ensures that the file system does not unnecessarily keep registry keys locked.",
+    "inputsDocs": "* `id` — identifier of the registry key to close",
+    "example": "See [OpenRegistryKey](https://www.hollywood-mal.com/docs/html/hollywood/OpenRegistryKey_.html)",
+    "platforms": ["Windows"],
+    "insertText": "CloseRegistryKey(${1:id})"
+  },
+  {
+    "name": "CreateRegistryKey",
+    "helpId": "CreateRegistryKey",
+    "shortDescription": "create an empty new registry key",
+    "version": "11.0",
+    "synopsis": "CreateRegistryKey(base, key$)",
+    "functionDocs": "This function can be used to create the empty new registry key specified by `key$`. You also have to specify the base tree for the new registry key in the `base` argument. This can be one of the following constants:\n\n```\n#HKEY_CLASSES_ROOT\n#HKEY_CURRENT_CONFIG\n#HKEY_LOCAL_MACHINE\n#HKEY_USERS\n#HKEY_CURRENT_USER\n```\n\nAfter creating the registry key using this function, you can then use the [WriteRegistryKey()](https://www.hollywood-mal.com/docs/html/hollywood/WriteRegistryKey_.html) function to add values to it. See [WriteRegistryKey](https://www.hollywood-mal.com/docs/html/hollywood/WriteRegistryKey_.html).",
+    "inputsDocs": "* `base` — one of the base tree constants from above\n* `key$` — the registry key to create",
+    "resultsDocs": "none",
+    "platforms": ["Windows"],
+    "insertText": "CreateRegistryKey(${1:base}, ${2:key$})"
+  },
+  {
     "name": "CreateShortcut",
     "helpId": "CreateShortcut",
     "shortDescription": "create a shortcut to a file",
@@ -25,6 +49,32 @@
     "insertText": "GetShortcutPath(${1:f$})"
   },
   {
+    "name": "NextRegistryKeyEntry",
+    "helpId": "NextRegistryKeyEntry",
+    "shortDescription": "get next entry from an open registry key",
+    "version": "11.0",
+    "synopsis": "name$, istree = NextRegistryKeyEntry(id)",
+    "functionDocs": "This function gets the next entry from the registry key specified by `id`. This must have previously been opened using [OpenRegistryKey()](https://www.hollywood-mal.com/docs/html/hollywood/OpenRegistryKey_.html). The first return value will be the name of the next registry entry and the second return value will tell you if the entry is a tree or a value. If it is a tree, `True` will be returned, `False` otherwise.\n\nIf `istree` is `False`, you can use [ReadRegistryKey()](https://www.hollywood-mal.com/docs/html/hollywood/ReadRegistryKey_.html) to read the value of the registry entry. If `istree` is `True`, you can use [OpenRegistryKey()](https://www.hollywood-mal.com/docs/html/hollywood/OpenRegistryKey_.html) to iterate over all subentries of that entry.\n\nIf there are no more entries in the registry key, an empty string will be returned for `name$` and `istree` will be set to -1.",
+    "inputsDocs": "* `id` — identifier of the registry key to query",
+    "resultsDocs": "* `name$` — name of the next registry entry or an empty string if there are no more entries\n* `istree` — `True` if the entry is another tree, `False` if it is a single value, -1 if there are no more entries",
+    "example": "See [OpenRegistryKey](https://www.hollywood-mal.com/docs/html/hollywood/OpenRegistryKey_.html)",
+    "platforms": ["Windows"],
+    "insertText": "NextRegistryKeyEntry(${1:id})"
+  },
+  {
+    "name": "OpenRegistryKey",
+    "helpId": "OpenRegistryKey",
+    "shortDescription": "open registry key for iteration",
+    "version": "11.0",
+    "synopsis": "[id] = OpenRegistryKey(id, base, key$)",
+    "functionDocs": "This function opens the registry key specified by `base` and `key$` and assigns the specified `id` to it. If you pass [Nil](https://www.hollywood-mal.com/docs/html/hollywood/PrgTypeNil_.html) in `id`, `OpenRegistryKey()` will automatically choose an identifier and return it. After you have opened the registry key, you can then iterate over all of its entries using the [NextRegistryKeyEntry()](https://www.hollywood-mal.com/docs/html/hollywood/NextRegistryKeyEntry_.html) function. Once you are done with the iteration, call [CloseRegistryKey()](https://www.hollywood-mal.com/docs/html/hollywood/CloseRegistryKey_.html) to close the registry key again.\n\nThe `key$` argument specifies the registry key that you want to open and the `base` argument must be used to specify the base registry tree. It can be one of the following constants:\n\n```\n#HKEY_CLASSES_ROOT\n#HKEY_CURRENT_CONFIG\n#HKEY_LOCAL_MACHINE\n#HKEY_USERS\n#HKEY_CURRENT_USER\n```",
+    "inputsDocs": "* `id` — id for the registry key or [Nil](https://www.hollywood-mal.com/docs/html/hollywood/PrgTypeNil_.html) for [auto id selection](https://www.hollywood-mal.com/docs/html/hollywood/AutoIDSelect_.html)\n* `base` — one of the base tree constants from above\n* `key$` — the registry key to open",
+    "resultsDocs": "* `id` — optional: identifier of the registry key; will only be returned when you pass [Nil](https://www.hollywood-mal.com/docs/html/hollywood/PrgTypeNil_.html) as argument 1 (see above)",
+    "example": "```\nOpenRegistryKey(1, #HKEY_CURRENT_USER, \"SOFTWARE/Microsoft\")\nv$, type = NextRegistryKeyEntry(1)\nWhile v$ <> \"\"\n    DebugPrint(v$, type)\n    v$, type = NextRegistryKeyEntry(1)\nWend\nCloseRegistryKey(1)\n```\n\nThe code above prints all entries in the \"SOFTWARE/Microsoft\" registry entry in `HKEY_CURRENT_USER`.",
+    "platforms": ["Windows"],
+    "insertText": "OpenRegistryKey(${1:id}, ${2:base}, ${3:key$})"
+  },
+  {
     "name": "ReadRegistryKey",
     "helpId": "ReadRegistryKey",
     "shortDescription": "read a key from the registry",
@@ -43,7 +93,7 @@
     "shortDescription": "write a key to the registry",
     "version": "4.5",
     "synopsis": "WriteRegistryKey(base, key$, value)",
-    "functionDocs": "This function can be used to write a key to the Windows registry. You have to specify the base tree, the key, and the value which shall be written in the specified key. If the specified key does not exist, it will be created by this function. The base tree can be one of the following constants:\n\n```\n#HKEY_CLASSES_ROOT\n#HKEY_CURRENT_CONFIG\n#HKEY_LOCAL_MACHINE\n#HKEY_USERS\n#HKEY_CURRENT_USER\n```\n\nThe value for the key can be a either number or a string. You can also write binary data to the registry by passing a string. Hollywood strings are capable of holding arbitrary binary data because they allow `NULL` characters in them. Under normal circumstances, however, writing numbers or normal strings to the registry should be sufficient.",
+    "functionDocs": "This function can be used to write a key to the Windows registry. You have to specify the base tree, the key, and the value which shall be written in the specified key. If the specified key does not exist, it will be created by this function. The base tree can be one of the following constants:\n\n```\n#HKEY_CLASSES_ROOT\n#HKEY_CURRENT_CONFIG\n#HKEY_LOCAL_MACHINE\n#HKEY_USERS\n#HKEY_CURRENT_USER\n```\n\nThe value for the key can be a either number or a string. You can also write binary data to the registry by passing a string. Hollywood strings are capable of holding arbitrary binary data because they allow `NULL` characters in them. Under normal circumstances, however, writing numbers or normal strings to the registry should be sufficient.\n\nIf you want to create container registry keys, i.e. keys that contain multiple values and subtrees, use the [CreateRegistryKey()](https://www.hollywood-mal.com/docs/html/hollywood/CreateRegistryKey_.html) function to create an empty key and then use `WriteRegistryKey()` to add values to the key. See [CreateRegistryKey](https://www.hollywood-mal.com/docs/html/hollywood/CreateRegistryKey_.html).",
     "inputsDocs": "* `base` — one of the base tree constants from above\n* `key$` — the registry key to create/modify\n* `value` — value to set the key to; can be either a number or a string",
     "resultsDocs": "none",
     "platforms": ["Windows"],

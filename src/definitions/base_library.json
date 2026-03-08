@@ -1,0 +1,112 @@
+[
+  {
+    "name": "DebugOutput",
+    "helpId": "DebugOutput",
+    "shortDescription": "enable/disable debug output",
+    "version": "1.0",
+    "synopsis": "DebugOutput(enable)",
+    "functionDocs": "This function enables or disables debug output to the default debug device. If debug output is enabled, Hollywood will print information about any function it calls so you can easily track down problems.\n\nThis call can be disabled by specifying the `-nodebug` console argument when running a script or applet. In that case, calling `DebugOutput()` will do nothing at all. See [Console arguments](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage_.html).",
+    "inputsDocs": "* `enable` — enable flag; `True` to enable debug output, `False` to disable it",
+    "example": "```\nDebugOutput(TRUE)\n```\n\nThe above code enables debug output.",
+    "platforms": ["All"],
+    "insertText": "DebugOutput(${1:enable})"
+  },
+  {
+    "name": "DebugPrint",
+    "helpId": "DebugPrint",
+    "shortDescription": "print to debug device",
+    "version": "2.0",
+    "synopsis": "DebugPrint(...)",
+    "functionDocs": "This function prints all arguments you specify to the current debug device. This is usually your console window. You can specify as many arguments as you like and they may be of any type. If you pass multiple arguments to this function, they will be printed with a space to separate them.\n\n`DebugPrint()` will also automatically append a newline character to the end of its output. If you don't want that, use [DebugPrintNR()](https://www.hollywood-mal.com/docs/html/hollywood/DebugPrintNR_.html) instead. See [DebugPrintNR](https://www.hollywood-mal.com/docs/html/hollywood/DebugPrintNR_.html).\n\nThis function supersedes the DebugStr() and DebugVal() calls. They now simply point to this call.\n\nThis call can be disabled by specifying the `-nodebug` console argument when running a script or applet. In that case, calling `DebugPrint()` will do nothing at all. See [Console arguments](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage_.html).\n\nAlso note that when compiling an applet or executable, debugging will be automatically disabled unless you explicitly enable it by setting the `EnableDebug` tag to `True` in [@OPTIONS](https://www.hollywood-mal.com/docs/html/hollywood/atOPTIONS_.html). So if you have compiled an applet or executable and you see that `DebugPrint()` doesn't do anything, the reason is probably that debugging is disabled.",
+    "inputsDocs": "* `...` — at least one value to print to the debug device",
+    "example": "```\nDebugPrint(\"The user entered\", name$, \"as his name and\", age,\n           \"as his age!\")\n```",
+    "platforms": ["All"],
+    "insertText": "DebugPrint()"
+  },
+  {
+    "name": "DebugPrintNR",
+    "helpId": "DebugPrintNR",
+    "shortDescription": "print to debug device without newline",
+    "version": "6.1",
+    "synopsis": "DebugPrintNR(...)",
+    "functionDocs": "This does the same as [DebugPrint()](https://www.hollywood-mal.com/docs/html/hollywood/DebugPrint_.html) but doesn't append a new line character to the string.\n\nThis call can be disabled by specifying the `-nodebug` console argument when running a script or applet. In that case, calling `DebugPrintNR()` will do nothing at all. See [Console arguments](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage_.html).\n\nAlso note that when compiling an applet or executable, debugging will be automatically disabled unless you explicitly enable it by setting the `EnableDebug` tag to `True` in [@OPTIONS](https://www.hollywood-mal.com/docs/html/hollywood/atOPTIONS_.html). So if you have compiled an applet or executable and you see that `DebugPrintNR()` doesn't do anything, the reason is probably that debugging is disabled.\n\nSee [DebugPrint](https://www.hollywood-mal.com/docs/html/hollywood/DebugPrint_.html).",
+    "inputsDocs": "* `...` — at least one value to print to the debug device",
+    "example": "```\nDebugPrintNR(\"Hello \")\nDebugPrintNR(\"World!\")\nDebugPrintNR(\"\\n\")\n```\n\nThis does the same as `DebugPrint(\"Hello World!\")`.",
+    "platforms": ["All"],
+    "insertText": "DebugPrintNR()"
+  },
+  {
+    "name": "DebugPrompt",
+    "helpId": "DebugPrompt",
+    "shortDescription": "read user input from debug device",
+    "version": "5.0",
+    "synopsis": "s$ = DebugPrompt(p$)",
+    "functionDocs": "This function can be used to prompt the user to enter a string in the current debug device. `DebugPrompt()` will present the string specified in `p$` as the prompt and halt the script's execution until the user has entered a string and confirmed his input using the RETURN key. The string will then be returned by this function.\n\nThis call can be disabled by specifying the `-nodebug` console argument when running a script or applet. In that case, calling `DebugPrompt()` will just return an empty string. See [Console arguments](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage_.html).\n\nAlso note that when compiling an applet or executable, debugging will be automatically disabled unless you explicitly enable it by setting the `EnableDebug` tag to `True` in [@OPTIONS](https://www.hollywood-mal.com/docs/html/hollywood/atOPTIONS_.html). So if you have compiled an applet or executable and you see that `DebugPrompt()` doesn't do anything, the reason is probably that debugging is disabled.",
+    "inputsDocs": "* `p$` — prompt to present to the user",
+    "resultsDocs": "* `s$` — string entered by user",
+    "example": "```\nname$ = DebugPrompt(\"What is your name? \")\nage$ = DebugPrompt(\"And your age? \")\nhome$ = DebugPrompt(\"Where do you live? \")\nDebugPrint(\"Your name is\", name$, \"and you are\", age$,\n           \"years old and live in\", home$, \"!\")\n```\n\nThe code above demonstrates the usage of the `DebugPrompt()` function.",
+    "platforms": ["All"],
+    "insertText": "DebugPrompt(${1:p$})"
+  },
+  {
+    "name": "End",
+    "helpId": "End",
+    "shortDescription": "terminate Hollywood",
+    "version": "1.0",
+    "synopsis": "End([code])",
+    "functionDocs": "This function will immediately terminate your script, shut down Hollywood, free all memory, and close all libraries.\n\nStarting with Hollywood 7.0 you can pass the optional `code` parameter to set the return code that Hollywood's process should pass to its parent process. This is useful when running Hollywood programs from a console.",
+    "inputsDocs": "* `code` — optional: return code to pass to parent process (defaults to 0) (V7.0)",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "End()"
+  },
+  {
+    "name": "GetKey",
+    "helpId": "GetKey",
+    "shortDescription": "get the key that is pressed in the console",
+    "version": "11.0",
+    "synopsis": "key$ = GetKey()",
+    "functionDocs": "This function will return the key that is currently pressed in the console. If no key is down, an empty string will be returned. Note that this is a low-level function and only standard English characters and numbers will work reliably across all platforms. If you need to query the state of special keys like the function keys, escape, cursor keys etc., you need to use high-level functions from the console library instead.\n\nNote that this is a console function. It will only listen to key presses that happen in the console. If you want to learn about key presses in Hollywood displays, you need to use functions like [WaitKeyDown()](https://www.hollywood-mal.com/docs/html/hollywood/WaitKeyDown_.html), [IsKeyDown()](https://www.hollywood-mal.com/docs/html/hollywood/IsKeyDown_.html) or event handlers like `OnKeyDown` instead.\n\nAlso note that of course the same thing can also achieved by using functions from the console library, but the console library isn't available on all platforms and also has a dependency on the (n)curses library on some platforms. `GetKey()`, however, works on all platforms, except on Android and iOS of course.",
+    "inputsDocs": "none",
+    "resultsDocs": "* `key$` — the key that is currently pressed or an empty string if no key is down",
+    "platforms": ["All"],
+    "insertText": "GetKey()"
+  },
+  {
+    "name": "IIf",
+    "helpId": "IIf",
+    "shortDescription": "returns value depending on the condition",
+    "version": "2.0",
+    "synopsis": "ret = IIf(expr, true_expr, false_expr)",
+    "functionDocs": "This function checks if the expression `expr` is `True` (non-zero). If it is, the function returns the expression specified in `true_expr`, else `false_expr` is returned. It is important to note that both true and false expressions are evaluated in every case, no matter if the expression is `True` or `False`. So things like `IIf(a <> 0, 5 / a, 0)` will not work for `a=0` because Hollywood will try evaluating `5/0` which obviously does not work.",
+    "inputsDocs": "* `expr` — source expression\n* `true_expr` — expression to return if expr is `True`\n* `false_expr` — expression to return if expr is `False`",
+    "resultsDocs": "* `ret` — result",
+    "platforms": ["All"],
+    "insertText": "IIf(${1:expr}, ${2:true_expr}, ${3:false_expr})"
+  },
+  {
+    "name": "ToString",
+    "helpId": "ToString",
+    "shortDescription": "convert any data type to a string",
+    "version": "2.0",
+    "synopsis": "s$ = ToString(data)",
+    "functionDocs": "This function can convert any type to a string. You can pass in tables, functions, strings, numbers and `Nil`. `ToString()` is also used by the [Print()](https://www.hollywood-mal.com/docs/html/hollywood/Print_.html) and [DebugPrint()](https://www.hollywood-mal.com/docs/html/hollywood/DebugPrint_.html) commands so they can print any types, too.\n\nAdditionally, if you pass in a table which metatable has a `__tostring` field, this metamethod is called.",
+    "inputsDocs": "* `data` — value to convert to string",
+    "resultsDocs": "* `s$` — a string",
+    "example": "```\ns$ = ToString(DisplayBrush)   ; returns \"Function: <uid>\"\ns$ = ToString({1,2,3,4,5})    ; returns \"Table: <uid>\"\ns$ = ToString(Nil)            ; returns \"Nil\"\ns$ = ToString(5)              ; returns \"5\"\ns$ = ToString(\"Hello\")        ; returns \"Hello\"\n```",
+    "platforms": ["All"],
+    "insertText": "ToString(${1:data})"
+  },
+  {
+    "name": "WaitKey",
+    "helpId": "WaitKey",
+    "shortDescription": "wait for key press in the console",
+    "version": "11.0",
+    "synopsis": "WaitKey()",
+    "functionDocs": "This function will wait for the user to press any key in the console. This can be useful when writing console-only programs and you just want to wait for a key press.\n\nNote that this is a console function. It will only react on key presses that happen in the console. If you want to learn about key presses in Hollywood displays, you need to use functions like [WaitKeyDown()](https://www.hollywood-mal.com/docs/html/hollywood/WaitKeyDown_.html), [IsKeyDown()](https://www.hollywood-mal.com/docs/html/hollywood/IsKeyDown_.html) or event handlers like `OnKeyDown` instead.\n\nAlso note that of course the same thing can also achieved by using functions from the console library, but the console library isn't available on all platforms and also has a dependency on the (n)curses library on some platforms. `WaitKey()`, however, works on all platforms, except on Android and iOS of course.",
+    "inputsDocs": "none",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "WaitKey()"
+  }
+]

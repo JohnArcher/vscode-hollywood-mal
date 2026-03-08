@@ -1,0 +1,63 @@
+[
+  {
+    "name": "MoveAnim",
+    "helpId": "MoveAnim",
+    "shortDescription": "move animation to new position",
+    "version": "1.0",
+    "synopsis": "MoveAnim(id, xa, ya, xb, yb[, table])",
+    "functionDocs": "This function moves (scrolls) the animation specified by `id` softly from the location specified by `xa`,`ya` to the location specified by `xb`,`yb`.\n\nFurther configuration options are possible using the optional argument table. You can specify the move speed, special effect, and whether or not the move shall be asynchronous. See [MoveBrush](https://www.hollywood-mal.com/docs/html/hollywood/MoveBrush_.html).\n\nBesides the table elements mentioned in the [MoveBrush()](https://www.hollywood-mal.com/docs/html/hollywood/MoveBrush_.html) documentation, `MoveAnim()` accepts one additional table element named `AnimSpeed`: The anim speed value defines after how many draws the frame number should be increased; therefore a higher number means a lower playback speed of the animation.\n\nIt should also be mentioned that starting with Hollywood 4.5, you can specify the new `#DEFAULTSPEED` constant in the `Speed` table argument. (see [MoveBrush()](https://www.hollywood-mal.com/docs/html/hollywood/MoveBrush_.html)). If you use `#DEFAULTSPEED`, Hollywood will use the playback speed as defined in the animation file. Note that not all animations define such a speed but if they do, it should be respected because otherwise the playback looks wrong.",
+    "inputsDocs": "* `id` — identifier of the animation to use as source\n* `xa` — source x position\n* `ya` — source y position\n* `xb` — destination x position\n* `yb` — destination y position\n* `table` — optional: further configuration for this move",
+    "example": "```\nMoveAnim(1, 100, 50, 0, 50, {Speed = 5, AnimSpeed = 4})\n```\n\nMoves the animation 1 from 100:50 to 0:50 with move speed 5 and anim playback speed 4.",
+    "platforms": ["All"],
+    "insertText": "MoveAnim(${1:id}, ${2:xa}, ${3:ya}, ${4:xb}, ${5:yb})"
+  },
+  {
+    "name": "MoveBrush",
+    "helpId": "MoveBrush",
+    "shortDescription": "move brush to new position",
+    "version": "1.0",
+    "synopsis": "[handle] = MoveBrush(id, xa, ya, xb, yb[, table])",
+    "functionDocs": "This function moves (scrolls) the brush specified by `id` softly from the location specified by `xa`,`ya` to the location specified by `xb`,`yb`.\n\nFurther parameters can be specified in the optional table argument. The following parameters are recognized:\n\n- `Speed`: Defines the number of pixels that the brush will be moved per draw. Therefore a higher number means higher speed. You can also specify a constant for the speed argument (`#SLOWSPEED`, `#NORMALSPEED` or `#FASTSPEED`).\n\n- `FX`: Specifies a special effect that shall be applied to the move. The following effects are currently possible:\n\n  - `#BOUNCE`: Bounces the object at move end\n\n  - `#DAMPED`: Damps the object at move end\n\n  - `#SMOOTHOUT`: Decreases object move speed towards the move end\n\n  - `#SINE`: Displays the object on a sine wave (*)\n\n  - `#BIGSINE`: Displays the object on a big sine wave (*)\n\n  - `#LOWERCURVE`: Moves the object on a curve below the move line (*)\n\n  - `#UPPERCURVE`: Moves the object on a curve above the move line (*)\n\n  Effects marked with an asterisk are only possible with horizontal moves, which means that `ya` and `yb` coordinates must be equal!\n\n- `Async`: You can use this field to create an asynchronous draw object for this move. If you pass `True` here `MoveBrush()` will exit immediately, returning a handle to an asynchronous draw object which you can then draw using AsyncDrawFrame(). See [AsyncDrawFrame](https://www.hollywood-mal.com/docs/html/hollywood/AsyncDrawFrame_.html).",
+    "inputsDocs": "* `id` — identifier of the brush to move\n* `xa` — source x position\n* `ya` — source y position\n* `xb` — destination x position\n* `yb` — destination y position\n* `table` — optional: further configuration for this move",
+    "resultsDocs": "* `handle` — optional: handle to an asynchronous draw object; will only be returned if `Async` has been set to `True` (see above)",
+    "example": "```\nMoveBrush(1, 100, 50, 0, 50, {Speed = 5})\n```\n\nMoves the brush from 100:50 to 0:50 with speed 5.\n\n---\n\n```\nMoveBrush(1, #RIGHTOUT, #BOTTOM, #LEFTOUT, #BOTTOM, {Speed = #NORMALSPEED})\n```\n\nMoves the brush from the outer right position to the outer left position with a normal speed.",
+    "platforms": ["All"],
+    "insertText": "MoveBrush(${1:id}, ${2:xa}, ${3:ya}, ${4:xb}, ${5:yb})"
+  },
+  {
+    "name": "MoveLayer",
+    "helpId": "MoveLayer",
+    "shortDescription": "move layer to new position",
+    "version": "1.9",
+    "synopsis": "MoveLayer(id, xa, ya, xb, yb[, table])  \nMoveLayer(id, x, y) (V9.1)",
+    "functionDocs": "This function can be used to either scroll the layer specified by `id` to a new position or simply move it to a new position without scrolling.\n\nIf you pass the `xa`, `ya`, `xb` and `yb` arguments, `MoveLayer()` will scroll the layer specified by `id` softly from the position specified by `xa` and `ya` to the position specified by `xb` and `yb`. Further configuration options are possible using the optional argument `table`. You can specify the move speed, special effect, and whether or not the move shall be asynchronous. See [MoveBrush](https://www.hollywood-mal.com/docs/html/hollywood/MoveBrush_.html).\n\nIf you just pass the `x` and `y` arguments, `MoveLayer()` will simply move the layer to the position specified by `x` and `y`. In that case, `id` can also be the name of a layer group.\n\nFor all coordinates you can specify the special constant `#USELAYERPOSITION`. Hollywood will use the current position of the layer then.\n\nYou need to [enable layers](https://www.hollywood-mal.com/docs/html/hollywood/EnableLayers_.html) before you can use this function. See [Layers introduction](https://www.hollywood-mal.com/docs/html/hollywood/LayersIntroduction_.html).",
+    "inputsDocs": "* `id` — id or name of the layer to use\n* `xa` — source x position\n* `ya` — source y position\n* `xb` — destination x position\n* `yb` — destination y position\n* `table` — optional: further configuration for this move",
+    "example": "```\nMoveLayer(5, #LEFTOUT, #CENTER, #RIGHTOUT, #CENTER)\n```\n\nScrolls layer 5 from the outside left to the outside right of the display and centers it vertically.\n\n---\n\n```\nMoveLayer(4, #USELAYERPOSITION, #USELAYERPOSITION, #LEFTOUT, #CENTER)\n```\n\nScrolls layer 4 from its current position out of the screen.\n\n---\n\n```\nMoveLayer(5, #CENTER, #CENTER)\n```\n\nMoves layer 5 to the screen center.",
+    "platforms": ["All"],
+    "insertText": "MoveLayer(${1:id}, ${2:xa}, ${3:ya}, ${4:xb}, ${5:yb})"
+  },
+  {
+    "name": "MoveSprite",
+    "helpId": "MoveSprite",
+    "shortDescription": "move sprite to new position",
+    "version": "2.0",
+    "synopsis": "MoveSprite(id, xa, ya, xb, yb[, table])",
+    "functionDocs": "This function moves (scrolls) the sprite specified by `id` softly from the location specified by xa,ya to the location specified by xb,yb.\n\nFurther configuration options are possible using the optional argument table. You can specify the move speed, special effect, and whether or not the move shall be asynchronous. See [MoveBrush](https://www.hollywood-mal.com/docs/html/hollywood/MoveBrush_.html). Besides the table elements mentioned in the [MoveBrush()](https://www.hollywood-mal.com/docs/html/hollywood/MoveBrush_.html) documentation, `MoveSprite()` accepts one additional table element named `AnimSpeed`: The anim speed value defines after how many draws the frame number should be increased; therefore a higher number means a lower playback speed of the animation.",
+    "inputsDocs": "* `id` — identifier of the sprite to use\n* `xa` — source x position\n* `ya` — source y position\n* `xb` — destination x position\n* `yb` — destination y position\n* `table` — optional: further configuration options",
+    "example": "```\nMoveSprite(1, 100, 50, 0, 50, {Speed = 5, AnimSpeed = 4})\n```\n\nMoves the sprite 1 from 100:50 to 0:50 with move speed 5 and anim playback speed 4.",
+    "platforms": ["All"],
+    "insertText": "MoveSprite(${1:id}, ${2:xa}, ${3:ya}, ${4:xb}, ${5:yb})"
+  },
+  {
+    "name": "MoveTextObject",
+    "helpId": "MoveTextObject",
+    "shortDescription": "move text object to new position",
+    "version": "1.0",
+    "synopsis": "MoveTextObject(id, xa, ya, xb, yb[, table])",
+    "functionDocs": "This function moves (scrolls) the text object specified by `id` softly from the location specified by `xa`,`ya` to the location specified by `xb`,`yb`.\n\nFurther configuration options are possible using the optional argument table. You can specify the move speed, special effect, and whether or not the move shall be asynchronous. See [MoveBrush](https://www.hollywood-mal.com/docs/html/hollywood/MoveBrush_.html).",
+    "inputsDocs": "* `id` — identifier of the text object to use as source\n* `xa` — source x position\n* `ya` — source y position\n* `xb` — destination x position\n* `yb` — destination y position\n* `table` — optional: further configuration for the move",
+    "example": "```\nMoveTextObject(1,100,50,0,50,{Speed = 5})\n```\n\nMoves the text object 1 from 100:50 to 0:50 with speed 5.",
+    "platforms": ["All"],
+    "insertText": "MoveTextObject(${1:id}, ${2:xa}, ${3:ya}, ${4:xb}, ${5:yb})"
+  }
+]

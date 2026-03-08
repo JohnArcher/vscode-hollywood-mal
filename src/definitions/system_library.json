@@ -48,18 +48,6 @@
     "insertText": "EnableLineHook()"
   },
   {
-    "name": "End",
-    "helpId": "End",
-    "shortDescription": "terminate Hollywood",
-    "version": "1.0",
-    "synopsis": "End([code])",
-    "functionDocs": "This function will immediately terminate your script, shut down Hollywood, free all memory, and close all libraries.\n\nStarting with Hollywood 7.0 you can pass the optional `code` parameter to set the return code that Hollywood's process should pass to its parent process. This is useful when running Hollywood programs from a console.",
-    "inputsDocs": "* `code` — optional: return code to pass to parent process (defaults to 0) (V7.0)",
-    "resultsDocs": "none",
-    "platforms": ["All"],
-    "insertText": "End()"
-  },
-  {
     "name": "GCInfo",
     "helpId": "GCInfo",
     "shortDescription": "query garbage collector status",
@@ -95,6 +83,18 @@
     "resultsDocs": "none",
     "platforms": ["All"],
     "insertText": "GetDefaultAdapter(${1:type})"
+  },
+  {
+    "name": "GetDefaultEncoding",
+    "helpId": "GetDefaultEncoding",
+    "shortDescription": "get default character encoding",
+    "version": "7.0",
+    "synopsis": "tencoding, sencoding = GetDefaultEncoding()",
+    "functionDocs": "This function returns the default character encodings for the text library in `tencoding` and for the string library in `sencoding`. See [SetDefaultEncoding](https://www.hollywood-mal.com/docs/html/hollywood/SetDefaultEncoding_.html).",
+    "inputsDocs": "none",
+    "resultsDocs": "* `tencoding` — default character encoding for the text library\n* `sencoding` — default character encoding for the string library",
+    "platforms": ["All"],
+    "insertText": "GetDefaultEncoding()"
   },
   {
     "name": "GetDefaultLoader",
@@ -151,24 +151,12 @@
     "shortDescription": "get information about the Hollywood version in use",
     "version": "3.0",
     "synopsis": "t = GetVersion()",
-    "functionDocs": "This function can be used to obtain some information about the Hollywood version currently running your script or applet. You can also retrieve information about the platform that your script is running on.\n\nThis function will return a table with the following fields initialized:\n\n- `Application`: This will be \"Hollywood\" or \"HollywoodPlayer\" depending on which version is in use. If you save your script as an executable, this will always be \"HollywoodPlayer\".\n\n- `Version`: A string containing the version of Hollywood, e.g. \"3.0\".\n\n- `Version_Date`: A string containing the build date of this Hollywood version.\n\n- `Kernel`: A string containing the kernel version of Hollywood, e.g. \"3.0\".\n\n- `Kernel_Date`: A string containing the build date of the Hollywood kernel.\n\n- `Beta`: This field will be set to `True` if a beta version of Hollywood is used, `False` otherwise.\n\n- `Platform`: This is probably the most useful field because it contains the platform on which Hollywood is currently running. This field can be \"AmigaOS3\", \"MorphOS\", \"WarpOS\", \"AmigaOS4\", \"AROS\", \"Win32\", \"MacOS\", \"Linux\", \"iOS\", or \"Android\". Note that \"Win32\" is also returned for 64-bit Windows. It's called \"Win32\" for historical reasons.\n\n- `Demo`: This field will be set to `True` if the user is running a demo version of Hollywood. (V4.71)\n\n- `Plugins`: This field will be set to a table that contains information about all plugins that have been loaded by Hollywood for this script. See [GetPlugins](https://www.hollywood-mal.com/docs/html/hollywood/GetPlugins_.html). (V5.1)\n\n- `CPU`: This field will be set to the CPU architecture that Hollywood is currently running on. This field can be \"m68k\", \"m68k/ppc\" (for WarpOS), \"ppc\", \"arm\", \"arm64\", \"i386\", or \"x64\". (V5.2)\n\n- `BigEndian`: This field will be set to `True` if Hollywood is running on a big endian CPU (i.e. 68000 or PowerPC) or `False` for a little endian CPU (x86, x64 and ARM). (V6.0)",
+    "functionDocs": "This function can be used to obtain some information about the Hollywood version currently running your script or applet. You can also retrieve information about the platform that your script is running on.\n\nThis function will return a table with the following fields initialized:\n\n- `Application`: This will be \"Hollywood\", \"Miniwood\", \"HollywoodPlayer\" or \"MiniwoodPlayer\" depending on which version is in use. If you compile your script into an executable, this will always be \"HollywoodPlayer\" or \"MiniwoodPlayer\" if you use Miniwood.\n\n- `Version`: A string containing the version of Hollywood, e.g. \"3.0\".\n\n- `Version_Date`: A string containing the build date of this Hollywood version.\n\n- `Kernel`: A string containing the kernel version of Hollywood, e.g. \"3.0\".\n\n- `Kernel_Date`: A string containing the build date of the Hollywood kernel.\n\n- `Beta`: This field will be set to `True` if a beta version of Hollywood is used, `False` otherwise.\n\n- `Platform`: This is probably the most useful field because it contains the platform on which Hollywood is currently running. This field can be \"AmigaOS3\", \"MorphOS\", \"WarpOS\", \"AmigaOS4\", \"AROS\", \"Win32\", \"MacOS\", \"Linux\", \"iOS\", or \"Android\". Note that \"Win32\" is also returned for 64-bit Windows. It's called \"Win32\" for historical reasons.\n\n- `Demo`: This field will be set to `True` if the user is running a demo version of Hollywood. (V4.71)\n\n- `Plugins`: This field will be set to a table that contains information about all plugins that have been loaded by Hollywood for this script. See [GetPlugins](https://www.hollywood-mal.com/docs/html/hollywood/GetPlugins_.html). (V5.1)\n\n- `CPU`: This field will be set to the CPU architecture that Hollywood is currently running on. This field can be \"m68k\", \"m68k/ppc\" (for WarpOS), \"ppc\", \"arm\", \"arm64\", \"i386\", or \"x64\". (V5.2)\n\n- `BigEndian`: This field will be set to `True` if Hollywood is running on a big endian CPU (i.e. 68000 or PowerPC) or `False` for a little endian CPU (x86, x64 and ARM). (V6.0)",
     "inputsDocs": "none",
     "resultsDocs": "* `t` — a table containing information about the Hollywood version in use",
     "example": "```\nt = GetVersion()\nIf t.platform = \"Win32\" Then Error(\"Sorry, Win32 is not supported yet!\")\n```\n\nThe code above checks on which version we are running and exits with an error if Hollywood is running on Windows.",
     "platforms": ["All"],
     "insertText": "GetVersion()"
-  },
-  {
-    "name": "IIf",
-    "helpId": "IIf",
-    "shortDescription": "returns value depending on the condition",
-    "version": "2.0",
-    "synopsis": "ret = IIf(expr, true_expr, false_expr)",
-    "functionDocs": "This function checks if the expression `expr` is `True` (non-zero). If it is, the function returns the expression specified in `true_expr`, else `false_expr` is returned. It is important to note that both true and false expressions are evaluated in every case, no matter if the expression is `True` or `False`. So things like `IIf(a <> 0, 5 / a, 0)` will not work for `a=0` because Hollywood will try evaluating `5/0` which obviously does not work.",
-    "inputsDocs": "* `expr` — source expression\n* `true_expr` — expression to return if expr is `True`\n* `false_expr` — expression to return if expr is `False`",
-    "resultsDocs": "* `ret` — result",
-    "platforms": ["All"],
-    "insertText": "IIf(${1:expr}, ${2:true_expr}, ${3:false_expr})"
   },
   {
     "name": "IsNil",
@@ -200,7 +188,7 @@
     "shortDescription": "enable or disable certain legacy features",
     "version": "6.0",
     "synopsis": "LegacyControl(feature$, enable)",
-    "functionDocs": "This function can be used to enable or disable certain legacy functionality that Hollywood still supports for compatibility reasons. You have to pass the name of the feature that you want to address as well as `True` to enable this feature or `False` to disable it.\n\nThe following strings can currently be passed in `feature$`:\n\n- `SingleMusic`: Before Hollywood 6.0 only one music could be playing at a time. This limitation has been removed with Hollywood 6.0 but by default, PlayMusic() will still stop any playing music in order to be fully compatible with previous versions. If you don't want that, you have to call `LegacyControl()` and set `SingleMusic` to `False`. Hollywood will then be able to play multiple music objects at the same time. This tag defaults to `True`.\n\n- `LineBasedShapes`: Before Hollywood 6.0 all round shapes drawn by the functions [Arc()](https://www.hollywood-mal.com/docs/html/hollywood/Arc_.html), [Circle()](https://www.hollywood-mal.com/docs/html/hollywood/Circle_.html), [Ellipse()](https://www.hollywood-mal.com/docs/html/hollywood/Ellipse_.html) and [Box()](https://www.hollywood-mal.com/docs/html/hollywood/Box_.html) (when using the optional parameter to draw a box with round corners) were drawn as polygons which made them look rather square. Starting with Hollywood 6.0 these round shapes are now drawn as real B�zier splines if antialiasing is turned on. This will be a little slower than the polyline-based approach from previous versions, but it will look much better. If you want Hollywood to keep using the polygon-based approach from previous versions, you can set this tag to `True`. In that case, the functions listed above will draw shapes that look exactly the same as the ones drawn by previous versions. This tag defaults to `False` except when running an applet compiled by Hollywood versions older than 6.0. In that case it defaults to `True`.",
+    "functionDocs": "This function can be used to enable or disable certain legacy functionality that Hollywood still supports for compatibility reasons. You have to pass the name of the feature that you want to address as well as `True` to enable this feature or `False` to disable it.\n\nThe following strings can currently be passed in `feature$`:\n\n- `SingleMusic`: Before Hollywood 6.0 only one music could be playing at a time. This limitation has been removed with Hollywood 6.0 but by default, PlayMusic() will still stop any playing music in order to be fully compatible with previous versions. If you don't want that, you have to call `LegacyControl()` and set `SingleMusic` to `False`. Hollywood will then be able to play multiple music objects at the same time. This tag defaults to `True`.\n\n- `LineBasedShapes`: Before Hollywood 6.0 all round shapes drawn by the functions [Arc()](https://www.hollywood-mal.com/docs/html/hollywood/Arc_.html), [Circle()](https://www.hollywood-mal.com/docs/html/hollywood/Circle_.html), [Ellipse()](https://www.hollywood-mal.com/docs/html/hollywood/Ellipse_.html) and [Box()](https://www.hollywood-mal.com/docs/html/hollywood/Box_.html) (when using the optional parameter to draw a box with round corners) were drawn as polygons which made them look rather square. Starting with Hollywood 6.0 these round shapes are now drawn as real B�zier splines if antialiasing is turned on. This will be a little slower than the polyline-based approach from previous versions, but it will look much better. If you want Hollywood to keep using the polygon-based approach from previous versions, you can set this tag to `True`. In that case, the functions listed above will draw shapes that look exactly the same as the ones drawn by previous versions. This tag defaults to `False` except when running an applet compiled by Hollywood versions older than 6.0. In that case it defaults to `True`.\n\n- `LegacyRequesters`: Starting with Hollywood 11, [FileRequest()](https://www.hollywood-mal.com/docs/html/hollywood/FileRequest_.html) and [PathRequest()](https://www.hollywood-mal.com/docs/html/hollywood/PathRequest_.html) will use Android's document framework and return Storage Access Framework (SAF) URIs instead of traditional paths. If you don't want that, you can set this tag to `True` to get the old requesters back. Keep in mind, though, that the old requesters will only work if your app has been granted the manage external permission which can be queried via [PermissionRequest()](https://www.hollywood-mal.com/docs/html/hollywood/PermissionRequest_.html). See [PermissionRequest](https://www.hollywood-mal.com/docs/html/hollywood/PermissionRequest_.html).",
     "inputsDocs": "* `feature$` — name of the feature to enable or disable (see above)\n* `enable` — `True` to enable the feature, `False` to disable it",
     "resultsDocs": "none",
     "platforms": ["All"],
@@ -231,6 +219,18 @@
     "insertText": "SetDefaultAdapter(${1:type}, ${2:adapter$})"
   },
   {
+    "name": "SetDefaultEncoding",
+    "helpId": "SetDefaultEncoding",
+    "shortDescription": "set default character encoding",
+    "version": "4.7",
+    "synopsis": "SetDefaultEncoding(tencoding[, sencoding])",
+    "functionDocs": "This function can be used to change the default character encoding for the text and string libraries. Note that for reasons of compatibility Hollywood maintains two different default character encodings: one for the text library and one for the string library. Under normal conditions, however, both default encodings should be set the to the same character encoding.\n\nThe default character encoding for the text library is specified in `tencoding` and affects functions such as [Print()](https://www.hollywood-mal.com/docs/html/hollywood/Print_.html), [NPrint()](https://www.hollywood-mal.com/docs/html/hollywood/NPrint_.html), [TextOut()](https://www.hollywood-mal.com/docs/html/hollywood/TextOut_.html), and [CreateTextObject()](https://www.hollywood-mal.com/docs/html/hollywood/CreateTextObject_.html).\n\nThe default character encoding for the string library needs to be specified in the `sencoding` parameter and affects most functions of the string library, i.e. functions such as [ReplaceStr()](https://www.hollywood-mal.com/docs/html/hollywood/ReplaceStr_.html) and [StrLen()](https://www.hollywood-mal.com/docs/html/hollywood/StrLen_.html).\n\nThe following character encodings are currently supported by Hollywood:\n\n- `#ENCODING_UTF8`: Use UTF-8 encoding. This is the default since Hollywood 7.0.\n\n- `#ENCODING_ISO8859_1`: This was the default encoding before Hollywood 7.0. This can be useful in case you need to deal with binary data or strings that aren't formatted as UTF-8. Don't be confused by the name: Even though the constant is called ISO 8859-1 it can actually be used with all kinds of non-UTF-8 encodings because for most string library functions it won't make a difference if the encoding is ISO 8859-1 or some other charset as long as one character is one byte which is true for all non-UTF-8 8-bit encodings. The only commands that won't work with non-ISO-8859-1 encodings are commands like [UpperStr()](https://www.hollywood-mal.com/docs/html/hollywood/UpperStr_.html), [LowerStr()](https://www.hollywood-mal.com/docs/html/hollywood/LowerStr_.html), etc. because they will do all upper and lower case mapping based on the ISO 8859-1 charmap and other encodings will require different charmaps so those functions won't give correct results for non-ISO-8859-1 text. Since `#ENCODING_ISO8859_1` can also be used with other encodings there's also the synonym constant `#ENCODING_RAW` which might be less misleading semantically because it doesn't suggest that strings are in ISO 8859-1 format (see below).\n\n- `#ENCODING_RAW`: This is the same as `#ENCODING_ISO8859_1` but using this instead of `#ENCODING_ISO8859_1` might be preferable from a semantic point of view because it doesn't suggest that strings are or must be in ISO 8859-1 encoding. Instead it simply says that strings are simply treated as a sequence of raw 8-bit characters.",
+    "inputsDocs": "* `tencoding` — default character encoding for the text library\n* `sencoding` — default character encoding for the string library (V7.0)",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "SetDefaultEncoding(${1:tencoding})"
+  },
+  {
     "name": "SetDefaultLoader",
     "helpId": "SetDefaultLoader",
     "shortDescription": "set default loader",
@@ -255,6 +255,18 @@
     "insertText": "SetVarType(${1:var}, ${2:type})"
   },
   {
+    "name": "ShowDirectory",
+    "helpId": "ShowDirectory",
+    "shortDescription": "show directory on desktop",
+    "version": "11.0",
+    "synopsis": "ShowDirectory(d$[, t])",
+    "functionDocs": "This function opens the directory specified by `d$` using the host platform's desktop system (e.g. Explorer on Windows, Finder on macOS, Workbench on Amiga...).\n\nAdditional options can be specified using the optional table argument `t`. The following tags are currently recognized:\n\n- `ShowAll`: This tag is only supported on AmigaOS and compatibles. If it is set to `False`, only files that have an icon will be shown, otherwise all files will be shown. Defaults to `True`.\n\n- `ViewMode`: This tag is only supported on AmigaOS and compatibles. It allows you to set the Workbench view mode for the directory. This can be one of the following special constants:\n\n  - `#VIEWMODE_ICONS` View files as icons. This is the default.\n\n  - `#VIEWMODE_LIST` View files as a list.\n\n  Defaults to `#VIEWMODE_ICONS`.",
+    "inputsDocs": "* `d$` — directory to open\n* `t` — optional: table containing further options (see above)",
+    "resultsDocs": "none",
+    "platforms": ["All"],
+    "insertText": "ShowDirectory(${1:d$})"
+  },
+  {
     "name": "ShowNotification",
     "helpId": "ShowNotification",
     "shortDescription": "show system notification",
@@ -265,29 +277,5 @@
     "resultsDocs": "none",
     "platforms": ["All"],
     "insertText": "ShowNotification(${1:title$}, ${2:msg$})"
-  },
-  {
-    "name": "Sleep",
-    "helpId": "Sleep",
-    "shortDescription": "halt script execution for a certain amount of time",
-    "version": "10.0",
-    "synopsis": "Sleep(time)",
-    "functionDocs": "This function halts the script execution for the time interval specified in `time`. This time interval must be specified in milliseconds.\n\n`Sleep()` does the same as [Wait()](https://www.hollywood-mal.com/docs/html/hollywood/Wait_.html) except that `Sleep()` always operates in milliseconds whereas [Wait()](https://www.hollywood-mal.com/docs/html/hollywood/Wait_.html) uses ticks by default.",
-    "inputsDocs": "* `time` — time interval in milliseconds",
-    "example": "```\nSleep(4000)\n```\n\nThe code above halts the script execution for 4 seconds.",
-    "platforms": ["All"],
-    "insertText": "Sleep(${1:time})"
-  },
-  {
-    "name": "Wait",
-    "helpId": "Wait",
-    "shortDescription": "wait for a certain amount of time",
-    "version": "1.0",
-    "synopsis": "Wait(time[, unit])",
-    "functionDocs": "This function waits for the time specified by `time` and then continues the script execution. The default unit for `time` is ticks. A tick is 1/50 second. So if you want to wait one second, you will have to set ticks to 50.\n\nStarting with Hollywood 1.9 you can specify different units to make the wait more precise. The following unit types are possible:\n\n- `#MILLISECONDS`: Time is in milliseconds (1/1000 second)\n\n- `#SECONDS`: Time is in seconds\n\n- `#TICKS`: Time is in ticks (default) (1/50 second)\n\nYou can also use the [Sleep()](https://www.hollywood-mal.com/docs/html/hollywood/Sleep_.html) function which will do the same as `Wait()` but operates in milliseconds so you save some typing.",
-    "inputsDocs": "* `time` — time to wait\n* `unit` — optional: specify a different time unit as listed above (defaults to `#TICKS`) (V1.9)",
-    "example": "```\nWait(200)\n```\n\nWait for 4 seconds.",
-    "platforms": ["All"],
-    "insertText": "Wait(${1:time})"
   }
 ]

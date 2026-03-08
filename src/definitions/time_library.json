@@ -195,6 +195,18 @@
     "insertText": "SetTimerElapse(${1:id}, ${2:elapse})"
   },
   {
+    "name": "Sleep",
+    "helpId": "Sleep",
+    "shortDescription": "halt script execution for a certain amount of time",
+    "version": "10.0",
+    "synopsis": "Sleep(time)",
+    "functionDocs": "This function halts the script execution for the time interval specified in `time`. This time interval must be specified in milliseconds.\n\n`Sleep()` does the same as [Wait()](https://www.hollywood-mal.com/docs/html/hollywood/Wait_.html) except that `Sleep()` always operates in milliseconds whereas [Wait()](https://www.hollywood-mal.com/docs/html/hollywood/Wait_.html) uses ticks by default.",
+    "inputsDocs": "* `time` — time interval in milliseconds",
+    "example": "```\nSleep(4000)\n```\n\nThe code above halts the script execution for 4 seconds.",
+    "platforms": ["All"],
+    "insertText": "Sleep(${1:time})"
+  },
+  {
     "name": "StartTimer",
     "helpId": "StartTimer",
     "shortDescription": "start a new timer",
@@ -267,6 +279,18 @@
     "resultsDocs": "* `b` — `True` if date is valid, `False` otherwise",
     "platforms": ["All"],
     "insertText": "ValidateDate(${1:d$})"
+  },
+  {
+    "name": "Wait",
+    "helpId": "Wait",
+    "shortDescription": "wait a certain amount of time",
+    "version": "1.0",
+    "synopsis": "Wait(time[, unit])",
+    "functionDocs": "This function waits for the time specified by `time` and then continues the script execution. The default unit for `time` is ticks. A tick is 1/50 second. So if you want to wait one second, you will have to set ticks to 50.\n\nStarting with Hollywood 1.9 you can specify different units to make the wait more precise. The following unit types are possible:\n\n- `#MILLISECONDS`: Time is in milliseconds (1/1000 second)\n\n- `#SECONDS`: Time is in seconds\n\n- `#TICKS`: Time is in ticks (default) (1/50 second)\n\nYou can also use the [Sleep()](https://www.hollywood-mal.com/docs/html/hollywood/Sleep_.html) function which will do the same as `Wait()` but operates in milliseconds so you save some typing.",
+    "inputsDocs": "* `time` — time to wait\n* `unit` — optional: specify a different time unit as listed above (defaults to `#TICKS`) (V1.9)",
+    "example": "```\nWait(200)\n```\n\nWait for 4 seconds.",
+    "platforms": ["All"],
+    "insertText": "Wait(${1:time})"
   },
   {
     "name": "WaitTimer",

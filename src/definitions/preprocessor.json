@@ -285,7 +285,7 @@
     "inputsDocs": "* `plugin$` — name of the required plugin\n* `table` — optional: table containing further options to be passed to the plugin (V6.0)",
     "example": "```\n@REQUIRE \"xml\"\n```\n\nDeclares that your script requires the \"xml.hwp\" plugin to be installed. Any version will be accepted.\n\n---\n\n```\n@REQUIRE \"myplugin\", {Version = 2, Revision = 1, User = \"John\"}\n```\n\nThe code above checks for version 2.1 of \"myplugin.hwp\" and also passes the additional argument \"User=John\" to the plugin's initialization code.",
     "platforms": ["All"],
-    "category": "plugin",
+    "category": "plugin"
   },
   {
     "name": "@MUSIC",

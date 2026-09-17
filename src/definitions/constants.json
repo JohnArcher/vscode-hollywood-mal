@@ -430,6 +430,11 @@
     "synopsis": "#ATTRGROUP"
   },
   {
+    "name": "#ATTRGROUPS",
+    "shortDescription": "#ATTRGROUPS",
+    "synopsis": "#ATTRGROUPS"
+  },
+  {
     "name": "#ATTRHARDWARE",
     "shortDescription": "#ATTRHARDWARE",
     "synopsis": "#ATTRHARDWARE"
@@ -2981,6 +2986,16 @@
     "synopsis": "#DISPMODE_ASK"
   },
   {
+    "name": "#DISPMODE_ASKAUTO",
+    "shortDescription": "#DISPMODE_ASKAUTO",
+    "synopsis": "#DISPMODE_ASKAUTO"
+  },
+  {
+    "name": "#DISPMODE_ASKLAYERS",
+    "shortDescription": "#DISPMODE_ASKLAYERS",
+    "synopsis": "#DISPMODE_ASKLAYERS"
+  },
+  {
     "name": "#DISPMODE_FAKEFULLSCREEN",
     "shortDescription": "#DISPMODE_FAKEFULLSCREEN",
     "synopsis": "#DISPMODE_FAKEFULLSCREEN"
@@ -3113,6 +3128,11 @@
     "name": "#ERR_8OR16BITONLY",
     "shortDescription": "#ERR_8OR16BITONLY",
     "synopsis": "#ERR_8OR16BITONLY"
+  },
+  {
+    "name": "#ERR_ABORT",
+    "shortDescription": "#ERR_ABORT",
+    "synopsis": "#ERR_ABORT"
   },
   {
     "name": "#ERR_ACCELERATOR",
@@ -4090,6 +4110,11 @@
     "synopsis": "#ERR_FINDMUSIC"
   },
   {
+    "name": "#ERR_FINDMUSICSTREAM",
+    "shortDescription": "#ERR_FINDMUSICSTREAM",
+    "synopsis": "#ERR_FINDMUSICSTREAM"
+  },
+  {
     "name": "#ERR_FINDOBJECTDATA",
     "shortDescription": "#ERR_FINDOBJECTDATA",
     "synopsis": "#ERR_FINDOBJECTDATA"
@@ -4118,6 +4143,11 @@
     "name": "#ERR_FINDPORT",
     "shortDescription": "#ERR_FINDPORT",
     "synopsis": "#ERR_FINDPORT"
+  },
+  {
+    "name": "#ERR_FINDREGISTRYKEY",
+    "shortDescription": "#ERR_FINDREGISTRYKEY",
+    "synopsis": "#ERR_FINDREGISTRYKEY"
   },
   {
     "name": "#ERR_FINDSAMPLE",
@@ -4585,6 +4615,11 @@
     "synopsis": "#ERR_LFSYNTAX"
   },
   {
+    "name": "#ERR_LIBVERSION",
+    "shortDescription": "#ERR_LIBVERSION",
+    "synopsis": "#ERR_LIBVERSION"
+  },
+  {
     "name": "#ERR_LINKFONT",
     "shortDescription": "#ERR_LINKFONT",
     "synopsis": "#ERR_LINKFONT"
@@ -4593,6 +4628,11 @@
     "name": "#ERR_LINKPLUGIN",
     "shortDescription": "#ERR_LINKPLUGIN",
     "synopsis": "#ERR_LINKPLUGIN"
+  },
+  {
+    "name": "#ERR_LOADEXTLIB",
+    "shortDescription": "#ERR_LOADEXTLIB",
+    "synopsis": "#ERR_LOADEXTLIB"
   },
   {
     "name": "#ERR_LOADFRAME",
@@ -4895,6 +4935,16 @@
     "synopsis": "#ERR_NEEDCOMPOSITE"
   },
   {
+    "name": "#ERR_NEEDEXTLIB",
+    "shortDescription": "#ERR_NEEDEXTLIB",
+    "synopsis": "#ERR_NEEDEXTLIB"
+  },
+  {
+    "name": "#ERR_NEEDGFXLIB",
+    "shortDescription": "#ERR_NEEDGFXLIB",
+    "synopsis": "#ERR_NEEDGFXLIB"
+  },
+  {
     "name": "#ERR_NEEDMORPHOS2",
     "shortDescription": "#ERR_NEEDMORPHOS2",
     "synopsis": "#ERR_NEEDMORPHOS2"
@@ -5055,6 +5105,11 @@
     "synopsis": "#ERR_NOHWFUNC"
   },
   {
+    "name": "#ERR_NOHWSAMPLE",
+    "shortDescription": "#ERR_NOHWSAMPLE",
+    "synopsis": "#ERR_NOHWSAMPLE"
+  },
+  {
     "name": "#ERR_NOJOYATPORT",
     "shortDescription": "#ERR_NOJOYATPORT",
     "synopsis": "#ERR_NOJOYATPORT"
@@ -5200,6 +5255,11 @@
     "synopsis": "#ERR_NUMTABLEARG"
   },
   {
+    "name": "#ERR_OBJINUSE",
+    "shortDescription": "#ERR_OBJINUSE",
+    "synopsis": "#ERR_OBJINUSE"
+  },
+  {
     "name": "#ERR_OLDAPPLET",
     "shortDescription": "#ERR_OLDAPPLET",
     "synopsis": "#ERR_OLDAPPLET"
@@ -5253,6 +5313,11 @@
     "name": "#ERR_OUTOFRANGE",
     "shortDescription": "#ERR_OUTOFRANGE",
     "synopsis": "#ERR_OUTOFRANGE"
+  },
+  {
+    "name": "#ERR_OUTPUTDEVICE",
+    "shortDescription": "#ERR_OUTPUTDEVICE",
+    "synopsis": "#ERR_OUTPUTDEVICE"
   },
   {
     "name": "#ERR_PAKFORMAT",
@@ -5740,6 +5805,11 @@
     "synopsis": "#ERR_SMODEALPHA"
   },
   {
+    "name": "#ERR_SMPMISMATCH",
+    "shortDescription": "#ERR_SMPMISMATCH",
+    "synopsis": "#ERR_SMPMISMATCH"
+  },
+  {
     "name": "#ERR_SMPRANGE",
     "shortDescription": "#ERR_SMPRANGE",
     "synopsis": "#ERR_SMPRANGE"
@@ -6203,6 +6273,11 @@
     "name": "#ERR_USERABORT",
     "shortDescription": "#ERR_USERABORT",
     "synopsis": "#ERR_USERABORT"
+  },
+  {
+    "name": "#ERR_USING",
+    "shortDescription": "#ERR_USING",
+    "synopsis": "#ERR_USING"
   },
   {
     "name": "#ERR_VALUEEXPECTED",
@@ -7053,6 +7128,11 @@
     "synopsis": "#HW_ANDROID"
   },
   {
+    "name": "#HW_ARM",
+    "shortDescription": "#HW_ARM",
+    "synopsis": "#HW_ARM"
+  },
+  {
     "name": "#HW_AROS",
     "shortDescription": "#HW_AROS",
     "synopsis": "#HW_AROS"
@@ -7072,6 +7152,11 @@
     "name": "#HW_MACOS",
     "shortDescription": "#HW_MACOS",
     "synopsis": "#HW_MACOS"
+  },
+  {
+    "name": "#HW_MINI",
+    "shortDescription": "#HW_MINI",
+    "synopsis": "#HW_MINI"
   },
   {
     "name": "#HW_MORPHOS",
@@ -8324,6 +8409,26 @@
     "shortDescription": "#MASKXOR",
     "synopsis": "#MASKXOR"
   },
+  {
+    "name": "#MEDIA_DOWNLOADS",
+    "shortDescription": "#MEDIA_DOWNLOADS",
+    "synopsis": "#MEDIA_DOWNLOADS"
+  },
+  {
+    "name": "#MEDIA_IMAGES",
+    "shortDescription": "#MEDIA_IMAGES",
+    "synopsis": "#MEDIA_IMAGES"
+  },
+  {
+    "name": "#MEDIA_MUSIC",
+    "shortDescription": "#MEDIA_MUSIC",
+    "synopsis": "#MEDIA_MUSIC"
+  },
+  {
+    "name": "#MEDIA_VIDEOS",
+    "shortDescription": "#MEDIA_VIDEOS",
+    "synopsis": "#MEDIA_VIDEOS"
+  },
   { "name": "#MEMORY", "shortDescription": "#MEMORY", "synopsis": "#MEMORY" },
   { "name": "#MENU", "shortDescription": "#MENU", "synopsis": "#MENU" },
   {
@@ -8345,6 +8450,11 @@
     "name": "#MENUITEM_TOGGLE",
     "shortDescription": "#MENUITEM_TOGGLE",
     "synopsis": "#MENUITEM_TOGGLE"
+  },
+  {
+    "name": "#MERGED",
+    "shortDescription": "#MERGED",
+    "synopsis": "#MERGED"
   },
   {
     "name": "#MILLISECONDS",
@@ -8449,6 +8559,11 @@
     "synopsis": "#MOVEWINDOW"
   },
   { "name": "#MUSIC", "shortDescription": "#MUSIC", "synopsis": "#MUSIC" },
+  {
+    "name": "#MUSICSTREAM",
+    "shortDescription": "#MUSICSTREAM",
+    "synopsis": "#MUSICSTREAM"
+  },
   { "name": "#NAN", "shortDescription": "#NAN", "synopsis": "#NAN" },
   { "name": "#NATIVE", "shortDescription": "#NATIVE", "synopsis": "#NATIVE" },
   {
@@ -8684,6 +8799,11 @@
     "synopsis": "#PARITY_ODD"
   },
   {
+    "name": "#PERMREQ_MANAGEEXTERNAL",
+    "shortDescription": "#PERMREQ_MANAGEEXTERNAL",
+    "synopsis": "#PERMREQ_MANAGEEXTERNAL"
+  },
+  {
     "name": "#PERMREQ_READEXTERNAL",
     "shortDescription": "#PERMREQ_READEXTERNAL",
     "synopsis": "#PERMREQ_READEXTERNAL"
@@ -8714,6 +8834,11 @@
     "name": "#PLUGINCAPS_AUDIOADAPTER",
     "shortDescription": "#PLUGINCAPS_AUDIOADAPTER",
     "synopsis": "#PLUGINCAPS_AUDIOADAPTER"
+  },
+  {
+    "name": "#PLUGINCAPS_CLIPBOARDADAPTER",
+    "shortDescription": "#PLUGINCAPS_CLIPBOARDADAPTER",
+    "synopsis": "#PLUGINCAPS_CLIPBOARDADAPTER"
   },
   {
     "name": "#PLUGINCAPS_CONVERT",
@@ -9010,6 +9135,11 @@
     "synopsis": "#RECTWEST"
   },
   { "name": "#RED", "shortDescription": "#RED", "synopsis": "#RED" },
+  {
+    "name": "#REGISTRYKEY",
+    "shortDescription": "#REGISTRYKEY",
+    "synopsis": "#REGISTRYKEY"
+  },
   {
     "name": "#REMOVELAYER",
     "shortDescription": "#REMOVELAYER",
@@ -9347,6 +9477,16 @@
     "shortDescription": "#SNAPWINDOW",
     "synopsis": "#SNAPWINDOW"
   },
+  {
+    "name": "#SNDFMT_SVX",
+    "shortDescription": "#SNDFMT_SVX",
+    "synopsis": "#SNDFMT_SVX"
+  },
+  {
+    "name": "#SNDFMT_WAVE",
+    "shortDescription": "#SNDFMT_WAVE",
+    "synopsis": "#SNDFMT_WAVE"
+  },
   { "name": "#SPIRAL", "shortDescription": "#SPIRAL", "synopsis": "#SPIRAL" },
   { "name": "#SPRITE", "shortDescription": "#SPRITE", "synopsis": "#SPRITE" },
   {
@@ -9621,6 +9761,11 @@
     "name": "#VIEWMODE_ICONS",
     "shortDescription": "#VIEWMODE_ICONS",
     "synopsis": "#VIEWMODE_ICONS"
+  },
+  {
+    "name": "#VIEWMODE_LIST",
+    "shortDescription": "#VIEWMODE_LIST",
+    "synopsis": "#VIEWMODE_LIST"
   },
   {
     "name": "#VIEWMODE_NAME",

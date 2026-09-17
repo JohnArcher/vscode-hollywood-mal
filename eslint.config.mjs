@@ -24,5 +24,15 @@ export default [
       "no-unused-vars": "off", // Note: you must disable the base rule as it can report incorrect errors
       "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     },
+  },
+  {
+    // Build-/Wartungsskripte laufen in Node, nicht im Extension-Host.
+    files: ["scripts/**/*.mjs"],
+    languageOptions: {
+      globals: {
+        console: "readonly",
+        process: "readonly",
+      },
+    },
   }
 ];

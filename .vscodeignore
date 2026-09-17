@@ -4,6 +4,7 @@
 exampleFiles/**
 media/**
 node_modules/**
+scripts/**
 .gitignore
 .gitattributes
 .markdownlint.json

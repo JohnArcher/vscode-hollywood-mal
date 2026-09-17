@@ -113,8 +113,6 @@
 						"warpos",
 						"win32",
 						"win64",
-						"win32console",
-						"win64console",
 						"applet"
 					],
 					"enumDescriptions": [

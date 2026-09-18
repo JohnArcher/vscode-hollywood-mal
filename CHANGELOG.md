@@ -11,6 +11,7 @@ All notable changes to the "hw4vsc" extension will be documented in this file.
 - **Provided tasks**: the extension now contributes Hollywood tasks itself (run, run nodebug, compile, run current file, compile current file), so a `tasks.json` is no longer required. The tasks follow the selected compiler and can be customised with `"type": "hollywood"` entries supporting `exetype` and `args`
 - **Commands `Hollywood: Run current file` and `Hollywood: Compile current file`**, which run the script in the editor without going through the task list and, unlike tasks, also work when no folder is open
 - An output channel **Hollywood** (View > Output) logging why tasks are or are not offered and what is started
+- Settings `hollywood.compress` and `hollywood.consoleMode`, the two switches the official Hollywood IDE offers alongside the target list. `hollywood.consoleMode` replaces the removed `win32console` and `win64console` target types; `hollywood.compress` is particularly effective together with Miniwood
 - Syntax highlighting for the 24 functions and the preprocessor commands `@OPTIONAL` and `@USING` introduced in Hollywood 11, plus 29 new constants
 
 ### Changed

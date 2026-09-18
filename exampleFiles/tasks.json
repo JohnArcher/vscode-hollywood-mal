@@ -29,13 +29,23 @@
             "exetype": "win64|classic|morphos"
         },
         {
-            // Appends further console arguments, here Hollywood 11's -compress, which is
-            // particularly effective together with Miniwood.
+            // Compresses this one build without switching hollywood.compress on for the
+            // whole project. Same for -consolemode and hollywood.consoleMode.
             "type": "hollywood",
             "task": "compile",
             "label": "Compile main script (compressed)",
             "args": [
                 "-compress"
+            ]
+        },
+        {
+            // Links plugins into the executable instead of requiring them at runtime.
+            "type": "hollywood",
+            "task": "compile",
+            "label": "Compile main script with linked plugins",
+            "args": [
+                "-linkplugins",
+                "jpeg2000"
             ]
         },
         {

@@ -35,6 +35,7 @@ You can find the Hollywood documentation here: <https://www.hollywood-mal.com/do
     * [Define main file](#define-main-file)
     * [Define main output file](#define-main-output-file)
     * [Define standard executable output format](#define-standard-executable-output-format)
+      * [Compile options](#compile-options)
   * [Run and compile](#run-and-compile)
     * [Provided Tasks](#provided-tasks)
     * [Customise Tasks](#customise-tasks)
@@ -174,6 +175,18 @@ In order to define multiple targets, e.g. `win64|classic|morphos`, you have to c
 
 For a complete list of all output formats check the `-exetype` console argument under <https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage.html>
 
+#### Compile options
+
+Settings: `hollywood.compress`, `hollywood.consoleMode`
+
+Two switches change how an executable is built. They are the same two the *Create executable* dialog of the official Hollywood IDE offers next to the target list, and both only affect compiling, never running a script.
+
+**`hollywood.compress`** compresses the generated applet or executable. This pays off most together with [Miniwood](#choose-the-compiler-hollywood-or-miniwood), because the linked libraries are compressed as well — the two combined are the way to get executables as small as possible.
+
+**`hollywood.consoleMode`** builds a console program on Windows and macOS. Up to Hollywood 10 this was a target of its own, `win32console` or `win64console`. **Hollywood 11 removed both**: pick `win32` or `win64` above and switch this on instead.
+
+Each adds its console argument — `-compress` and `-consolemode` — to every compile task and to `Hollywood: Compile current file`. Inside a script the equivalents are the `Compress` and `ConsoleMode` tags in `@OPTIONS`, which the [Intellisense](#intellisense) documents.
+
 ## Run and compile
 
 You run and compile Hollywood scripts through Visual Studio Code Tasks. For a deeper dive it is recommended to read the [official Visual Studio Code documentation for Tasks](https://code.visualstudio.com/docs/editor/tasks).
@@ -218,7 +231,17 @@ Create a `tasks.json` in your `.vscode` folder when you want to mark a default b
 
 * `"task"`: which of the provided tasks to base this on — `run`, `run-nodebug`, `compile`, `run-current-file` or `compile-current-file`
 * `"exetype"`: *optional*, overrides `hollywood.outputExeType`, which is how you compile to [multiple targets](#define-standard-executable-output-format) at once
-* `"args"`: *optional*, further [Hollywood console arguments](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage.html) appended to the generated ones, for example `-compress`
+* `"args"`: *optional*, further [Hollywood console arguments](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage.html) appended to the generated ones
+
+Hollywood knows well over a hundred console arguments, most of them controlling the display at runtime. These are the ones worth knowing when compiling:
+
+| Argument | What it does |
+| --- | --- |
+| `-compress` | Compresses the generated applet or executable. Usually set through [`hollywood.compress`](#compile-options) rather than by hand |
+| `-consolemode` | Builds a console program on Windows and macOS. Usually set through [`hollywood.consoleMode`](#compile-options) rather than by hand |
+| `-linkplugins list` | Links the named plugins into the executable instead of requiring them at runtime |
+| `-forcemonolithic` | Links data files into the executable instead of the app bundle, for macOS arm64 |
+| `-overwrite` | Overwrites existing files without asking |
 * `"group"`: *optional*, marks the task as the default so `Ctrl+Shift+B` runs it
 
 More examples are in [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/exampleFiles/tasks.json).

@@ -1,6 +1,6 @@
 import { basename, dirname, extname } from 'path';
 import { commands, Disposable, TextDocument, window } from 'vscode';
-import { readHollywoodSettings, warnAboutMissingExePath } from '../configuration';
+import { compileFlagArguments, readHollywoodSettings, warnAboutMissingExePath } from '../configuration';
 import { HOLLYWOOD_LANGUAGE_ID } from '../hollywoodWorkspace';
 import { log } from '../log';
 
@@ -86,7 +86,11 @@ async function execute(mode: 'run' | 'compile'): Promise<void> {
     return;
   }
   const output = basename(name, extname(name));
-  runInTerminal(settings.exePath, [name, '-compile', output, '-exetype', exetype], folder);
+  runInTerminal(
+    settings.exePath,
+    [name, '-compile', output, '-exetype', exetype, ...compileFlagArguments(settings)],
+    folder
+  );
 }
 
 export function registerCurrentFileCommands(): Disposable {

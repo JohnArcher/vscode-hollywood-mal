@@ -14,6 +14,25 @@ export interface HollywoodSettings {
   mainFile?: string;
   mainOutputFile?: string;
   outputExeType?: string;
+  /** Compress the generated executable, especially worthwhile with Miniwood. */
+  compress: boolean;
+  /** Compile a console program — the replacement for the removed *console exe types. */
+  consoleMode: boolean;
+}
+
+/**
+ * The switches that change how an executable is built, in the order the official Hollywood
+ * IDE lists them. Compile-time only: they have no meaning when running a script.
+ */
+export function compileFlagArguments(settings: HollywoodSettings): string[] {
+  const flags: string[] = [];
+  if (settings.compress) {
+    flags.push('-compress');
+  }
+  if (settings.consoleMode) {
+    flags.push('-consolemode');
+  }
+  return flags;
 }
 
 /**
@@ -45,7 +64,9 @@ export function readHollywoodSettings(scope?: WorkspaceFolder | Uri): HollywoodS
     exePath: unquotePath(config.get<string>(compiler === MINIWOOD ? 'miniwoodExePath' : 'exePath')),
     mainFile: config.get<string>('mainFile') || undefined,
     mainOutputFile: config.get<string>('mainOutputFile') || undefined,
-    outputExeType: config.get<string>('outputExeType') || undefined
+    outputExeType: config.get<string>('outputExeType') || undefined,
+    compress: config.get<boolean>('compress') ?? false,
+    consoleMode: config.get<boolean>('consoleMode') ?? false
   };
 }
 

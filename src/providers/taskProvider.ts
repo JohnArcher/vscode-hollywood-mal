@@ -2,7 +2,9 @@ import {
   Disposable, ProcessExecution, Task, TaskDefinition, TaskGroup,
   TaskProvider, TaskScope, tasks, workspace, WorkspaceFolder
 } from 'vscode';
-import { HollywoodSettings, readHollywoodSettings, warnAboutMissingExePath } from '../configuration';
+import {
+  compileFlagArguments, HollywoodSettings, readHollywoodSettings, warnAboutMissingExePath
+} from '../configuration';
 import { hollywoodWorkspace } from '../hollywoodWorkspace';
 import { log } from '../log';
 
@@ -24,7 +26,9 @@ const WATCHED_SETTINGS = [
   'hollywood.miniwoodExePath',
   'hollywood.mainFile',
   'hollywood.mainOutputFile',
-  'hollywood.outputExeType'
+  'hollywood.outputExeType',
+  'hollywood.compress',
+  'hollywood.consoleMode'
 ];
 
 type TaskKind =
@@ -68,7 +72,8 @@ function buildArguments(kind: TaskKind, settings: HollywoodSettings, definition:
 
     case 'compile':
       return settings.mainFile && settings.mainOutputFile && exetype
-        ? [settings.mainFile, '-compile', settings.mainOutputFile, '-exetype', exetype, ...extra]
+        ? [settings.mainFile, '-compile', settings.mainOutputFile, '-exetype', exetype,
+          ...compileFlagArguments(settings), ...extra]
         : undefined;
 
     case 'run-current-file':
@@ -76,7 +81,8 @@ function buildArguments(kind: TaskKind, settings: HollywoodSettings, definition:
 
     case 'compile-current-file':
       return exetype
-        ? ['${file}', '-compile', '${fileBasenameNoExtension}', '-exetype', exetype, ...extra]
+        ? ['${file}', '-compile', '${fileBasenameNoExtension}', '-exetype', exetype,
+          ...compileFlagArguments(settings), ...extra]
         : undefined;
 
     default:

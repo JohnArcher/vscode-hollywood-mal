@@ -80,6 +80,59 @@
 				"when": "editorTextFocus && editorLangId == 'hollywood'"
 			}
 		],
+		"commands": [
+			{
+				"command": "hollywood.switchHollywoodMiniwood",
+				"title": "Hollywood: Switch Hollywood/Miniwood"
+			},
+			{
+				"command": "hollywood.runCurrentFile",
+				"title": "Hollywood: Run current file"
+			},
+			{
+				"command": "hollywood.compileCurrentFile",
+				"title": "Hollywood: Compile current file"
+			}
+		],
+		"taskDefinitions": [
+			{
+				"type": "hollywood",
+				"required": [
+					"task"
+				],
+				"properties": {
+					"task": {
+						"type": "string",
+						"description": "Which Hollywood task to run.",
+						"enum": [
+							"run",
+							"run-nodebug",
+							"compile",
+							"run-current-file",
+							"compile-current-file"
+						],
+						"enumDescriptions": [
+							"Run the configured main file with -printerror",
+							"Run the configured main file with -nodebug",
+							"Compile the configured main file to the configured output format",
+							"Run the file currently open in the editor with -printerror",
+							"Compile the file currently open in the editor"
+						]
+					},
+					"exetype": {
+						"type": "string",
+						"description": "Overrides hollywood.outputExeType for this task, e.g. \"win64|classic|morphos\"."
+					},
+					"args": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"description": "Additional console arguments appended to the generated ones, e.g. [\"-compress\"]."
+					}
+				}
+			}
+		],
 		"configuration": {
 			"type": "object",
 			"title": "Hollywood",
@@ -87,7 +140,12 @@
 				"hollywood.exePath": {
 					"type": "string",
 					"default": null,
-					"markdownDescription": "Path and filename of the Hollywood executable, e.g. `\"C:\\Program Files\\Hollywood\\Hollywood_Console.exe\"` (Windows). **Attention**: If the path contains spaces you have to enclose it in double quotes."
+					"markdownDescription": "Path and filename of the Hollywood executable, e.g. `C:\\Program Files\\Hollywood\\Hollywood_Console.exe` (Windows). Spaces need no quoting; surrounding double quotes are ignored if present."
+				},
+				"hollywood.miniwoodExePath": {
+					"type": "string",
+					"default": null,
+					"markdownDescription": "Path and filename of the Miniwood executable, e.g. `\"C:\\Program Files\\Hollywood\\Miniwood_Console.exe\"` (Windows). Used by the provided tasks when `hollywood.compiler` is set to `Miniwood`."
 				},
 				"hollywood.outputExeType": {
 					"type": "string",
@@ -147,6 +205,12 @@
 					"type": "string",
 					"default": null,
 					"markdownDescription": "The name of the to be compiled program, e.g. `main` or `MyGame`. This has to be a workspace setting!"
+				},
+				"hollywood.compiler": {
+					"type": "string",
+					"default": "Hollywood",
+					"markdownDescription": "Choose which compiler you want to use. Please consult the official manual about the special aspects of using Miniwood. This has to be a workspace setting!",
+					"enum": ["Hollywood", "Miniwood"]
 				}
 			}
 		}

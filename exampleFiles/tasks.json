@@ -1,61 +1,53 @@
 {
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
+    //
+    // Since version 11.0.0 the extension provides its own Hollywood tasks, so you no
+    // longer need a tasks.json to run or compile. This file is only needed if you want to
+    // mark a task as the default build task, override settings for a single task, or fall
+    // back to a plain shell command.
+    //
+    // Provided tasks always use the compiler selected in the status bar, so they follow
+    // the Hollywood/Miniwood switch automatically.
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Run Hollywood Main script",
-            "type": "shell",
-            "command": "${config:hollywood.exePath}",
-            "args": [
-                "${config:hollywood.mainFile}",
-                "-printerror"
-            ]
-        },
-        {
-            "label": "Run Hollywood Main script (nodebug)",
-            "type": "shell",
-            "command": "${config:hollywood.exePath}",
-            "args":[
-                "${config:hollywood.mainFile}",
-                "-nodebug"
-            ]
-        },
-        {
-            "label": "Compile Hollywood Main script to default target",
-            "type": "shell",
-            "command": "${config:hollywood.exePath}",
-            "args": [
-                "${config:hollywood.mainFile}",
-                "-compile",
-                "${config:hollywood.mainOutputFile}",
-                "-exetype",
-                "${config:hollywood.outputExeType}"
-            ],
+            // Makes the provided compile task the default for Ctrl+Shift+B.
+            "type": "hollywood",
+            "task": "compile",
+            "label": "Compile main script",
             "group": {
                 "kind": "build",
                 "isDefault": true
             }
         },
         {
-            "label": "Run the currently opened Hollywood script",
-            "type": "shell",
-            "command": "${config:hollywood.exePath}",
+            // Compiles to several targets at once, overriding hollywood.outputExeType.
+            "type": "hollywood",
+            "task": "compile",
+            "label": "Compile main script to multiple targets",
+            "exetype": "win64|classic|morphos"
+        },
+        {
+            // Appends further console arguments, here Hollywood 11's -compress, which is
+            // particularly effective together with Miniwood.
+            "type": "hollywood",
+            "task": "compile",
+            "label": "Compile main script (compressed)",
             "args": [
-                "${file}",
-                "-printerror"
+                "-compress"
             ]
         },
         {
-            "label": "Compile the currently opened Hollywood file to multiple targets ",
+            // Fallback: a plain shell command as used before version 11.0.0. This one
+            // always calls Hollywood and ignores the compiler selection.
+            // Note: if the path contains spaces it has to be enclosed in double quotes.
+            "label": "Run main script (plain shell command)",
             "type": "shell",
             "command": "${config:hollywood.exePath}",
             "args": [
-                "${file}",
-                "-compile",
-                "${config:hollywood.mainOutputFile}",
-                "-exetype",
-                "'win64|classic|morphos'"
+                "${config:hollywood.mainFile}",
+                "-printerror"
             ]
         }
     ]

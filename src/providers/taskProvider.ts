@@ -1,8 +1,8 @@
 import {
-  commands, Disposable, ProcessExecution, Task, TaskDefinition, TaskGroup,
-  TaskProvider, TaskScope, tasks, window, workspace, WorkspaceFolder
+  Disposable, ProcessExecution, Task, TaskDefinition, TaskGroup,
+  TaskProvider, TaskScope, tasks, workspace, WorkspaceFolder
 } from 'vscode';
-import { exePathSettingName, HollywoodSettings, readHollywoodSettings } from '../configuration';
+import { HollywoodSettings, readHollywoodSettings, warnAboutMissingExePath } from '../configuration';
 import { hollywoodWorkspace } from '../hollywoodWorkspace';
 import { log } from '../log';
 
@@ -89,15 +89,12 @@ export class HollywoodTaskProvider implements TaskProvider {
   private cachedTasks: Promise<Task[]> | undefined;
 
   provideTasks(): Promise<Task[]> {
-    // Scanning the workspace is cheap but not free, so the result is kept until something
-    // that could change it happens (see `registerHollywoodTaskProvider`).
+    // Kept for the lifetime of this instance. Anything that could change the list —
+    // a setting, or the workspace becoming a Hollywood project — replaces the whole
+    // provider instead (see `registerHollywoodTaskProvider`), so there is nothing to
+    // invalidate here.
     this.cachedTasks ??= this.computeTasks();
     return this.cachedTasks;
-  }
-
-  /** Drops the cached task list, e.g. after a Hollywood file was added or removed. */
-  invalidate(): void {
-    this.cachedTasks = undefined;
   }
 
   private async computeTasks(): Promise<Task[]> {
@@ -106,16 +103,17 @@ export class HollywoodTaskProvider implements TaskProvider {
       ? folders.map(f => f.uri.fsPath).join(', ')
       : '(none — no folder open)'}`);
 
+    // Checked first, so nothing Hollywood-specific is logged in unrelated projects.
+    if (!await hollywoodWorkspace().isHollywoodWorkspace()) {
+      log().info('Not a Hollywood workspace — no tasks.');
+      return [];
+    }
+
     // Visual Studio Code offers tasks per workspace folder. Without one the tasks are
     // built but never shown, which looks like the provider is broken.
     if (!folders?.length) {
       log().warn('Visual Studio Code does not show tasks while no folder is open. '
         + 'Open your Hollywood project folder (File > Open Folder).');
-    }
-
-    if (!await hollywoodWorkspace().isHollywoodWorkspace()) {
-      log().info('Not a Hollywood workspace — no tasks.');
-      return [];
     }
 
     const settings = readHollywoodSettings(folders?.[0]);
@@ -215,21 +213,25 @@ export function registerHollywoodTaskProvider(): Disposable {
   log().info(`Extension activated, task provider "${HOLLYWOOD_TASK_TYPE}" registered.`);
 
   /** Re-registering is what makes Visual Studio Code drop its own cached task list. */
-  const reregister = () => {
+  const reregister = (reason: string) => {
+    log().info(`${reason} — task provider re-registered.`);
     registration.dispose();
     provider = new HollywoodTaskProvider();
     registration = tasks.registerTaskProvider(HOLLYWOOD_TASK_TYPE, provider);
   };
 
   const configListener = workspace.onDidChangeConfiguration(event => {
-    if (WATCHED_SETTINGS.some(setting => event.affectsConfiguration(setting))) {
-      reregister();
+    const changed = WATCHED_SETTINGS.filter(setting => event.affectsConfiguration(setting));
+    if (changed.length) {
+      reregister(`Settings changed (${changed.join(', ')})`);
     }
   });
 
   // A workspace turning into a Hollywood project, or ceasing to be one, changes whether
   // the tasks apply at all.
-  const contextListener = hollywoodWorkspace().onDidChange(() => reregister());
+  const contextListener = hollywoodWorkspace().onDidChange(
+    () => reregister('Workspace is now a Hollywood project, or no longer one')
+  );
 
   return new Disposable(() => {
     contextListener.dispose();
@@ -238,34 +240,3 @@ export function registerHollywoodTaskProvider(): Disposable {
   });
 }
 
-let missingExePathWarned = false;
-
-/**
- * Warns that the executable for the selected compiler is not configured, and offers to
- * jump straight to the setting.
- *
- * @param once Suppress repeats. The task list is fetched often, so the warning triggered
- *             by an empty list must not pile up; a deliberate compiler switch always warns.
- */
-export function warnAboutMissingExePath(options: { once?: boolean } = {}): void {
-  const settings = readHollywoodSettings(workspace.workspaceFolders?.[0]);
-  if (settings.exePath) {
-    missingExePathWarned = false;
-    return;
-  }
-  if (options.once && missingExePathWarned) {
-    return;
-  }
-  missingExePathWarned = true;
-
-  const setting = exePathSettingName(settings.compiler);
-  const openSettings = 'Open Settings';
-  window.showWarningMessage(
-    `No ${settings.compiler} executable configured, so no Hollywood tasks are available. Set "${setting}" to run or compile scripts.`,
-    openSettings
-  ).then(choice => {
-    if (choice === openSettings) {
-      commands.executeCommand('workbench.action.openSettings', setting);
-    }
-  });
-}

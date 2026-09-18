@@ -1,4 +1,4 @@
-import { Uri, workspace, WorkspaceFolder } from 'vscode';
+import { commands, Uri, window, workspace, WorkspaceFolder } from 'vscode';
 import { log } from './log';
 
 /** The compilers the extension can drive, matching the `hollywood.compiler` setting. */
@@ -52,4 +52,42 @@ export function readHollywoodSettings(scope?: WorkspaceFolder | Uri): HollywoodS
 /** Name of the setting holding the executable for the selected compiler. */
 export function exePathSettingName(compiler: string): string {
   return compiler === MINIWOOD ? 'hollywood.miniwoodExePath' : 'hollywood.exePath';
+}
+
+let missingExePathWarned = false;
+
+/**
+ * Warns that the executable for the selected compiler is not configured, and offers to
+ * jump straight to the setting. Nothing can run or compile without it, so both the tasks
+ * and the current-file commands end up here.
+ *
+ * @param once  Suppress repeats. The task list is fetched often, so the warning triggered
+ *              by an empty list must not pile up; a deliberate user action always warns.
+ * @param scope Document or folder whose settings apply, for multi-root workspaces.
+ */
+export function warnAboutMissingExePath(
+  { once, scope }: { once?: boolean; scope?: WorkspaceFolder | Uri } = {}
+): void {
+  const settings = readHollywoodSettings(scope ?? workspace.workspaceFolders?.[0]);
+  if (settings.exePath) {
+    missingExePathWarned = false;
+    return;
+  }
+  if (once && missingExePathWarned) {
+    return;
+  }
+  missingExePathWarned = true;
+
+  const setting = exePathSettingName(settings.compiler);
+  log().warn(`${settings.compiler} executable not configured (${setting}).`);
+
+  const openSettings = 'Open Settings';
+  window.showWarningMessage(
+    `No ${settings.compiler} executable configured. Set "${setting}" to run or compile scripts.`,
+    openSettings
+  ).then(choice => {
+    if (choice === openSettings) {
+      commands.executeCommand('workbench.action.openSettings', setting);
+    }
+  });
 }

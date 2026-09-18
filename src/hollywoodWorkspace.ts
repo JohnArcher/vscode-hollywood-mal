@@ -23,7 +23,6 @@ export const HOLLYWOOD_FILE_GLOB = '**/*.hws';
 class HollywoodWorkspace implements Disposable {
 
   private answer: Promise<boolean> | undefined;
-  private lastKnown: boolean | undefined;
   private readonly changed = new EventEmitter<void>();
   private readonly subscriptions: Disposable[] = [];
 
@@ -53,12 +52,14 @@ class HollywoodWorkspace implements Disposable {
     return this.answer;
   }
 
+  /** Re-detects and notifies listeners only if the answer really changed. */
   private async refresh(): Promise<void> {
-    // Read the previous answer before re-detecting — detect() updates `lastKnown` itself,
-    // so comparing afterwards would compare the new value with itself.
-    const previous = this.lastKnown;
+    const outdated = this.answer;
     this.answer = undefined;
-    if (await this.isHollywoodWorkspace() !== previous) {
+
+    const before = outdated ? await outdated : undefined;
+    const after = await this.isHollywoodWorkspace();
+    if (before !== after) {
       this.changed.fire();
     }
   }
@@ -67,24 +68,20 @@ class HollywoodWorkspace implements Disposable {
     // A Hollywood file open without any folder — nothing to scan, but clearly Hollywood.
     if (workspace.textDocuments.some(document => document.languageId === HOLLYWOOD_LANGUAGE_ID)) {
       log().info('Hollywood file open in the editor.');
-      this.lastKnown = true;
       return true;
     }
 
     const folders = workspace.workspaceFolders;
     if (!folders?.length) {
       log().info('No folder open and no Hollywood file in the editor.');
-      this.lastKnown = false;
       return false;
     }
 
     const found = await workspace.findFiles(HOLLYWOOD_FILE_GLOB, '**/node_modules/**', 1);
-    const isHollywood = found.length > 0;
-    log().info(isHollywood
+    log().info(found.length > 0
       ? `Hollywood project detected (${found[0].fsPath}).`
       : `No ${HOLLYWOOD_FILE_GLOB} found in ${folders.map(folder => folder.name).join(', ')} — not a Hollywood project.`);
-    this.lastKnown = isHollywood;
-    return isHollywood;
+    return found.length > 0;
   }
 
   dispose(): void {

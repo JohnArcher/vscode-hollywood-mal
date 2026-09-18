@@ -1,6 +1,7 @@
 import { basename, dirname, extname } from 'path';
 import { commands, Disposable, TextDocument, window } from 'vscode';
-import { exePathSettingName, readHollywoodSettings } from '../configuration';
+import { readHollywoodSettings, warnAboutMissingExePath } from '../configuration';
+import { HOLLYWOOD_LANGUAGE_ID } from '../hollywoodWorkspace';
 import { log } from '../log';
 
 /**
@@ -17,8 +18,6 @@ export const COMPILE_CURRENT_FILE_COMMAND = 'hollywood.compileCurrentFile';
 
 /** One reusable terminal, so repeated runs do not pile up. */
 const TERMINAL_NAME = 'Hollywood';
-
-const HOLLYWOOD_LANGUAGE_ID = 'hollywood';
 
 /**
  * Returns the saved document of the active editor, or undefined with an explanation.
@@ -68,16 +67,7 @@ async function execute(mode: 'run' | 'compile'): Promise<void> {
 
   const settings = readHollywoodSettings(document.uri);
   if (!settings.exePath) {
-    const setting = exePathSettingName(settings.compiler);
-    const openSettings = 'Open Settings';
-    log().warn(`${settings.compiler} executable not configured (${setting}).`);
-    const choice = await window.showWarningMessage(
-      `No ${settings.compiler} executable configured. Set "${setting}" to run or compile scripts.`,
-      openSettings
-    );
-    if (choice === openSettings) {
-      commands.executeCommand('workbench.action.openSettings', setting);
-    }
+    warnAboutMissingExePath({ scope: document.uri });
     return;
   }
 

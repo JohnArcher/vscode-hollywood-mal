@@ -1,7 +1,6 @@
 import { commands, ConfigurationTarget, Disposable, window, workspace } from 'vscode';
-import { HOLLYWOOD, MINIWOOD } from '../configuration';
+import { HOLLYWOOD, MINIWOOD, warnAboutMissingExePath } from '../configuration';
 import { log } from '../log';
-import { warnAboutMissingExePath } from '../providers/taskProvider';
 
 /**
  * Lets the user pick the compiler to run and compile with.

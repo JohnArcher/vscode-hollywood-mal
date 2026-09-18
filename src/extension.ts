@@ -7,10 +7,10 @@ import { registerHollywoodTaskProvider } from './providers/taskProvider';
 import { registerCurrentFileCommands } from './commands/currentFileCommands';
 import { registerSelectFilePathCommand } from './commands/selectFilePathCommand';
 import { registerSwitchCompilerCommand, SWITCH_COMPILER_COMMAND } from './commands/switchCompilerCommand';
-import { disposeHollywoodWorkspace } from './hollywoodWorkspace';
+import { disposeHollywoodWorkspace, HOLLYWOOD_LANGUAGE_ID } from './hollywoodWorkspace';
 import { disposeLog } from './log';
 
-const HOLLYWOOD_SELECTOR = { language: "hollywood" };
+const HOLLYWOOD_SELECTOR = { language: HOLLYWOOD_LANGUAGE_ID };
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed

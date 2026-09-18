@@ -120,9 +120,11 @@ Example *settings.json*: `"hollywood.exePath": "C:\\Program Files\\Hollywood\\Ho
 
 Settings: `hollywood.compiler`, `hollywood.miniwoodExePath`
 
-Hollywood 11 introduced **Miniwood**, a slimmed-down compiler that produces considerably smaller executables. This extension can run and compile with either one.
+Hollywood 11 introduced **Miniwood**, a compiler that links only the libraries your script actually declares with `@USING`, where Hollywood always links all of them and therefore produces executables of typically at least 2 MB. That size is no problem on modern systems, but it is where memory is limited or a program has to fit on a single 880 KB disk — on 68k AmigaOS, for instance.
 
-Set `hollywood.miniwoodExePath` to your Miniwood executable, the same way as for Hollywood above. Again, the Console version is recommended so output ends up in the **Terminal panel**.
+Miniwood is not a reduced Hollywood: everything works, you just declare what you use. Which also means that if executable size does not matter to you, there is no reason to bother — Hollywood is the more convenient of the two. This extension can run and compile with either one.
+
+Set `hollywood.miniwoodExePath` to your Miniwood executable, the same way as for Hollywood above: normally a **User** setting, and again the Console version so output ends up in the **Terminal panel**.
 
 Example *settings.json*: `"hollywood.miniwoodExePath": "C:\\Program Files\\Hollywood\\Miniwood_Console.exe"`
 

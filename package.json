@@ -140,12 +140,12 @@
 				"hollywood.exePath": {
 					"type": "string",
 					"default": null,
-					"markdownDescription": "Path and filename of the Hollywood executable, e.g. `C:\\Program Files\\Hollywood\\Hollywood_Console.exe` (Windows). Spaces need no quoting; surrounding double quotes are ignored if present."
+					"markdownDescription": "Path and filename of the **Hollywood** executable, e.g. `C:\\Program Files\\Hollywood\\Hollywood_Console.exe` (Windows).\n\nHollywood always links all standard libraries into the executable, which makes it the more convenient of the two compilers and results in a size of typically at least 2 MB. Prefer the `Console` version: its output, such as `DebugPrint()` and error messages, then appears in the **Terminal** panel instead of a separate window.\n\nUsed for running and compiling whenever `hollywood.compiler` is set to `Hollywood`. Spaces need no quoting; surrounding double quotes are removed."
 				},
 				"hollywood.miniwoodExePath": {
 					"type": "string",
 					"default": null,
-					"markdownDescription": "Path and filename of the Miniwood executable, e.g. `\"C:\\Program Files\\Hollywood\\Miniwood_Console.exe\"` (Windows). Used by the provided tasks when `hollywood.compiler` is set to `Miniwood`."
+					"markdownDescription": "Path and filename of the **Miniwood** executable, e.g. `C:\\Program Files\\Hollywood\\Miniwood_Console.exe` (Windows).\n\nMiniwood, introduced with Hollywood 11, links only the libraries your script actually declares with `@USING`. Executables become much smaller, which matters where space is tight — on 68k AmigaOS, for instance. Prefer the `Console` version: its output, such as `DebugPrint()` and error messages, then appears in the **Terminal** panel instead of a separate window.\n\nUsed for running and compiling whenever `hollywood.compiler` is set to `Miniwood`. Spaces need no quoting; surrounding double quotes are removed."
 				},
 				"hollywood.outputExeType": {
 					"type": "string",
@@ -209,7 +209,7 @@
 				"hollywood.compiler": {
 					"type": "string",
 					"default": "Hollywood",
-					"markdownDescription": "Choose which compiler you want to use. Please consult the official manual about the special aspects of using Miniwood. This has to be a workspace setting!",
+					"markdownDescription": "Which compiler to run and compile with. `Hollywood` uses `hollywood.exePath`, `Miniwood` uses `hollywood.miniwoodExePath`.\n\nCan also be switched from the status bar. This should be a workspace setting, so every project can use its own compiler.",
 					"enum": ["Hollywood", "Miniwood"]
 				}
 			}

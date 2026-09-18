@@ -61,6 +61,9 @@ Additionally this extension supports:
 * Hollywood specific [Code Snippets](#code-snippets)
 * [Go to definition](#go-to-definition) functionallity for variables, constants, and functions
 * [Document Symbols](#document-symbolsgo-to-symbol) for showing your variables, constants, and functions in the Outline and Breadcrump view and for easy code navigation
+* [Ready-made tasks](#provided-tasks) for running and compiling, no `tasks.json` required
+* [Commands for the current script](#commands-for-the-current-script), which also work without an open folder
+* [Switching between Hollywood and Miniwood](#choose-the-compiler-hollywood-or-miniwood) from the status bar
 * Code indention
 * Code folding
 
@@ -124,6 +127,8 @@ Set `hollywood.miniwoodExePath` to your Miniwood executable, the same way as for
 Example *settings.json*: `"hollywood.miniwoodExePath": "C:\\Program Files\\Hollywood\\Miniwood_Console.exe"`
 
 To switch, click the compiler name in the **status bar** (bottom right) and pick the one you want, or press `Ctrl+Shift+P` and run `Hollywood: Switch Hollywood/Miniwood`. The selection is stored in `hollywood.compiler` as a **Workspace** setting, so different projects can use different compilers.
+
+The status bar entry appears in Hollywood workspaces only — the same rule the [provided tasks](#provided-tasks) follow — so it stays out of your other projects.
 
 All [provided tasks](#provided-tasks) follow this selection, so switching immediately changes what a build actually runs — there is no need to edit your tasks.
 

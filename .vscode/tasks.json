@@ -1,0 +1,38 @@
+{
+	// Build tasks for developing this extension. Not shipped: .vscode/** is excluded in
+	// .vscodeignore, so none of this ends up in the VSIX or reaches users.
+	"version": "2.0.0",
+	"tasks": [
+		{
+			// Used as preLaunchTask in launch.json, so F5 always runs freshly compiled code.
+			// Keeps running in the background and recompiles on every save.
+			"type": "npm",
+			"script": "watch",
+			"problemMatcher": "$tsc-watch",
+			"isBackground": true,
+			"presentation": {
+				"reveal": "never",
+				"group": "build"
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"label": "npm: watch"
+		},
+		{
+			"type": "npm",
+			"script": "compile",
+			"problemMatcher": "$tsc",
+			"group": "build",
+			"label": "npm: compile"
+		},
+		{
+			"type": "npm",
+			"script": "check-definitions",
+			"problemMatcher": [],
+			"group": "test",
+			"label": "npm: check-definitions"
+		}
+	]
+}

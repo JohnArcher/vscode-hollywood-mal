@@ -7,6 +7,7 @@ import { registerHollywoodTaskProvider } from './providers/taskProvider';
 import { registerCurrentFileCommands } from './commands/currentFileCommands';
 import { registerSelectFilePathCommand } from './commands/selectFilePathCommand';
 import { registerSwitchCompilerCommand, SWITCH_COMPILER_COMMAND } from './commands/switchCompilerCommand';
+import { disposeHollywoodWorkspace } from './hollywoodWorkspace';
 import { disposeLog } from './log';
 
 const HOLLYWOOD_SELECTOR = { language: "hollywood" };
@@ -30,6 +31,8 @@ export function activate(context: ExtensionContext) {
     registerCurrentFileCommands(),
 
     registerSelectFilePathCommand(),
+
+    new Disposable(disposeHollywoodWorkspace),
 
     // Last, so anything disposed before it can still log.
     new Disposable(disposeLog)

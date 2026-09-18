@@ -3,6 +3,7 @@ import {
   TaskProvider, TaskScope, tasks, window, workspace, WorkspaceFolder
 } from 'vscode';
 import { exePathSettingName, HollywoodSettings, readHollywoodSettings } from '../configuration';
+import { hollywoodWorkspace } from '../hollywoodWorkspace';
 import { log } from '../log';
 
 /**
@@ -15,12 +16,6 @@ import { log } from '../log';
  */
 
 export const HOLLYWOOD_TASK_TYPE = 'hollywood';
-
-/** Language id contributed in package.json. */
-const HOLLYWOOD_LANGUAGE_ID = 'hollywood';
-
-/** Marks a workspace as a Hollywood project, the way a package.json marks an npm one. */
-const HOLLYWOOD_FILE_GLOB = '**/*.hws';
 
 /** Settings a generated task depends on. A change to any of them invalidates the list. */
 const WATCHED_SETTINGS = [
@@ -55,36 +50,6 @@ const TASK_TITLES: Record<TaskKind, string> = {
   'run-current-file': 'Run current file',
   'compile-current-file': 'Compile current file'
 };
-
-/**
- * Whether this window is about Hollywood at all.
- *
- * Since VS Code 1.76 contributing task definitions activates the extension whenever the
- * task list is opened — in any project. Following what the built-in task providers do
- * (npm looks for a package.json, gulp for a gulpfile), the workspace is scanned for
- * Hollywood sources, so the tasks stay out of unrelated projects without depending on
- * which file happens to be open.
- */
-async function isHollywoodWorkspace(): Promise<boolean> {
-  // A Hollywood file open without any folder — nothing to scan, but clearly Hollywood.
-  if (workspace.textDocuments.some(document => document.languageId === HOLLYWOOD_LANGUAGE_ID)) {
-    log().info('Hollywood file open in the editor, providing tasks.');
-    return true;
-  }
-  const folders = workspace.workspaceFolders;
-  if (!folders?.length) {
-    log().warn('No folder open and no Hollywood file in the editor — no tasks. Open your project folder.');
-    return false;
-  }
-
-  const found = await workspace.findFiles(HOLLYWOOD_FILE_GLOB, '**/node_modules/**', 1);
-  if (found.length === 0) {
-    log().info(`No ${HOLLYWOOD_FILE_GLOB} found in ${folders.map(f => f.name).join(', ')} — not a Hollywood project, no tasks.`);
-    return false;
-  }
-  log().info(`Hollywood project detected (${found[0].fsPath}).`);
-  return true;
-}
 
 /**
  * Builds the argument list for one task kind, or undefined if a required setting is
@@ -148,7 +113,8 @@ export class HollywoodTaskProvider implements TaskProvider {
         + 'Open your Hollywood project folder (File > Open Folder).');
     }
 
-    if (!await isHollywoodWorkspace()) {
+    if (!await hollywoodWorkspace().isHollywoodWorkspace()) {
+      log().info('Not a Hollywood workspace — no tasks.');
       return [];
     }
 
@@ -261,18 +227,12 @@ export function registerHollywoodTaskProvider(): Disposable {
     }
   });
 
-  const folderListener = workspace.onDidChangeWorkspaceFolders(() => reregister());
-
-  // The first or last Hollywood file in the workspace decides whether the tasks apply.
-  const watcher = workspace.createFileSystemWatcher(HOLLYWOOD_FILE_GLOB, false, true, false);
-  const created = watcher.onDidCreate(() => provider.invalidate());
-  const deleted = watcher.onDidDelete(() => provider.invalidate());
+  // A workspace turning into a Hollywood project, or ceasing to be one, changes whether
+  // the tasks apply at all.
+  const contextListener = hollywoodWorkspace().onDidChange(() => reregister());
 
   return new Disposable(() => {
-    created.dispose();
-    deleted.dispose();
-    watcher.dispose();
-    folderListener.dispose();
+    contextListener.dispose();
     configListener.dispose();
     registration.dispose();
   });

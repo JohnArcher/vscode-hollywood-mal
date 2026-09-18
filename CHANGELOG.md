@@ -7,6 +7,21 @@ All notable changes to the "hw4vsc" extension will be documented in this file.
 ### Added
 
 - Added code completion and quick info for Hollywood 11
+- **Miniwood support**: a status bar item switches between Hollywood and Miniwood, backed by the new settings `hollywood.compiler` and `hollywood.miniwoodExePath`
+- **Provided tasks**: the extension now contributes Hollywood tasks itself (run, run nodebug, compile, run current file, compile current file), so a `tasks.json` is no longer required. The tasks follow the selected compiler and can be customised with `"type": "hollywood"` entries supporting `exetype` and `args`
+- **Commands `Hollywood: Run current file` and `Hollywood: Compile current file`**, which run the script in the editor without going through the task list and, unlike tasks, also work when no folder is open
+- An output channel **Hollywood** (View > Output) logging why tasks are or are not offered and what is started
+- Syntax highlighting for the 24 functions and the preprocessor commands `@OPTIONAL` and `@USING` introduced in Hollywood 11, plus 29 new constants
+
+### Changed
+
+- Removed the `win32console` and `win64console` target types from `hollywood.outputExeType`; console programs are built with `-consolemode` or the `ConsoleMode` tag in `@OPTIONS` since Hollywood 11
+- Removed 16 function names from the syntax highlighting that no longer exist in Hollywood 11, among them renamed ones such as `ForceVideoMode` (now `ForceVideoDriver`) and `DebugStr`/`DebugVal` (now `DebugPrint`)
+
+### Fixed
+
+- `@ELSEIF` was only highlighted as far as `@ELSE`, because the preprocessor rule lacked a word boundary
+- The descriptions of the `hollywood.outputExeType` values were shifted by two entries
 
 ## [10.0.2] - 2025-04-07
 

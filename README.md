@@ -31,13 +31,15 @@ You can find the Hollywood documentation here: <https://www.hollywood-mal.com/do
   * [Installation](#installation)
   * [Configuration](#configuration)
     * [Path to Hollywood executeable](#path-to-hollywood-executeable)
+    * [Choose the compiler: Hollywood or Miniwood](#choose-the-compiler-hollywood-or-miniwood)
     * [Define main file](#define-main-file)
     * [Define main output file](#define-main-output-file)
     * [Define standard executable output format](#define-standard-executable-output-format)
   * [Run and compile](#run-and-compile)
-    * [Create Tasks](#create-tasks)
-    * [Configure Tasks](#configure-tasks)
+    * [Provided Tasks](#provided-tasks)
+    * [Customise Tasks](#customise-tasks)
     * [Run a Task](#run-a-task)
+    * [Commands for the current script](#commands-for-the-current-script)
     * [Run a script with F5](#run-a-script-with-f5)
   * [Dark and Light Theme](#dark-and-light-theme)
   * [Intellisense](#intellisense)
@@ -109,6 +111,22 @@ Normally this should be a **User** Setting (and not a Workspace Setting), so the
 
 Example *settings.json*: `"hollywood.exePath": "C:\\Program Files\\Hollywood\\Hollywood_Console.exe"`
 
+*NOTICE*: Up to version 10 this documentation asked you to wrap paths containing spaces in extra double quotes. That is no longer necessary — the [provided tasks](#provided-tasks) start the compiler directly, without a shell. Extra quotes left over from an older setup are removed automatically.
+
+### Choose the compiler: Hollywood or Miniwood
+
+Settings: `hollywood.compiler`, `hollywood.miniwoodExePath`
+
+Hollywood 11 introduced **Miniwood**, a slimmed-down compiler that produces considerably smaller executables. This extension can run and compile with either one.
+
+Set `hollywood.miniwoodExePath` to your Miniwood executable, the same way as for Hollywood above. Again, the Console version is recommended so output ends up in the **Terminal panel**.
+
+Example *settings.json*: `"hollywood.miniwoodExePath": "C:\\Program Files\\Hollywood\\Miniwood_Console.exe"`
+
+To switch, click the compiler name in the **status bar** (bottom right) and pick the one you want, or press `Ctrl+Shift+P` and run `Hollywood: Switch Hollywood/Miniwood`. The selection is stored in `hollywood.compiler` as a **Workspace** setting, so different projects can use different compilers.
+
+All [provided tasks](#provided-tasks) follow this selection, so switching immediately changes what a build actually runs — there is no need to edit your tasks.
+
 ### Define main file
 
 Setting: `hollywood.mainFile`
@@ -151,59 +169,56 @@ For a complete list of all output formats check the `-exetype` console argument 
 
 ## Run and compile
 
-You have to create Tasks in Visual Studio Code in order to run or compile a Hollywood file/project. For a deeper dive into Tasks it is recommended to read the [official Visual Studio Code documentation for Tasks](https://code.visualstudio.com/docs/editor/tasks).
+You run and compile Hollywood scripts through Visual Studio Code Tasks. For a deeper dive it is recommended to read the [official Visual Studio Code documentation for Tasks](https://code.visualstudio.com/docs/editor/tasks).
 
-### Create Tasks
+### Provided Tasks
 
-For every project you have to create the task definitions. There are two ways to achieve this:
+**Since version 11.0.0 you no longer have to write a `tasks.json`.** The extension provides these tasks itself, built from your [configuration](#configuration):
 
-1. **Create** a **new** `tasks.json` file
-   1. Press `Ctrl+Shift+X` or `Cmd+Shift+X` and enter `Configure Task`
-   2. Select `Create tasks.json file from template`
-   3. Select `Others`
-   4. The freshly created `tasks.json` file is opened in Visual Studio Code. For later reference: This file is created in the `.vscode` folder of your project/workspace.
-   5. Add new tasks or copy tasks from [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/exampleFiles/tasks.json).
-2. **Clone** an exisiting `tasks.json` file
-   1. Look for an exisiting `tasks.json` file in `.vscode` folder of another Hollywood project or download [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/exampleFiles/tasks.json) to your `.vscode` folder.
-   2. Open the file and edit those defined tasks or add new ones.
+| Task | What it does |
+| --- | --- |
+| `Run main script` | Runs `hollywood.mainFile` with `-printerror` |
+| `Run main script (nodebug)` | Runs `hollywood.mainFile` with `-nodebug` |
+| `Compile main script` | Compiles `hollywood.mainFile` to `hollywood.mainOutputFile` using `hollywood.outputExeType` |
+| `Run current file` | Runs the file currently open in the editor with `-printerror` |
+| `Compile current file` | Compiles the file currently open in the editor |
 
-### Configure Tasks
+The task picker shows the compiler and the exact arguments below each entry, for example *Miniwood: main.hws -compile MyGame -exetype win64*, and [switching the compiler](#choose-the-compiler-hollywood-or-miniwood) updates the tasks right away. The names themselves stay the same, so keybindings and `dependsOn` references keep working across a switch.
 
-Several working tasks are shown in [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/exampleFiles/tasks.json), so be sure to consult the file.
+The tasks show up as soon as the workspace contains at least one `.hws` file, so they are there right after opening a project and stay out of the way in unrelated ones.
 
-A minimal task confguration consists of 4 or 5 properties.
+A task only appears when the settings it needs are filled in — if no compile task shows up, `hollywood.mainOutputFile` is most likely still empty. If none show up at all, `hollywood.exePath` (or `hollywood.miniwoodExePath`) is not configured yet; the extension says so and offers to open the setting.
 
-1. `"label"`: This is the label you will see in the task list when you run a task.
-2. `"type"`: Defines whether the task is run as a process or as a command inside a shell. Normally you set it to `"shell"`.
-3. `"group"`: Defines to which execution group this task belongs. This is *optional*, but if you want to define a standard task (like building or running your project) which is easily accessable by pressing `Ctrl+Shift+B` you have to define such a group (see [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/exampleFiles/tasks.json)).
-4. `"command"`: This is the actual command that is executed. Normally you will only use the configured path to the Hollywood executeable here, which is `${config:hollywood.exePath}` ([see here](#path-to-hollywood-executeable)).
-5. `"args"`: This is an array which contains arguments passed to the command when the task is invoked. Besides several **inbuilt Visual Studio Code variables** like `${workspaceFolder}`, `${file}` and `${fileBasenameNoExtension}` and [Hollywood's command line arguments](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage.html) (like `-printerror` to print syntax errors into the **Terminal panel**) you can use the following **extension specific variables** (see the provided settings under [Configuration](#configuration)):
-   1. `${config:hollywood.mainFile}`: The configured [main project file](#define-main-file)
-   2. `${config:hollywood.mainOutputFile}`: The name of the [compiled program](#define-main-output-file)
-   3. `${config:hollywood.outputExeType}`: The configured [standard output exe format](#define-standard-executable-output-format)
+Paths containing spaces need no quoting in provided tasks, because they are not passed through a shell.
 
-*NOTICE*: By default the current working directory is the current workspace root. If you ever need to change this for your task because your source code that has to be compiled is in a different folder you can change the current working directoy by using the `"cwd"` option (see [this link for details](https://code.visualstudio.com/docs/editor/tasks)).
+### Customise Tasks
 
-This is a complete example of a task definition:
+Create a `tasks.json` in your `.vscode` folder when you want to mark a default build task, override a setting for a single task, or add further console arguments. Use `"type": "hollywood"` and name the task with `"task"`:
 
 ```json
 {
-    "label": "Compile Hollywood Main script to default target",
-    "type": "shell",
-    "command": "${config:hollywood.exePath}",
-    "args": [
-         "${config:hollywood.mainFile}",
-         "-compile",
-         "${config:hollywood.mainOutputFile}",
-         "-exetype",
-         "${config:hollywood.outputExeType}"
-   ],
+    "type": "hollywood",
+    "task": "compile",
+    "label": "Compile main script to multiple targets",
+    "exetype": "win64|classic|morphos",
+    "args": ["-compress"],
     "group": {
         "kind": "build",
         "isDefault": true
     }
 }
 ```
+
+* `"task"`: which of the provided tasks to base this on — `run`, `run-nodebug`, `compile`, `run-current-file` or `compile-current-file`
+* `"exetype"`: *optional*, overrides `hollywood.outputExeType`, which is how you compile to [multiple targets](#define-standard-executable-output-format) at once
+* `"args"`: *optional*, further [Hollywood console arguments](https://www.hollywood-mal.com/docs/html/hollywood/ManualUsage.html) appended to the generated ones, for example `-compress`
+* `"group"`: *optional*, marks the task as the default so `Ctrl+Shift+B` runs it
+
+More examples are in [the example file](https://github.com/JohnArcher/vscode-hollywood-mal/blob/master/exampleFiles/tasks.json).
+
+Plain `"type": "shell"` tasks still work exactly as before, using `${config:hollywood.exePath}` together with `${config:hollywood.mainFile}`, `${config:hollywood.mainOutputFile}` and `${config:hollywood.outputExeType}`. Such tasks always call Hollywood and ignore the compiler selection.
+
+*NOTICE*: By default the current working directory is the current workspace root. For shell tasks you can change it with the `"cwd"` option (see [this link for details](https://code.visualstudio.com/docs/editor/tasks)).
 
 ### Run a Task
 
@@ -213,14 +228,25 @@ For all other tasks you have to follow these steps:
 
 1. Press `Ctrl+Shift+P` to show the Command Palette
 2. Enter `Run Task`
-3. Pick the task you want to run
+3. Pick the task you want to run — the [provided tasks](#provided-tasks) are grouped under **hollywood**
 4. Select `Continue without scanning the task output` or `Never scan the task output for this task` if you want to ignore this message in the future
 
 ![Task picker](https://raw.githubusercontent.com/JohnArcher/vscode-hollywood-mal/master/media/run_task.png)
 
+### Commands for the current script
+
+Two commands run and compile whatever is open in the editor, without going through the task list:
+
+* `Hollywood: Run current file`
+* `Hollywood: Compile current file`
+
+They use the [selected compiler](#choose-the-compiler-hollywood-or-miniwood) just like the tasks do, save the file first if it has unsaved changes, and open a terminal in the folder of the script. Compiling writes the executable next to the script, named after it.
+
+Unlike tasks, these commands also work when **no folder is open** — Visual Studio Code cannot show tasks in single-file mode ([microsoft/vscode#40515](https://github.com/Microsoft/vscode/issues/40515)), so for a quick script this is the more reliable route.
+
 ### Run a script with F5
 
-If you have already worked with the official Hollywood IDE you may be used to press F5 to run the current script. You can adopt the same behaviour with this extension through overriding the keybinding. In this example we will run the project's [main script](#define-main-file) by starting the corresponding task [we created above](#configure-tasks) and you can see in the task.json example.
+If you have already worked with the official Hollywood IDE you may be used to press F5 to run the current script. You can adopt the same behaviour with this extension through overriding the keybinding. In this example we will run the project's [main script](#define-main-file) by starting the corresponding [provided task](#provided-tasks).
 
 In order to override the setting you have to follow these steps:
 
@@ -232,12 +258,24 @@ In order to override the setting you have to follow these steps:
 {
    "key": "f5",
    "command": "workbench.action.tasks.runTask",
-   "args": "Run Hollywood Main script",
+   "args": "Run main script",
    "when": "resourceLangId == hollywood"
 }
 ```
 
-It is important to set the `"args"` parameter exactely like the corresponding tasks `"label"` you configured in your `tasks.json`. Of course it is possible to start another task and/or use other keys (see the `"key"` parameter).
+It is important to set the `"args"` parameter exactely like the name of the task you want to start — either one of the [provided tasks](#provided-tasks) or the `"label"` of a task you configured in your `tasks.json`. Of course it is possible to start another task and/or use other keys (see the `"key"` parameter).
+
+The names of the provided tasks do not change when you switch between Hollywood and Miniwood, so a keybinding set up this way keeps working with either compiler.
+
+If you would rather run **the script you are currently editing** — closer to what F5 does in the official Hollywood IDE — bind the [command](#commands-for-the-current-script) instead. It needs no task name at all and also works when no folder is open:
+
+```json
+{
+   "key": "f5",
+   "command": "hollywood.runCurrentFile",
+   "when": "resourceLangId == hollywood"
+}
+```
 
 `"when": "resourceLangId == hollywood"` ensures that `F5` is just overriden for Hollywood files, so if you additionally code in other languages like JavaScript or TypeScript you don't override the default behaviour for those languages.
 

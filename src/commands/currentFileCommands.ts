@@ -1,8 +1,10 @@
 import { basename, dirname, extname } from 'path';
 import { commands, Disposable, TextDocument, window } from 'vscode';
-import { compileFlagArguments, readHollywoodSettings, warnAboutMissingExePath } from '../configuration';
+import {
+  compileFlagArguments, ERROR_CODE_ARGUMENTS, readHollywoodSettings, warnAboutMissingExePath
+} from '../configuration';
 import { HOLLYWOOD_LANGUAGE_ID } from '../hollywoodWorkspace';
-import { log } from '../log';
+import { runInHollywoodTerminal } from '../terminal';
 
 /**
  * Runs and compiles the file in the active editor.
@@ -16,8 +18,6 @@ import { log } from '../log';
 export const RUN_CURRENT_FILE_COMMAND = 'hollywood.runCurrentFile';
 export const COMPILE_CURRENT_FILE_COMMAND = 'hollywood.compileCurrentFile';
 
-/** One reusable terminal, so repeated runs do not pile up. */
-const TERMINAL_NAME = 'Hollywood';
 
 /**
  * Returns the saved document of the active editor, or undefined with an explanation.
@@ -45,20 +45,6 @@ async function activeHollywoodDocument(): Promise<TextDocument | undefined> {
   return document;
 }
 
-/**
- * Starts the compiler in a terminal.
- *
- * The executable is passed as `shellPath` rather than typed into a shell, so paths with
- * spaces need no quoting and the behaviour does not depend on whether the user runs
- * cmd, PowerShell or a POSIX shell.
- */
-function runInTerminal(exePath: string, args: string[], cwd: string): void {
-  window.terminals.find(terminal => terminal.name === TERMINAL_NAME)?.dispose();
-  const terminal = window.createTerminal({ name: TERMINAL_NAME, shellPath: exePath, shellArgs: args, cwd });
-  terminal.show(true);
-  log().info(`Started in terminal (cwd ${cwd}): ${exePath} ${args.join(' ')}`);
-}
-
 async function execute(mode: 'run' | 'compile'): Promise<void> {
   const document = await activeHollywoodDocument();
   if (!document) {
@@ -76,7 +62,7 @@ async function execute(mode: 'run' | 'compile'): Promise<void> {
   const name = basename(file);
 
   if (mode === 'run') {
-    runInTerminal(settings.exePath, [name, '-printerror'], folder);
+    runInHollywoodTerminal(settings.exePath, [name, '-printerror', ...ERROR_CODE_ARGUMENTS], folder);
     return;
   }
 
@@ -86,9 +72,9 @@ async function execute(mode: 'run' | 'compile'): Promise<void> {
     return;
   }
   const output = basename(name, extname(name));
-  runInTerminal(
+  runInHollywoodTerminal(
     settings.exePath,
-    [name, '-compile', output, '-exetype', exetype, ...compileFlagArguments(settings)],
+    [name, '-compile', output, '-exetype', exetype, ...compileFlagArguments(settings), ...ERROR_CODE_ARGUMENTS],
     folder
   );
 }

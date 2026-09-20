@@ -3,7 +3,8 @@ import {
   TaskProvider, TaskScope, tasks, workspace, WorkspaceFolder
 } from 'vscode';
 import {
-  compileFlagArguments, HollywoodSettings, readHollywoodSettings, warnAboutMissingExePath
+  compileFlagArguments, ERROR_CODE_ARGUMENTS, HollywoodSettings, readHollywoodSettings,
+  warnAboutMissingExePath
 } from '../configuration';
 import { hollywoodWorkspace } from '../hollywoodWorkspace';
 import { log } from '../log';
@@ -60,29 +61,37 @@ const TASK_TITLES: Record<TaskKind, string> = {
  * missing — an unusable task is better left out of the list than offered and broken.
  */
 function buildArguments(kind: TaskKind, settings: HollywoodSettings, definition: HollywoodTaskDefinition): string[] | undefined {
+  const generated = generateArguments(kind, settings, definition);
+  if (!generated) {
+    return undefined;
+  }
+  // The user's own arguments come last so they can still override what we generated.
+  return [...generated, ...ERROR_CODE_ARGUMENTS, ...(definition.args ?? [])];
+}
+
+function generateArguments(kind: TaskKind, settings: HollywoodSettings, definition: HollywoodTaskDefinition): string[] | undefined {
   const exetype = definition.exetype ?? settings.outputExeType;
-  const extra = definition.args ?? [];
 
   switch (kind) {
     case 'run':
-      return settings.mainFile ? [settings.mainFile, '-printerror', ...extra] : undefined;
+      return settings.mainFile ? [settings.mainFile, '-printerror'] : undefined;
 
     case 'run-nodebug':
-      return settings.mainFile ? [settings.mainFile, '-nodebug', ...extra] : undefined;
+      return settings.mainFile ? [settings.mainFile, '-nodebug'] : undefined;
 
     case 'compile':
       return settings.mainFile && settings.mainOutputFile && exetype
         ? [settings.mainFile, '-compile', settings.mainOutputFile, '-exetype', exetype,
-          ...compileFlagArguments(settings), ...extra]
+          ...compileFlagArguments(settings)]
         : undefined;
 
     case 'run-current-file':
-      return ['${file}', '-printerror', ...extra];
+      return ['${file}', '-printerror'];
 
     case 'compile-current-file':
       return exetype
         ? ['${file}', '-compile', '${fileBasenameNoExtension}', '-exetype', exetype,
-          ...compileFlagArguments(settings), ...extra]
+          ...compileFlagArguments(settings)]
         : undefined;
 
     default:

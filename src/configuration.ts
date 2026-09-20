@@ -21,6 +21,14 @@ export interface HollywoodSettings {
 }
 
 /**
+ * Makes Hollywood report failure through its exit code.
+ *
+ * By default Hollywood returns 0 even after printing an error, so a terminal or a task
+ * would always look successful. Added to every invocation, running and compiling alike.
+ */
+export const ERROR_CODE_ARGUMENTS = ['-errorcode', '1'];
+
+/**
  * The switches that change how an executable is built, in the order the official Hollywood
  * IDE lists them. Compile-time only: they have no meaning when running a script.
  */

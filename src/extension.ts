@@ -4,6 +4,7 @@ import { HollywoodDefinitionProvider } from './providers/definitionProvider';
 import { HollywoodCompletionItemProvider } from './providers/completionItemProvider';
 import { StatusBarProvider } from './providers/statusBarProvider';
 import { registerHollywoodTaskProvider } from './providers/taskProvider';
+import { registerCompileToCommand } from './commands/compileToCommand';
 import { registerCurrentFileCommands } from './commands/currentFileCommands';
 import { registerSelectFilePathCommand } from './commands/selectFilePathCommand';
 import { registerSwitchCompilerCommand, SWITCH_COMPILER_COMMAND } from './commands/switchCompilerCommand';
@@ -29,6 +30,7 @@ export function activate(context: ExtensionContext) {
 
     // Run and compile the open script without needing a folder or a task.
     registerCurrentFileCommands(),
+    registerCompileToCommand(context.extension),
 
     registerSelectFilePathCommand(),
 

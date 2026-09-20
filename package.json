@@ -92,6 +92,10 @@
 			{
 				"command": "hollywood.compileCurrentFile",
 				"title": "Hollywood: Compile current file"
+			},
+			{
+				"command": "hollywood.compileTo",
+				"title": "Hollywood: Compile to…"
 			}
 		],
 		"taskDefinitions": [

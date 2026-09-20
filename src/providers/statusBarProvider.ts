@@ -1,16 +1,24 @@
-import { Disposable, StatusBarAlignment, StatusBarItem, window, workspace } from "vscode";
-import { HOLLYWOOD } from "../configuration";
+import { Disposable, MarkdownString, StatusBarAlignment, StatusBarItem, window, workspace } from "vscode";
+import { compileOptionsSummary, HOLLYWOOD, readHollywoodSettings } from "../configuration";
 import { hollywoodWorkspace } from "../hollywoodWorkspace";
 
 /**
  * Shows the selected compiler in the status bar and acts as the entry point for switching
  * between Hollywood and Miniwood.
  *
- * The item reflects `hollywood.compiler` rather than being told what to display, so it
- * stays correct even when the setting is edited directly in settings.json. It only appears
- * in Hollywood workspaces: the extension can be activated in any project merely by
- * someone opening the task list, and a Hollywood item has no business in a foreign one.
+ * The item reflects the settings rather than being told what to display, so it stays
+ * correct even when they are edited directly in settings.json. It only appears in
+ * Hollywood workspaces: the extension can be activated in any project merely by someone
+ * opening the task list, and a Hollywood item has no business in a foreign one.
  */
+
+/** A change to any of these changes what the item says. */
+const WATCHED_SETTINGS = [
+  "hollywood.compiler",
+  "hollywood.compress",
+  "hollywood.consoleMode"
+];
+
 export class StatusBarProvider implements Disposable {
 
   private statusBarItem: StatusBarItem;
@@ -24,7 +32,7 @@ export class StatusBarProvider implements Disposable {
 
     this.subscriptions.push(
       workspace.onDidChangeConfiguration(event => {
-        if (event.affectsConfiguration("hollywood.compiler")) {
+        if (WATCHED_SETTINGS.some(setting => event.affectsConfiguration(setting))) {
           this.update();
         }
       }),
@@ -34,11 +42,24 @@ export class StatusBarProvider implements Disposable {
     this.updateVisibility();
   }
 
-  /** Reads the configured compiler and refreshes label and tooltip. */
+  /**
+   * Refreshes label and tooltip.
+   *
+   * Only the compiler goes into the label: the status bar is shared by every extension,
+   * and the guidelines ask for short text. The compile switches, which apply to every
+   * build, go into the tooltip instead of crowding the bar.
+   */
   update() {
-    const compiler = workspace.getConfiguration("hollywood").get<string>("compiler") ?? HOLLYWOOD;
+    const settings = readHollywoodSettings(workspace.workspaceFolders?.[0]);
+    const compiler = settings.compiler || HOLLYWOOD;
+
     this.statusBarItem.text = `$(tools) ${compiler}`;
-    this.statusBarItem.tooltip = `Hollywood: running and compiling with ${compiler} — click to switch`;
+
+    const tooltip = new MarkdownString();
+    tooltip.appendMarkdown(`Compiling with **${compiler}**\n\n`);
+    tooltip.appendMarkdown(`${compileOptionsSummary(settings)}\n\n`);
+    tooltip.appendMarkdown("Click to switch the compiler");
+    this.statusBarItem.tooltip = tooltip;
   }
 
   /** Shows the item in Hollywood workspaces and hides it everywhere else. */

@@ -29,6 +29,17 @@ export interface HollywoodSettings {
 export const ERROR_CODE_ARGUMENTS = ['-errorcode', '1'];
 
 /**
+ * "compression: on · console mode: off" — the state of the two compile switches in words.
+ *
+ * They apply to every build but live in the settings, out of sight at the moment they
+ * matter. The picker and the status bar both show this, from one wording.
+ */
+export function compileOptionsSummary(settings: HollywoodSettings): string {
+  const onOff = (enabled: boolean) => (enabled ? 'on' : 'off');
+  return `compression: ${onOff(settings.compress)} · console mode: ${onOff(settings.consoleMode)}`;
+}
+
+/**
  * The switches that change how an executable is built, in the order the official Hollywood
  * IDE lists them. Compile-time only: they have no meaning when running a script.
  */

@@ -187,6 +187,10 @@ Two switches change how an executable is built. They are the same two the *Creat
 
 Each adds its console argument — `-compress` and `-consolemode` — to every compile task and to `Hollywood: Compile current file`. Inside a script the equivalents are the `Compress` and `ConsoleMode` tags in `@OPTIONS`, which the [Intellisense](#intellisense) documents.
 
+Because both apply to every build while living in the settings, their current state is named where it matters: in the title of [`Hollywood: Compile to…`](#commands-for-the-current-script) and in the tooltip of the compiler entry in the status bar, each spelling out *compression: on · console mode: off*.
+
+The second line of a task in the task list, and the first line in the terminal, show the actual command instead — there an enabled switch appears as `-compress` or `-consolemode`, and a disabled one simply is not there.
+
 ## Run and compile
 
 You run and compile Hollywood scripts through Visual Studio Code Tasks. For a deeper dive it is recommended to read the [official Visual Studio Code documentation for Tasks](https://code.visualstudio.com/docs/editor/tasks).
@@ -265,14 +269,33 @@ For all other tasks you have to follow these steps:
 
 ### Commands for the current script
 
-Two commands run and compile whatever is open in the editor, without going through the task list:
+Three commands work without going through the task list:
 
 * `Hollywood: Run current file`
 * `Hollywood: Compile current file`
+* `Hollywood: Compile to…`
 
-They use the [selected compiler](#choose-the-compiler-hollywood-or-miniwood) just like the tasks do, save the file first if it has unsaved changes, and open a terminal in the folder of the script. Compiling writes the executable next to the script, named after it.
+The first two use the [selected compiler](#choose-the-compiler-hollywood-or-miniwood) just like the tasks do, save the file first if it has unsaved changes, and open a terminal in the folder of the script. Compiling writes the executable next to the script, named after it.
+
+The terminal **stays open after the compiler finishes**, ending with a line such as `[Hollywood_Console.exe finished with exit code 1]`, so error messages remain readable. Close it yourself when you are done; the next run reuses it.
+
+Every invocation passes `-errorcode 1`, because Hollywood otherwise returns 0 even after reporting an error — a build would always look successful.
 
 Unlike tasks, these commands also work when **no folder is open** — Visual Studio Code cannot show tasks in single-file mode ([microsoft/vscode#40515](https://github.com/Microsoft/vscode/issues/40515)), so for a quick script this is the more reliable route.
+
+**`Hollywood: Compile to…`** asks which platforms to build for and compiles for all of them at once, without touching `hollywood.outputExeType`:
+
+```
+Compile main.hws with Hollywood
+  ✓ win64      Windows executable (x64)
+  ✓ classic    AmigaOS 3.x executable (68020+)
+    morphos    MorphOS executable (PowerPC)
+    …
+```
+
+The targets currently configured in `hollywood.outputExeType` come pre-ticked, so confirming straight away builds exactly what a normal compile task would. It compiles the [main file](#define-main-file) if one is configured, otherwise the script in the editor, and it honours the [compile options](#compile-options) like everything else.
+
+This is the counterpart of the *Create executable* dialog in the official Hollywood IDE: its base name is `hollywood.mainOutputFile`, its two switches are the compile options, and its list of platforms is this quick pick.
 
 ### Run a script with F5
 

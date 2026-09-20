@@ -18,7 +18,7 @@ import { log } from './log';
 export const HOLLYWOOD_LANGUAGE_ID = 'hollywood';
 
 /** Marks a workspace as a Hollywood project, the way a package.json marks an npm one. */
-export const HOLLYWOOD_FILE_GLOB = '**/*.hws';
+const HOLLYWOOD_FILE_GLOB = '**/*.hws';
 
 class HollywoodWorkspace implements Disposable {
 

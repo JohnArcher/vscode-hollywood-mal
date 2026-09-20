@@ -62,7 +62,7 @@ export function compileFlagArguments(settings: HollywoodSettings): string[] {
  * directly, where a quote would become part of the file name, so such a path has to be
  * cleaned up rather than silently failing to start.
  */
-export function unquotePath(value: string | undefined): string | undefined {
+function unquotePath(value: string | undefined): string | undefined {
   if (!value) {
     return undefined;
   }
@@ -90,7 +90,7 @@ export function readHollywoodSettings(scope?: WorkspaceFolder | Uri): HollywoodS
 }
 
 /** Name of the setting holding the executable for the selected compiler. */
-export function exePathSettingName(compiler: string): string {
+function exePathSettingName(compiler: string): string {
   return compiler === MINIWOOD ? 'hollywood.miniwoodExePath' : 'hollywood.exePath';
 }
 

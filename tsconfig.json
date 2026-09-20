@@ -9,6 +9,12 @@
         "resolveJsonModule": true,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
+        // Explicit rather than relying on every @types package being picked up
+        // automatically: the editor's language service does not always do so.
+        "types": [
+            "node",
+            "vscode"
+        ],
     },
     "include": [
         "src"

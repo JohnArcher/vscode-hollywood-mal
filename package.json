@@ -231,13 +231,13 @@
 		}
 	},
 	"scripts": {
-		"vscode:prepublish": "npm run compile",
+		"vscode:prepublish": "npm run compile && npm run copy-json-definitions",
 		"compile": "tsc -b",
 		"watch": "tsc -b -w",
 		"lint": "eslint .",
 		"check-definitions": "node scripts/check-definitions.mjs",
 		"copy-json-definitions": "copyfiles -f \"src/definitions/**/*.json\" out/definitions",
-		"package-and-install": "npm run copy-json-definitions && vsce package && code --install-extension hollywood-mal-10.0.2.vsix"
+		"package-and-install": "vsce package && code --install-extension hollywood-mal-11.0.0.vsix"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.12.0",

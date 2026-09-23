@@ -1,5 +1,6 @@
 .vscode/**
 .github/**
+.claude/**
 .vscode-test/**
 exampleFiles/**
 media/**
@@ -10,3 +11,16 @@ scripts/**
 .markdownlint.json
 vsc-extension-quickstart.md
 hw4vsc.todo
+
+# Sources and build setup: the extension runs from out/, and shipping src/ as well
+# would carry the definitions a second time.
+src/**
+out/**/*.map
+tsconfig.json
+eslint.config.mjs
+package-lock.json
+
+# Working documents. vsce reads .gitignore only when there is no .vscodeignore,
+# so being ignored by git is not enough to keep these out of the package.
+_materials/**
+hw4vsc.code-workspace

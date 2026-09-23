@@ -122,11 +122,6 @@ export class HollywoodCompletionItemProvider implements CompletionItemProvider {
         this.commandCompletionItems.push(...constantItems);
       }
 
-      // TODO:
-      // - Problem-Doku:
-      //   - https://www.hollywood-mal.com/docs/html/hollywood/atDISPLAY.html
-      //   - https://www.hollywood-mal.com/docs/html/hollywood/GetObjects_.html
-
       const items = [...this.commandCompletionItems];
 
       // Only add the user symbols as otherwise adding an empty array would disable our complex intellisense and would fallback to normal word intellisense
@@ -279,7 +274,13 @@ export class HollywoodCompletionItemProvider implements CompletionItemProvider {
 
     // TODO: ggf. mit MarkdownString.appendMarkdown() etc. arbeiten, um die einzelnen Teile zu erstellen und dann zusammenzufügen (siehe HoverProvider)
 
-    let fullDocumentation = `${libraryLabel}  — See online help for [${itemName}](${hollywoodDocsBaseUrl}${item.helpId}.html)`;
+    // TODO (P8): Hilfetexte, die eine Tag-Tabelle enthalten, sind bis zu 54.000 Zeichen lang
+    // (Median 696), andere wie GetObjects verweisen für das Wesentliche auf eine nie
+    // gescrapte Seite.
+
+    // Das `_` öffnet die Hilfeseite im Frameset, also mit Kapitel-Navigation — so, wie es
+    // auch die Links innerhalb der gescrapten Texte tun.
+    let fullDocumentation = `${libraryLabel}  — See online help for [${itemName}](${hollywoodDocsBaseUrl}${item.helpId}_.html)`;
     fullDocumentation +=`\n\n${item.functionDocs}`;
     fullDocumentation += `\n\n---\n\n**Inputs/Parameters**  \n${item.inputsDocs}`;
     fullDocumentation += `\n\n---\n\n**Results/Returns**  \n${item.resultsDocs}`;

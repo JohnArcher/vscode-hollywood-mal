@@ -44,12 +44,14 @@ You can find the Hollywood documentation here: <https://www.hollywood-mal.com/do
     * [Run a script with F5](#run-a-script-with-f5)
   * [Dark and Light Theme](#dark-and-light-theme)
   * [Intellisense](#intellisense)
+    * [Path completion](#path-completion)
   * [Go to definition](#go-to-definition)
   * [Document Symbols/Go to Symbol](#document-symbolsgo-to-symbol)
   * [Code Snippets](#code-snippets)
   * [Thank you](#thank-you)
   * [Support](#support)
   * [TODOs / Future](#todos--future)
+  * [Disclaimer on the use of AI](#disclaimer-on-the-use-of-ai)
 
 ## Features
 
@@ -447,3 +449,9 @@ This includes and adds:
 * Help (press F1 or similar and help file gets loaded with word under cursor)
 * Code completion for Hollywood plugins
 * ...
+
+## Disclaimer on the use of AI
+
+Until version 10 of this plugin all work was done by myself with no use of AI. Even when the development of version 11 started, I didn't use AI. But when I thought work was about 80% done, health issues and a lack of motivation started to kick in. After months, my initial plan was to use Claude Code just to get the release done — and it helped A LOT to find problems with the current state of the Hollywood 11 integration, things that would have taken ages to find if ever. Claude also found my todo file (of course) and proposed an approach for some of the entries. So it helped a lot in turning my prototype into a real implementation of the "path completion" feature. Again it saved me so much time and helped fuel my motivation to steadily improve this plugin.
+
+So bear with me if I use AI to a certain degree; in my opinion it is worth it if that gives you folks a better Hollywood dev experience.

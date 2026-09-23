@@ -4,10 +4,19 @@ import * as RE from '../regexConstants';
 
 import { getCommentedLines, cleanMultiLineComment } from "../utils";
 
+/** Eine im Dokument gefundene Funktionsdefinition. */
+interface FunctionDefinition {
+  name: string;
+  startLine: number;
+  startLinePosition: number;
+  endLine: number;
+  endLinePosition: number;
+}
+
 export class HollywoodDocumentSymbolProvider implements DocumentSymbolProvider {
 
-  private functionsArray; // TODO: try to make it a local array
-  private commentedLines: Array<boolean>;
+  private functionsArray: FunctionDefinition[] = []; // TODO: try to make it a local array
+  private commentedLines: Array<boolean> = [];
 
   public provideDocumentSymbols(
     document: TextDocument
@@ -102,7 +111,8 @@ export class HollywoodDocumentSymbolProvider implements DocumentSymbolProvider {
     return symbols;
   }
 
-  private getFunctions(startLineNumnber: number, document: TextDocument) {
+  /** Liefert die Zeile mit dem `EndFunction`, oder nichts, wenn keines mehr folgt. */
+  private getFunctions(startLineNumnber: number, document: TextDocument): number | undefined {
     for (let lineNumber = startLineNumnber; lineNumber < document.lineCount; lineNumber++) {
       const line = document.lineAt(lineNumber);
 
@@ -132,8 +142,10 @@ export class HollywoodDocumentSymbolProvider implements DocumentSymbolProvider {
         // example: Local Function test() Local t = 1 DebugPrint(t) EndFunction
         if (RE.endFunctionRE.test(line.text) === false) { // the function end is NOT on the same line, ...
 
-          // ... so do the recursive call to try to get the next function definition
-          endLineNumber = this.getFunctions(lineNumber + 1, document);
+          // ... so do the recursive call to try to get the next function definition.
+          // Fehlt das EndFunction, reicht die Funktion bis zum Dateiende; ohne den Fallback
+          // landete hier undefined und document.lineAt() weiter unten wuerde abstuerzen.
+          endLineNumber = this.getFunctions(lineNumber + 1, document) ?? document.lineCount - 1;
 
           // increase the lineNumber counter to the endline, because we now know, that there are no further
           // functions between the original lineNumber and endLineNumber, so we skip those lines for

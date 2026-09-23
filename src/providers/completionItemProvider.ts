@@ -89,7 +89,9 @@ export class HollywoodCompletionItemProvider implements CompletionItemProvider {
         const hollywoodPreprocs: HollywoodCompletionItemModel[] = [
           ...preprocDefinitions.map((item: HollywoodCompletionItemModel) => {
             // Adjust category to match the enum key format (e.g. "amiga support" -> "AmigaSupport")
-            const formattedCategory = item.category
+            // Ohne Kategorie bleibt der Name leer, der Enum-Zugriff schlaegt fehl und
+            // unten greift der Unknown-Zweig
+            const formattedCategory = (item.category ?? '')
               .split(' ')
               .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
               .join('');
@@ -137,7 +139,7 @@ export class HollywoodCompletionItemProvider implements CompletionItemProvider {
 
   private async loadHollywoodCommands(): Promise<HollywoodCompletionItemModel[]> {
     const importPromises = files.map(file => import(file.filePath).then(module => {
-      module.default.forEach(item => {
+      module.default.forEach((item: HollywoodCompletionItemModel) => {
         item.category = file.category;
       });
       return module.default;
@@ -220,8 +222,9 @@ export class HollywoodCompletionItemProvider implements CompletionItemProvider {
    */
   private generateCompletionItems(completionModels: HollywoodCompletionItemModel[], completionItemKind: CompletionItemKind, commandType?: HollywoodCommandTypesEnum): CompletionItem[] {
     const items = (completionModels).map((item: HollywoodCompletionItemModel) => {
-      // This is the part that is shown directly next to the function name, mostly used for showing the parameters
-      let itemDetail: string;
+      // This is the part that is shown directly next to the function name, mostly used for showing the parameters.
+      // Nur Funktionen haben Parameter, bei allen anderen bleibt es leer.
+      let itemDetail: string | undefined;
 
       // TODO: same for preprocs?
       if (completionItemKind === CompletionItemKind.Function) {

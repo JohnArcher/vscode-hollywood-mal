@@ -73,13 +73,6 @@
 				"path": "./snippets/hollywood.json"
 			}
 		],
-		"keybindings": [
-			{
-				"key": "alt+L",
-				"command": "extension.selectFilePath",
-				"when": "editorTextFocus && editorLangId == 'hollywood'"
-			}
-		],
 		"commands": [
 			{
 				"command": "hollywood.switchHollywoodMiniwood",

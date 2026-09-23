@@ -16,6 +16,7 @@ All notable changes to the "hw4vsc" extension will be documented in this file.
 - An output channel **Hollywood** (View > Output) logging why tasks are or are not offered and what is started
 - Settings `hollywood.compress` and `hollywood.consoleMode`, the two switches the official Hollywood IDE offers alongside the target list. `hollywood.consoleMode` replaces the removed `win32console` and `win64console` target types; `hollywood.compress` is particularly effective together with Miniwood
 - Syntax highlighting for the 24 functions and the preprocessor commands `@OPTIONAL` and `@USING` introduced in Hollywood 11, plus 29 new constants
+- **Path completion** inside the quotes of the preprocessor commands that name a file, such as `@INCLUDE` or `@BRUSH`. Paths are resolved relative to the edited script, picking a folder opens the list again, and `@INCLUDE` and `@APPENTRY` offer Hollywood sources only, without the edited script itself. Path completion is implemented for: `@INCLUDE`, `@APPENTRY`, `@ANIM`, `@APPICON`, `@BGPIC`, `@BRUSH`, `@CATALOG`, `@FILE`, `@ICON`, `@MUSIC`, `@PALETTE`, `@SAMPLE`, `@SPRITE`, `@VIDEO`, `@DIRECTORY`
 
 ### Changed
 

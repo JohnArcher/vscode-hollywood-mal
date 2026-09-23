@@ -5,6 +5,7 @@ import HollywoodLibrariesEnum from '../enums/hollywoodLibraries.enum';
 import HollywoodCommandTypesEnum from '../enums/hollywoodCommandTypes.enum';
 
 import { getCommentedLines, cleanMultiLineComment } from '../utils';
+import { pathContextAt } from './pathCompletionProvider';
 import * as RE from '../regexConstants';
 
 import miscDefinitions from '../definitions/misc_definitons.json';
@@ -68,7 +69,13 @@ export class HollywoodCompletionItemProvider implements CompletionItemProvider {
 
   private commandCompletionItems: CompletionItem[] = [];
 
-  provideCompletionItems(document: TextDocument, _position: Position, _token: CancellationToken, _context: CompletionContext): Thenable<CompletionItem[]> | CompletionItem[] {
+  provideCompletionItems(document: TextDocument, position: Position, _token: CancellationToken, _context: CompletionContext): Thenable<CompletionItem[]> | CompletionItem[] {
+    // Inside the path argument of a preprocessor directive the path completion takes over.
+    // Mixing three thousand command names into a directory listing would bury it.
+    if (pathContextAt(document, position)) {
+      return [];
+    }
+
     return new Promise<CompletionItem[]>((resolve, _reject) => {
       // Find user specific symbols like functions, variables and constants
       // This must not be cached, because the user can change the document
@@ -245,13 +252,6 @@ export class HollywoodCompletionItemProvider implements CompletionItemProvider {
       }
 
       completionItem.insertText = item.insertText ? new SnippetString(item.insertText) : item.name;
-
-      // TODO: only for @INCLUDE
-      completionItem.command = {
-        command: 'extension.selectFilePath',
-        title: 'Trigger Parameter Hints'
-      };
-
 
       return completionItem;
     });

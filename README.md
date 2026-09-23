@@ -367,6 +367,18 @@ If you right away press `Ctrl+Space`, a complete list of all functions, preproce
 
 **Notice:** Loading this amount of definition data for code completion and quick help could initally take some time when you opening or creating a project.
 
+### Path completion
+
+Inside the quotes of a preprocessor command that names a file, the list shows the files next to your script instead of the Hollywood commands:
+
+```hws
+@INCLUDE "lib/|"
+```
+
+Picking a folder opens the list again, so you can walk a path one step at a time; `../` leads upwards. Paths are resolved relative to the script you are editing, which is how Hollywood resolves them as well.
+
+`@INCLUDE` and `@APPENTRY` list Hollywood sources (`.hws`, `.hwa`) except the script you are editing, which could only include itself, `@DIRECTORY` lists folders, and the commands loading media — `@ANIM`, `@APPICON`, `@BGPIC`, `@BRUSH`, `@CATALOG`, `@FILE`, `@ICON`, `@MUSIC`, `@PALETTE`, `@SAMPLE`, `@SPRITE`, `@VIDEO` — list every file, because which formats can be loaded depends on the platform and installed plugins.
+
 ## Go to definition
 
 This feature lets you jump to variable, constant, or function definitions/declarations by pressing `F12` when on a proper symbol. This is also possible with `Ctrl+Click` on a symbol.

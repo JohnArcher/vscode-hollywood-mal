@@ -2,11 +2,11 @@ import { Disposable, ExtensionContext, languages } from 'vscode'; // The module 
 import { HollywoodDocumentSymbolProvider } from './providers/documentSymbolProvider';
 import { HollywoodDefinitionProvider } from './providers/definitionProvider';
 import { HollywoodCompletionItemProvider } from './providers/completionItemProvider';
+import { HollywoodPathCompletionItemProvider, PATH_TRIGGER_CHARACTERS } from './providers/pathCompletionProvider';
 import { StatusBarProvider } from './providers/statusBarProvider';
 import { registerHollywoodTaskProvider } from './providers/taskProvider';
 import { registerCompileToCommand } from './commands/compileToCommand';
 import { registerCurrentFileCommands } from './commands/currentFileCommands';
-import { registerSelectFilePathCommand } from './commands/selectFilePathCommand';
 import { registerSwitchCompilerCommand, SWITCH_COMPILER_COMMAND } from './commands/switchCompilerCommand';
 import { disposeHollywoodWorkspace, HOLLYWOOD_LANGUAGE_ID } from './hollywoodWorkspace';
 import { disposeLog } from './log';
@@ -22,6 +22,10 @@ export function activate(context: ExtensionContext) {
     languages.registerDefinitionProvider(HOLLYWOOD_SELECTOR, new HollywoodDefinitionProvider()),
     // Intellisense/Code Completion with Quick Info for showing accompanying documentation
     languages.registerCompletionItemProvider(HOLLYWOOD_SELECTOR, new HollywoodCompletionItemProvider()),
+    // File names inside @INCLUDE and the other directives that name a path.
+    languages.registerCompletionItemProvider(
+      HOLLYWOOD_SELECTOR, new HollywoodPathCompletionItemProvider(), ...PATH_TRIGGER_CHARACTERS
+    ),
 
     // Compiler selection: the status bar shows it, tasks and commands act on it.
     new StatusBarProvider(SWITCH_COMPILER_COMMAND),
@@ -31,8 +35,6 @@ export function activate(context: ExtensionContext) {
     // Run and compile the open script without needing a folder or a task.
     registerCurrentFileCommands(),
     registerCompileToCommand(context.extension),
-
-    registerSelectFilePathCommand(),
 
     new Disposable(disposeHollywoodWorkspace),
 
